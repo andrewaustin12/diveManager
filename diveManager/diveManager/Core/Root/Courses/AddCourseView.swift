@@ -2,9 +2,11 @@ import SwiftUI
 
 struct AddCourseView: View {
     @Binding var courses: [Course]
-    @State private var name: String = ""
     @State private var diveShop: String = ""
-    @State private var certificationAgency: String = ""
+    @State private var selectedAgency: CertificationAgency = .padi
+    @State private var selectedCourse: String = CertificationAgency.PADI.openWater.rawValue
+    @State private var startDate: Date = Date()
+    @State private var endDate: Date = Date()
     @State private var isCompleted: Bool = false
     @State private var students: [Student] = []
     @State private var showingAddStudent = false
@@ -14,9 +16,26 @@ struct AddCourseView: View {
         NavigationView {
             Form {
                 Section(header: Text("Course Information")) {
-                    TextField("Name", text: $name)
                     TextField("Dive Shop", text: $diveShop)
-                    TextField("Certification Agency", text: $certificationAgency)
+                    
+                    Picker("Certification Agency", selection: $selectedAgency) {
+                        ForEach(CertificationAgency.allCases) { agency in
+                            Text(agency.displayName).tag(agency)
+                        }
+                    }
+                    
+                    Picker("Course", selection: $selectedCourse) {
+                        ForEach(selectedAgency.getCourses(), id: \.self) { course in
+                            Text(course).tag(course)
+                        }
+                    }
+                    .onChange(of: selectedAgency) { _ in
+                        selectedCourse = selectedAgency.getCourses().first ?? ""
+                    }
+                    
+                    DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
+                    DatePicker("End Date", selection: $endDate, displayedComponents: .date)
+                    
                     Toggle("Completed", isOn: $isCompleted)
                 }
                 
@@ -50,7 +69,16 @@ struct AddCourseView: View {
     }
     
     func addCourse() {
-        let newCourse = Course(name: name,  students: students, sessions: [], diveShop: DiveShop(name: diveShop, location: ""), certificationAgency: CertificationAgency(name: certificationAgency, website: ""), isCompleted: isCompleted)
+        let newCourse = Course(
+            students: students,
+            sessions: [],
+            diveShop: DiveShop(name: diveShop, location: ""),
+            certificationAgency: selectedAgency,
+            courseName: selectedCourse,
+            startDate: startDate,
+            endDate: endDate,
+            isCompleted: isCompleted
+        )
         courses.append(newCourse)
         presentationMode.wrappedValue.dismiss()
     }

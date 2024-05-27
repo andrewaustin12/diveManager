@@ -12,11 +12,27 @@ struct CourseDetailView: View {
                     get: { course.diveShop?.name ?? "" },
                     set: { course.diveShop = DiveShop(name: $0, location: "") }
                 ))
-                TextField("Certification Agency", text: Binding(
-                    get: { course.certificationAgency?.name ?? "" },
-                    set: { course.certificationAgency = CertificationAgency(name: $0, website: "") }
-                ))
-                //Toggle("Completed", isOn: $course.isCompleted)
+                Picker("Certification Agency", selection: Binding(
+                    get: { course.certificationAgency ?? .padi },
+                    set: { course.certificationAgency = $0 }
+                )) {
+                    ForEach(CertificationAgency.allCases) { agency in
+                        Text(agency.displayName).tag(agency)
+                    }
+                }
+                Picker("Course", selection: Binding(
+                    get: { course.courseName },
+                    set: { course.courseName = $0 }
+                )) {
+                    if let agency = course.certificationAgency {
+                        ForEach(agency.getCourses(), id: \.self) { course in
+                            Text(course).tag(course)
+                        }
+                    }
+                }
+                DatePicker("Start Date", selection: $course.startDate, displayedComponents: .date)
+                DatePicker("End Date", selection: $course.endDate, displayedComponents: .date)
+                Toggle("Completed", isOn: $course.isCompleted)
             }
             
             Section(header: Text("Students")) {
@@ -50,7 +66,7 @@ struct CourseDetailView: View {
                 }
             }
         }
-        .navigationTitle(course.name)
+        .navigationTitle(course.courseName)
         .toolbar {
             ToolbarItem(placement: .bottomBar) {
                 Button(action: saveCourse) {
@@ -88,6 +104,6 @@ private let dateFormatter: DateFormatter = {
 
 struct CourseDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        CourseDetailView(course: .constant(Course(name: "Freediving Basics", students: [], sessions: [], diveShop: DiveShop(name: "Dive Shop A", location: ""), certificationAgency: CertificationAgency(name: "PADI", website: ""), isCompleted: false)))
+        CourseDetailView(course: .constant(Course(students: [], sessions: [], diveShop: DiveShop(name: "Dive Shop A", location: ""), certificationAgency: .padi, courseName: "Open Water Diver", startDate: Date(), endDate: Date(), isCompleted: false)))
     }
 }

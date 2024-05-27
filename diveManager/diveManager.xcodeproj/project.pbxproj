@@ -32,6 +32,8 @@
 		3F0BD42F2C0510F700ADA740 /* AddCourseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD42E2C0510F700ADA740 /* AddCourseView.swift */; };
 		3F0BD4312C05114F00ADA740 /* AddStudentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4302C05114F00ADA740 /* AddStudentView.swift */; };
 		3F0BD4332C05117000ADA740 /* AddSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4322C05117000ADA740 /* AddSessionView.swift */; };
+		3F0BD4352C0528D700ADA740 /* CourseFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4342C0528D700ADA740 /* CourseFilter.swift */; };
+		3F0BD4382C052BCE00ADA740 /* StudentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4372C052BCE00ADA740 /* StudentDetailView.swift */; };
 		3FCFA47D2B8EA3CF00B0EB86 /* diveManagerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCFA47C2B8EA3CF00B0EB86 /* diveManagerApp.swift */; };
 		3FCFA47F2B8EA3CF00B0EB86 /* CalanderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCFA47E2B8EA3CF00B0EB86 /* CalanderView.swift */; };
 		3FCFA4812B8EA3D000B0EB86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FCFA4802B8EA3D000B0EB86 /* Assets.xcassets */; };
@@ -69,6 +71,8 @@
 		3F0BD42E2C0510F700ADA740 /* AddCourseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourseView.swift; sourceTree = "<group>"; };
 		3F0BD4302C05114F00ADA740 /* AddStudentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStudentView.swift; sourceTree = "<group>"; };
 		3F0BD4322C05117000ADA740 /* AddSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSessionView.swift; sourceTree = "<group>"; };
+		3F0BD4342C0528D700ADA740 /* CourseFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseFilter.swift; sourceTree = "<group>"; };
+		3F0BD4372C052BCE00ADA740 /* StudentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentDetailView.swift; sourceTree = "<group>"; };
 		3FCFA4792B8EA3CF00B0EB86 /* diveManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = diveManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FCFA47C2B8EA3CF00B0EB86 /* diveManagerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = diveManagerApp.swift; sourceTree = "<group>"; };
 		3FCFA47E2B8EA3CF00B0EB86 /* CalanderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalanderView.swift; sourceTree = "<group>"; };
@@ -98,6 +102,7 @@
 				3FF4D7B42B90BDE7007C8F9A /* SideMenu */,
 				3F0B47FC2B8EB01300001B3A /* CustomTabBar */,
 				3F0B47FB2B8EB00500001B3A /* Calendar */,
+				3F0BD4342C0528D700ADA740 /* CourseFilter.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -128,10 +133,19 @@
 				3F0BD41B2C050AD500ADA740 /* CoursesView.swift */,
 				3F0BD42E2C0510F700ADA740 /* AddCourseView.swift */,
 				3F0BD42C2C0510E800ADA740 /* CoursesDetailView.swift */,
-				3F0BD4302C05114F00ADA740 /* AddStudentView.swift */,
 				3F0BD4322C05117000ADA740 /* AddSessionView.swift */,
 			);
 			path = Courses;
+			sourceTree = "<group>";
+		};
+		3F0BD4362C052B9F00ADA740 /* Students */ = {
+			isa = PBXGroup;
+			children = (
+				3F0BD41D2C050AFD00ADA740 /* StudentsView.swift */,
+				3F0BD4302C05114F00ADA740 /* AddStudentView.swift */,
+				3F0BD4372C052BCE00ADA740 /* StudentDetailView.swift */,
+			);
+			path = Students;
 			sourceTree = "<group>";
 		};
 		3FCFA4702B8EA3CF00B0EB86 = {
@@ -201,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				3F0BD42B2C0510CC00ADA740 /* Courses */,
+				3F0BD4362C052B9F00ADA740 /* Students */,
 				3F0B47FF2B8EB04C00001B3A /* HomeView.swift */,
 				3F0BD4272C050D9900ADA740 /* AnalyticsView.swift */,
 				3F0BD4232C050BF100ADA740 /* CertificationsView.swift */,
@@ -208,7 +223,6 @@
 				3F0BD4252C050D6700ADA740 /* FinancialView.swift */,
 				3F0BD41F2C050B0700ADA740 /* InvoicesView.swift */,
 				3F0BD4212C050BD000ADA740 /* ScheduleView.swift */,
-				3F0BD41D2C050AFD00ADA740 /* StudentsView.swift */,
 			);
 			path = Root;
 			sourceTree = "<group>";
@@ -316,6 +330,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F0BD41A2C0509CE00ADA740 /* Session.swift in Sources */,
+				3F0BD4382C052BCE00ADA740 /* StudentDetailView.swift in Sources */,
 				3FF4D7B32B8FE4EE007C8F9A /* HistoryListView.swift in Sources */,
 				3F0BD4162C05098600ADA740 /* DiveShop.swift in Sources */,
 				3FCFA47F2B8EA3CF00B0EB86 /* CalanderView.swift in Sources */,
@@ -328,6 +343,7 @@
 				3F0BD4102C0508E400ADA740 /* Student.swift in Sources */,
 				3F0BD4312C05114F00ADA740 /* AddStudentView.swift in Sources */,
 				3F0BD4202C050B0700ADA740 /* InvoicesView.swift in Sources */,
+				3F0BD4352C0528D700ADA740 /* CourseFilter.swift in Sources */,
 				3F0B480A2B8F6D2E00001B3A /* TabBarItem.swift in Sources */,
 				3FF4D7A72B8FDF31007C8F9A /* SettingsView.swift in Sources */,
 				3F0B48042B8EB42000001B3A /* CustomTabBarView.swift in Sources */,

@@ -1,7 +1,8 @@
 import Foundation
 
-struct Certification: Identifiable {
+struct Certification: Identifiable, Codable {
     var id = UUID()
-    var title: String
-    var issueDate: Date
+    var name: String
+    var dateIssued: Date
+    var agency: CertificationAgency
 }
