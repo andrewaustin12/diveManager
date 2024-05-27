@@ -13,7 +13,9 @@ struct AppTabBarView: View {
     @State private var tabSelection: TabBarItem = .home
     
     var body: some View {
+        
         CustomTabBarContainerView(selection: $tabSelection) {
+            
             HomeView()
                 .tabBarItem(tab: .home, selection: $tabSelection)
             

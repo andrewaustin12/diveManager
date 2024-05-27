@@ -1,21 +1,19 @@
-//
-//  Course.swift
-//  diveManager
-//
-//  Created by andrew austin on 2/28/24.
-//
 
 import Foundation
 
 struct Course: Identifiable {
     var id = UUID()
-    var agency: Agency
-    var courseName: String
-    var numberOfStudents: Int
-    var schoolName: String // Added school name
+    var name: String
+    var students: [Student]
+    var sessions: [Session]
+    var diveShop: DiveShop?
+    var certificationAgency: CertificationAgency?
+    var isCompleted: Bool
 }
 
-enum Agency: String, CaseIterable, Codable {
+
+
+enum certificationAgency: String, CaseIterable, Codable {
     case padi
     case ssi
     case sdi

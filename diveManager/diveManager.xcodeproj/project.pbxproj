@@ -14,16 +14,33 @@
 		3F0B48062B8EB9F700001B3A /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0B48052B8EB9F700001B3A /* CustomTabBarContainerView.swift */; };
 		3F0B48082B8EC33100001B3A /* TabBarItemsPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0B48072B8EC33100001B3A /* TabBarItemsPreferenceKey.swift */; };
 		3F0B480A2B8F6D2E00001B3A /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0B48092B8F6D2E00001B3A /* TabBarItem.swift */; };
+		3F0BD4102C0508E400ADA740 /* Student.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD40F2C0508E400ADA740 /* Student.swift */; };
+		3F0BD4122C05090800ADA740 /* Invoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4112C05090800ADA740 /* Invoice.swift */; };
+		3F0BD4142C05097700ADA740 /* Certification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4132C05097700ADA740 /* Certification.swift */; };
+		3F0BD4162C05098600ADA740 /* DiveShop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4152C05098600ADA740 /* DiveShop.swift */; };
+		3F0BD4182C0509B900ADA740 /* CertificationAgency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4172C0509B900ADA740 /* CertificationAgency.swift */; };
+		3F0BD41A2C0509CE00ADA740 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4192C0509CE00ADA740 /* Session.swift */; };
+		3F0BD41C2C050AD500ADA740 /* CoursesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD41B2C050AD500ADA740 /* CoursesView.swift */; };
+		3F0BD41E2C050AFD00ADA740 /* StudentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD41D2C050AFD00ADA740 /* StudentsView.swift */; };
+		3F0BD4202C050B0700ADA740 /* InvoicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD41F2C050B0700ADA740 /* InvoicesView.swift */; };
+		3F0BD4222C050BD000ADA740 /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4212C050BD000ADA740 /* ScheduleView.swift */; };
+		3F0BD4242C050BF100ADA740 /* CertificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4232C050BF100ADA740 /* CertificationsView.swift */; };
+		3F0BD4262C050D6700ADA740 /* FinancialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4252C050D6700ADA740 /* FinancialView.swift */; };
+		3F0BD4282C050D9900ADA740 /* AnalyticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4272C050D9900ADA740 /* AnalyticsView.swift */; };
+		3F0BD42A2C050DAF00ADA740 /* CommunicationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4292C050DAF00ADA740 /* CommunicationsView.swift */; };
+		3F0BD42D2C0510E800ADA740 /* CoursesDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD42C2C0510E800ADA740 /* CoursesDetailView.swift */; };
+		3F0BD42F2C0510F700ADA740 /* AddCourseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD42E2C0510F700ADA740 /* AddCourseView.swift */; };
+		3F0BD4312C05114F00ADA740 /* AddStudentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4302C05114F00ADA740 /* AddStudentView.swift */; };
+		3F0BD4332C05117000ADA740 /* AddSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4322C05117000ADA740 /* AddSessionView.swift */; };
 		3FCFA47D2B8EA3CF00B0EB86 /* diveManagerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCFA47C2B8EA3CF00B0EB86 /* diveManagerApp.swift */; };
 		3FCFA47F2B8EA3CF00B0EB86 /* CalanderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCFA47E2B8EA3CF00B0EB86 /* CalanderView.swift */; };
 		3FCFA4812B8EA3D000B0EB86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FCFA4802B8EA3D000B0EB86 /* Assets.xcassets */; };
 		3FCFA4842B8EA3D000B0EB86 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FCFA4832B8EA3D000B0EB86 /* Preview Assets.xcassets */; };
 		3FF4D7A72B8FDF31007C8F9A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF4D7A62B8FDF31007C8F9A /* SettingsView.swift */; };
 		3FF4D7A92B8FE35E007C8F9A /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF4D7A82B8FE35E007C8F9A /* Course.swift */; };
-		3FF4D7AB2B8FE396007C8F9A /* DiveSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF4D7AA2B8FE396007C8F9A /* DiveSession.swift */; };
-		3FF4D7AD2B8FE3BF007C8F9A /* DiveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF4D7AC2B8FE3BF007C8F9A /* DiveManager.swift */; };
 		3FF4D7B12B8FE466007C8F9A /* InvoicesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF4D7B02B8FE466007C8F9A /* InvoicesListView.swift */; };
 		3FF4D7B32B8FE4EE007C8F9A /* HistoryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF4D7B22B8FE4EE007C8F9A /* HistoryListView.swift */; };
+		3FF4D7B62B90BE12007C8F9A /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF4D7B52B90BE12007C8F9A /* SideMenuView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +51,24 @@
 		3F0B48052B8EB9F700001B3A /* CustomTabBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarContainerView.swift; sourceTree = "<group>"; };
 		3F0B48072B8EC33100001B3A /* TabBarItemsPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemsPreferenceKey.swift; sourceTree = "<group>"; };
 		3F0B48092B8F6D2E00001B3A /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
+		3F0BD40F2C0508E400ADA740 /* Student.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Student.swift; sourceTree = "<group>"; };
+		3F0BD4112C05090800ADA740 /* Invoice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Invoice.swift; sourceTree = "<group>"; };
+		3F0BD4132C05097700ADA740 /* Certification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Certification.swift; sourceTree = "<group>"; };
+		3F0BD4152C05098600ADA740 /* DiveShop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiveShop.swift; sourceTree = "<group>"; };
+		3F0BD4172C0509B900ADA740 /* CertificationAgency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificationAgency.swift; sourceTree = "<group>"; };
+		3F0BD4192C0509CE00ADA740 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		3F0BD41B2C050AD500ADA740 /* CoursesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursesView.swift; sourceTree = "<group>"; };
+		3F0BD41D2C050AFD00ADA740 /* StudentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentsView.swift; sourceTree = "<group>"; };
+		3F0BD41F2C050B0700ADA740 /* InvoicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoicesView.swift; sourceTree = "<group>"; };
+		3F0BD4212C050BD000ADA740 /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
+		3F0BD4232C050BF100ADA740 /* CertificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificationsView.swift; sourceTree = "<group>"; };
+		3F0BD4252C050D6700ADA740 /* FinancialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinancialView.swift; sourceTree = "<group>"; };
+		3F0BD4272C050D9900ADA740 /* AnalyticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsView.swift; sourceTree = "<group>"; };
+		3F0BD4292C050DAF00ADA740 /* CommunicationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunicationsView.swift; sourceTree = "<group>"; };
+		3F0BD42C2C0510E800ADA740 /* CoursesDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursesDetailView.swift; sourceTree = "<group>"; };
+		3F0BD42E2C0510F700ADA740 /* AddCourseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourseView.swift; sourceTree = "<group>"; };
+		3F0BD4302C05114F00ADA740 /* AddStudentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStudentView.swift; sourceTree = "<group>"; };
+		3F0BD4322C05117000ADA740 /* AddSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSessionView.swift; sourceTree = "<group>"; };
 		3FCFA4792B8EA3CF00B0EB86 /* diveManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = diveManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FCFA47C2B8EA3CF00B0EB86 /* diveManagerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = diveManagerApp.swift; sourceTree = "<group>"; };
 		3FCFA47E2B8EA3CF00B0EB86 /* CalanderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalanderView.swift; sourceTree = "<group>"; };
@@ -41,10 +76,9 @@
 		3FCFA4832B8EA3D000B0EB86 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3FF4D7A62B8FDF31007C8F9A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		3FF4D7A82B8FE35E007C8F9A /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
-		3FF4D7AA2B8FE396007C8F9A /* DiveSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiveSession.swift; sourceTree = "<group>"; };
-		3FF4D7AC2B8FE3BF007C8F9A /* DiveManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiveManager.swift; sourceTree = "<group>"; };
 		3FF4D7B02B8FE466007C8F9A /* InvoicesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoicesListView.swift; sourceTree = "<group>"; };
 		3FF4D7B22B8FE4EE007C8F9A /* HistoryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryListView.swift; sourceTree = "<group>"; };
+		3FF4D7B52B90BE12007C8F9A /* SideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +95,7 @@
 		3F0B47FA2B8EAFFD00001B3A /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				3FF4D7B42B90BDE7007C8F9A /* SideMenu */,
 				3F0B47FC2B8EB01300001B3A /* CustomTabBar */,
 				3F0B47FB2B8EB00500001B3A /* Calendar */,
 			);
@@ -85,6 +120,18 @@
 				3F0B48092B8F6D2E00001B3A /* TabBarItem.swift */,
 			);
 			path = CustomTabBar;
+			sourceTree = "<group>";
+		};
+		3F0BD42B2C0510CC00ADA740 /* Courses */ = {
+			isa = PBXGroup;
+			children = (
+				3F0BD41B2C050AD500ADA740 /* CoursesView.swift */,
+				3F0BD42E2C0510F700ADA740 /* AddCourseView.swift */,
+				3F0BD42C2C0510E800ADA740 /* CoursesDetailView.swift */,
+				3F0BD4302C05114F00ADA740 /* AddStudentView.swift */,
+				3F0BD4322C05117000ADA740 /* AddSessionView.swift */,
+			);
+			path = Courses;
 			sourceTree = "<group>";
 		};
 		3FCFA4702B8EA3CF00B0EB86 = {
@@ -139,9 +186,13 @@
 		3FCFA48B2B8EA40900B0EB86 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				3F0BD4132C05097700ADA740 /* Certification.swift */,
+				3F0BD4172C0509B900ADA740 /* CertificationAgency.swift */,
 				3FF4D7A82B8FE35E007C8F9A /* Course.swift */,
-				3FF4D7AA2B8FE396007C8F9A /* DiveSession.swift */,
-				3FF4D7AC2B8FE3BF007C8F9A /* DiveManager.swift */,
+				3F0BD4152C05098600ADA740 /* DiveShop.swift */,
+				3F0BD4112C05090800ADA740 /* Invoice.swift */,
+				3F0BD4192C0509CE00ADA740 /* Session.swift */,
+				3F0BD40F2C0508E400ADA740 /* Student.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -149,7 +200,15 @@
 		3FCFA48C2B8EA42400B0EB86 /* Root */ = {
 			isa = PBXGroup;
 			children = (
+				3F0BD42B2C0510CC00ADA740 /* Courses */,
 				3F0B47FF2B8EB04C00001B3A /* HomeView.swift */,
+				3F0BD4272C050D9900ADA740 /* AnalyticsView.swift */,
+				3F0BD4232C050BF100ADA740 /* CertificationsView.swift */,
+				3F0BD4292C050DAF00ADA740 /* CommunicationsView.swift */,
+				3F0BD4252C050D6700ADA740 /* FinancialView.swift */,
+				3F0BD41F2C050B0700ADA740 /* InvoicesView.swift */,
+				3F0BD4212C050BD000ADA740 /* ScheduleView.swift */,
+				3F0BD41D2C050AFD00ADA740 /* StudentsView.swift */,
 			);
 			path = Root;
 			sourceTree = "<group>";
@@ -176,6 +235,14 @@
 				3FF4D7B22B8FE4EE007C8F9A /* HistoryListView.swift */,
 			);
 			path = History;
+			sourceTree = "<group>";
+		};
+		3FF4D7B42B90BDE7007C8F9A /* SideMenu */ = {
+			isa = PBXGroup;
+			children = (
+				3FF4D7B52B90BE12007C8F9A /* SideMenuView.swift */,
+			);
+			path = SideMenu;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -248,21 +315,38 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F0BD41A2C0509CE00ADA740 /* Session.swift in Sources */,
 				3FF4D7B32B8FE4EE007C8F9A /* HistoryListView.swift in Sources */,
+				3F0BD4162C05098600ADA740 /* DiveShop.swift in Sources */,
 				3FCFA47F2B8EA3CF00B0EB86 /* CalanderView.swift in Sources */,
+				3FF4D7B62B90BE12007C8F9A /* SideMenuView.swift in Sources */,
 				3FF4D7A92B8FE35E007C8F9A /* Course.swift in Sources */,
 				3F0B48002B8EB04C00001B3A /* HomeView.swift in Sources */,
 				3F0B48022B8EB19700001B3A /* AppTabBarView.swift in Sources */,
+				3F0BD41C2C050AD500ADA740 /* CoursesView.swift in Sources */,
+				3F0BD4282C050D9900ADA740 /* AnalyticsView.swift in Sources */,
+				3F0BD4102C0508E400ADA740 /* Student.swift in Sources */,
+				3F0BD4312C05114F00ADA740 /* AddStudentView.swift in Sources */,
+				3F0BD4202C050B0700ADA740 /* InvoicesView.swift in Sources */,
 				3F0B480A2B8F6D2E00001B3A /* TabBarItem.swift in Sources */,
 				3FF4D7A72B8FDF31007C8F9A /* SettingsView.swift in Sources */,
 				3F0B48042B8EB42000001B3A /* CustomTabBarView.swift in Sources */,
+				3F0BD4222C050BD000ADA740 /* ScheduleView.swift in Sources */,
+				3F0BD4142C05097700ADA740 /* Certification.swift in Sources */,
+				3F0BD42F2C0510F700ADA740 /* AddCourseView.swift in Sources */,
+				3F0BD41E2C050AFD00ADA740 /* StudentsView.swift in Sources */,
+				3F0BD42D2C0510E800ADA740 /* CoursesDetailView.swift in Sources */,
 				3FCFA47D2B8EA3CF00B0EB86 /* diveManagerApp.swift in Sources */,
+				3F0BD42A2C050DAF00ADA740 /* CommunicationsView.swift in Sources */,
+				3F0BD4332C05117000ADA740 /* AddSessionView.swift in Sources */,
 				3FF4D7B12B8FE466007C8F9A /* InvoicesListView.swift in Sources */,
-				3FF4D7AB2B8FE396007C8F9A /* DiveSession.swift in Sources */,
-				3FF4D7AD2B8FE3BF007C8F9A /* DiveManager.swift in Sources */,
+				3F0BD4242C050BF100ADA740 /* CertificationsView.swift in Sources */,
+				3F0BD4262C050D6700ADA740 /* FinancialView.swift in Sources */,
+				3F0BD4122C05090800ADA740 /* Invoice.swift in Sources */,
 				3F0B47F92B8EA5E200001B3A /* Date+Extension.swift in Sources */,
 				3F0B48062B8EB9F700001B3A /* CustomTabBarContainerView.swift in Sources */,
 				3F0B48082B8EC33100001B3A /* TabBarItemsPreferenceKey.swift in Sources */,
+				3F0BD4182C0509B900ADA740 /* CertificationAgency.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
