@@ -1,23 +1,17 @@
 import SwiftUI
 
 struct StudentsView: View {
-    @State private var students: [Student] = [
-        Student(
-            firstName: "John",
-            lastName: "Doe",
-            studentID: "123-456-7890",
-            email: "john@example.com"
-        )
-    ]
+    @State private var students: [Student] = MockData.students
     @State private var showingAddStudent = false
     @State private var selectedStudent: Student?
+    @State private var searchQuery: String = ""
 
     var body: some View {
         NavigationStack {
             VStack {
                 List {
-                    ForEach($students) { $student in
-                        NavigationLink(destination: StudentDetailView(student: $student)) {
+                    ForEach(filteredStudents()) { student in
+                        NavigationLink(destination: StudentDetailView(student: binding(for: student))) {
                             VStack(alignment: .leading) {
                                 Text("\(student.firstName) \(student.lastName)")
                                     .font(.headline)
@@ -40,11 +34,33 @@ struct StudentsView: View {
                     AddStudentView(students: $students)
                 }
             }
+            .searchable(text: $searchQuery, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search students")
         }
     }
 
     func deleteStudent(at offsets: IndexSet) {
         students.remove(atOffsets: offsets)
+    }
+
+    private func filteredStudents() -> [Student] {
+        if searchQuery.isEmpty {
+            return students
+        } else {
+            return students.filter { student in
+                student.firstName.localizedCaseInsensitiveContains(searchQuery) ||
+                student.lastName.localizedCaseInsensitiveContains(searchQuery) ||
+                student.studentID.localizedCaseInsensitiveContains(searchQuery) ||
+                student.email.localizedCaseInsensitiveContains(searchQuery) ||
+                student.certifications.map { $0.name }.joined(separator: " ").localizedCaseInsensitiveContains(searchQuery)
+            }
+        }
+    }
+
+    private func binding(for student: Student) -> Binding<Student> {
+        guard let index = students.firstIndex(where: { $0.id == student.id }) else {
+            fatalError("Student not found")
+        }
+        return $students[index]
     }
 }
 

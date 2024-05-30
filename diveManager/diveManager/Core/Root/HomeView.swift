@@ -6,12 +6,12 @@ struct HomeView: View {
             ScrollView {
                 VStack(spacing: 20) {  // Add spacing between GroupBoxes
                     
-                    HomeSectionView(
-                        title: "Course Management",
-                        systemImage: "book",
-                        description: "Create, manage, and track courses.",
-                        destination: CoursesView()
-                    )
+//                    HomeSectionView(
+//                        title: "Course Management",
+//                        systemImage: "book",
+//                        description: "Create, manage, and track courses.",
+//                        destination: CoursesView()
+//                    )
                     
                     HomeSectionView(
                         title: "Student Management",
@@ -24,7 +24,7 @@ struct HomeView: View {
                         title: "Invoice Management",
                         systemImage: "doc.text",
                         description: "Create and manage invoices.",
-                        destination: InvoicesView()
+                        destination: InvoiceManagementView()
                     )
                     
                     HomeSectionView(
@@ -35,18 +35,18 @@ struct HomeView: View {
                     )
                     
                     HomeSectionView(
-                        title: "Schedule Management",
-                        systemImage: "calendar",
-                        description: "Manage course schedules and sessions.",
-                        destination: ScheduleView()
+                        title: "Dive Shops",
+                        systemImage: "house.lodge",
+                        description: "Manage dive shops and locations.",
+                        destination: DiveShopsView()
                     )
                     
-                    HomeSectionView(
-                        title: "Financial Management",
-                        systemImage: "dollarsign.circle",
-                        description: "Track income and expenses.",
-                        destination: FinancialView()
-                    )
+//                    HomeSectionView(
+//                        title: "Financial Management",
+//                        systemImage: "dollarsign.circle",
+//                        description: "Track income and expenses.",
+//                        destination: FinancialView()
+//                    )
                     
                     HomeSectionView(
                         title: "Communication Tools",
@@ -65,6 +65,7 @@ struct HomeView: View {
                 }
                 .padding()
             }
+            .navigationTitle("Dashboard")
         }
     }
 }
@@ -96,7 +97,7 @@ struct HomeSectionView<Destination: View>: View {
                             .foregroundColor(.secondary)
                     }
                     .padding()
-                    .frame(width: geometry.size.width - 30, height: 80) // Fixed height
+                    .frame(height: 80)
                 }
                 .groupBoxStyle(DefaultGroupBoxStyle())
             }
@@ -111,5 +112,6 @@ struct HomeSectionView<Destination: View>: View {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
+            .environmentObject(DataModel())
     }
 }

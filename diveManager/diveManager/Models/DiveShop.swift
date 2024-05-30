@@ -1,7 +1,10 @@
 import Foundation
 
-struct DiveShop: Identifiable {
+import Foundation
+
+struct DiveShop: Identifiable, Codable, Hashable {
     var id = UUID()
     var name: String
-    var location: String
+    var address: String
+    var phone: String
 }

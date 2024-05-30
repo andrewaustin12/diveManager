@@ -1,16 +1,43 @@
 import Foundation
 
-struct Course: Identifiable {
+import Foundation
+
+//struct Course: Identifiable {
+//    var id = UUID()
+//    var students: [Student]
+//    var startDate: Date
+//    var endDate: Date
+//    var sessions: [Session]
+//    var diveShop: DiveShop?
+//    var certificationAgency: CertificationAgency?
+//    var isCompleted: Bool
+//}
+
+import Foundation
+
+import Foundation
+
+struct Course: Identifiable, Hashable, Equatable {
     var id = UUID()
     var students: [Student]
-    var sessions: [Session]
-    var diveShop: DiveShop?
-    var certificationAgency: CertificationAgency?
-    var courseName: String
     var startDate: Date
     var endDate: Date
+    var sessions: [Session]
+    var diveShop: DiveShop?
+    var certificationAgency: CertificationAgency
+    var selectedCourse: String
     var isCompleted: Bool
+
+    static func == (lhs: Course, rhs: Course) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }
+
+
 
 
 

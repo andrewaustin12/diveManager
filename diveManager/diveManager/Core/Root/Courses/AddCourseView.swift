@@ -1,7 +1,8 @@
 import SwiftUI
 
 struct AddCourseView: View {
-    @Binding var courses: [Course]
+    @EnvironmentObject var dataModel: DataModel
+    @Environment(\.presentationMode) var presentationMode
     @State private var diveShop: String = ""
     @State private var selectedAgency: CertificationAgency = .padi
     @State private var selectedCourse: String = CertificationAgency.PADI.openWater.rawValue
@@ -10,7 +11,6 @@ struct AddCourseView: View {
     @State private var isCompleted: Bool = false
     @State private var students: [Student] = []
     @State private var showingAddStudent = false
-    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         NavigationView {
@@ -64,6 +64,7 @@ struct AddCourseView: View {
             }
             .sheet(isPresented: $showingAddStudent) {
                 AddStudentView(students: $students)
+                    .environmentObject(dataModel)
             }
         }
     }
@@ -71,15 +72,15 @@ struct AddCourseView: View {
     func addCourse() {
         let newCourse = Course(
             students: students,
-            sessions: [],
-            diveShop: DiveShop(name: diveShop, location: ""),
-            certificationAgency: selectedAgency,
-            courseName: selectedCourse,
             startDate: startDate,
             endDate: endDate,
+            sessions: [],
+            diveShop: DiveShop(name: diveShop, address: "", phone: ""),
+            certificationAgency: selectedAgency,
+            selectedCourse: selectedCourse,
             isCompleted: isCompleted
         )
-        courses.append(newCourse)
+        dataModel.courses.append(newCourse)
         presentationMode.wrappedValue.dismiss()
     }
     
@@ -90,6 +91,7 @@ struct AddCourseView: View {
 
 struct AddCourseView_Previews: PreviewProvider {
     static var previews: some View {
-        AddCourseView(courses: .constant([]))
+        AddCourseView()
+            .environmentObject(DataModel())
     }
 }

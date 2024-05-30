@@ -9,9 +9,20 @@ import SwiftUI
 
 @main
 struct diveManagerApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @StateObject private var dataModel = DataModel()
+    
     var body: some Scene {
         WindowGroup {
-            AppTabBarView()
+            MainTabView()
+                .environmentObject(dataModel)
         }
+    }
+}
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        NotificationManager.shared.requestAuthorization()
+        return true
     }
 }

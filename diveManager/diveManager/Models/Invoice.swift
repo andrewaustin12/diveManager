@@ -1,10 +1,19 @@
 import Foundation
 
-struct Invoice: Identifiable {
+enum BillingType: String, Codable, CaseIterable {
+    case student = "Student"
+    case diveShop = "Dive Shop"
+}
+
+
+struct Invoice: Identifiable, Codable {
     var id = UUID()
-    var student: Student
-    var amount: Double
+    var student: Student?
+    var diveShop: DiveShop?
+    var date: Date
     var dueDate: Date
+    var amount: Double
     var isPaid: Bool
-    var school: String
+    var billingType: BillingType
+    var items: [InvoiceItem] = []
 }

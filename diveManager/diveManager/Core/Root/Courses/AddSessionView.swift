@@ -3,8 +3,10 @@ import SwiftUI
 struct AddSessionView: View {
     @Binding var sessions: [Session]
     @State private var date = Date()
+    @State private var startTime = Date()
+    @State private var endTime = Date().addingTimeInterval(3600)
     @State private var location: String = ""
-    @State private var type: SessionType = .pool
+    @State private var type: SessionType = .confinedWater
     @State private var duration: String = ""
     @State private var notes: String = ""
     @Environment(\.presentationMode) var presentationMode
@@ -20,7 +22,7 @@ struct AddSessionView: View {
                             Text(sessionType.rawValue).tag(sessionType)
                         }
                     }
-                    TextField("Duration (minutes)", text: $duration)
+                    TextField("Duration (hours)", text: $duration)
                         .keyboardType(.numberPad)
                     TextField("Notes", text: $notes)
                 }
@@ -41,8 +43,8 @@ struct AddSessionView: View {
     }
     
     func addSession() {
-        guard let durationInt = Int(duration) else { return }
-        let newSession = Session(date: date, location: location, type: type, duration: durationInt, notes: notes)
+        guard Int(duration) != nil else { return }
+        let newSession = Session(date: date, startTime: startTime, endTime: endTime, location: location, type: type, duration: 120, notes: notes, description: "now")
         sessions.append(newSession)
         presentationMode.wrappedValue.dismiss()
     }

@@ -1,7 +1,7 @@
 import Foundation
 
 enum CourseFilter: String, CaseIterable, Identifiable {
-    case notStarted = "Not Started"
+    case upcoming = "Upcoming"
     case inProgress = "In Progress"
     case completed = "Completed"
 

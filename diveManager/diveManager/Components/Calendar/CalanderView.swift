@@ -1,64 +1,76 @@
-//
-//  ContentView.swift
-//  diveManager
-//
-//  Created by andrew austin on 2/27/24.
-//
-
 import SwiftUI
+import EventKit
+import UIKit
 
-struct CalanderView: View {
-    @State private var color: Color = .blue
-    @State private var date = Date.now
-    let daysOfWeek = Date.capitalizedFirstLettersOfWeekdays
-    let columns = Array(repeating: GridItem(.flexible()), count: 7)
-    @State private var days: [Date] = []
-    
-    var body: some View {
-        VStack {
-            LabeledContent("Calendar Color") {
-                ColorPicker("", selection: $color, supportsOpacity: false)
-            }
-            LabeledContent("Date/Time") {
-                DatePicker("", selection: $date)
-            }
-            HStack {
-                ForEach(daysOfWeek.indices, id: \.self) { index in
-                    Text(daysOfWeek[index])
-                        .fontWeight(.black)
-                        .foregroundStyle(color)
-                        .frame(maxWidth: .infinity)
-                }
-            }
-            LazyVGrid(columns: columns) {
-                ForEach(days, id: \.self) { day in
-                    if day.monthInt != date.monthInt {
-                        Text("")
+struct CalendarView: UIViewRepresentable {
+    @EnvironmentObject var dataModel: DataModel
+
+    func makeUIView(context: Context) -> UICalendarView {
+        let calendarView = UICalendarView()
+        let gregorianCalendar = Calendar(identifier: .gregorian)
+
+        calendarView.calendar = gregorianCalendar
+        calendarView.locale = Locale(identifier: "en_US")
+        calendarView.fontDesign = .rounded
+
+        // Set the calendar to the current date
+        let currentDateComponents = Calendar.current.dateComponents([.year, .month, .day], from: Date())
+        calendarView.visibleDateComponents = currentDateComponents
+
+        // Set the available date range
+        if let fromDate = Calendar.current.date(byAdding: .year, value: -1, to: Date()),
+           let toDate = Calendar.current.date(byAdding: .year, value: 1, to: Date()) {
+            let calendarViewDateRange = DateInterval(start: fromDate, end: toDate)
+            calendarView.availableDateRange = calendarViewDateRange
+        }
+
+        calendarView.delegate = context.coordinator
+
+        return calendarView
+    }
+
+    func updateUIView(_ uiView: UICalendarView, context: Context) {
+        context.coordinator.updateCourses(courses: dataModel.courses)
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator()
+    }
+
+    class Coordinator: NSObject, UICalendarViewDelegate {
+        var decorations: [Date: UICalendarView.Decoration] = [:]
+
+        func updateCourses(courses: [Course]) {
+            decorations.removeAll()
+
+            let calendar = Calendar(identifier: .gregorian)
+            for course in courses {
+                guard let startDate = calendar.date(from: calendar.dateComponents([.year, .month, .day], from: course.startDate)),
+                      let endDate = calendar.date(from: calendar.dateComponents([.year, .month, .day], from: course.endDate)) else { continue }
+                
+                var currentDate = startDate
+
+                while currentDate <= endDate {
+                    decorations[currentDate] = UICalendarView.Decoration.default(color: .blue, size: .large)
+                    if let nextDate = calendar.date(byAdding: .day, value: 1, to: currentDate) {
+                        currentDate = nextDate
                     } else {
-                        Text(day.formatted(.dateTime.day()))
-                            .fontWeight(.bold)
-                            .foregroundStyle(.secondary)
-                            .frame(maxWidth: .infinity, minHeight: 40)
-                            .background(
-                                Circle()
-                                    .foregroundStyle(
-                                        Date.now.startOfDay == day.startOfDay ? .red.opacity(0.3) : color.opacity(0.3)
-                                    )
-                            )
+                        break
                     }
                 }
             }
         }
-        .padding()
-        .onAppear {
-            days = date.calendarDisplayDays
-        }
-        .onChange(of: date) {
-            days = date.calendarDisplayDays
+
+        func calendarView(_ calendarView: UICalendarView, decorationFor dateComponents: DateComponents) -> UICalendarView.Decoration? {
+            guard let date = dateComponents.date else { return nil }
+            return decorations[date]
         }
     }
 }
 
-#Preview {
-    CalanderView()
+struct CalendarView_Previews: PreviewProvider {
+    static var previews: some View {
+        CalendarView()
+            .environmentObject(DataModel())
+    }
 }

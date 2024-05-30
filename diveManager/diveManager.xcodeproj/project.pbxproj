@@ -22,7 +22,7 @@
 		3F0BD41A2C0509CE00ADA740 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4192C0509CE00ADA740 /* Session.swift */; };
 		3F0BD41C2C050AD500ADA740 /* CoursesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD41B2C050AD500ADA740 /* CoursesView.swift */; };
 		3F0BD41E2C050AFD00ADA740 /* StudentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD41D2C050AFD00ADA740 /* StudentsView.swift */; };
-		3F0BD4202C050B0700ADA740 /* InvoicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD41F2C050B0700ADA740 /* InvoicesView.swift */; };
+		3F0BD4202C050B0700ADA740 /* InvoiceManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD41F2C050B0700ADA740 /* InvoiceManagementView.swift */; };
 		3F0BD4222C050BD000ADA740 /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4212C050BD000ADA740 /* ScheduleView.swift */; };
 		3F0BD4242C050BF100ADA740 /* CertificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4232C050BF100ADA740 /* CertificationsView.swift */; };
 		3F0BD4262C050D6700ADA740 /* FinancialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4252C050D6700ADA740 /* FinancialView.swift */; };
@@ -34,6 +34,38 @@
 		3F0BD4332C05117000ADA740 /* AddSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4322C05117000ADA740 /* AddSessionView.swift */; };
 		3F0BD4352C0528D700ADA740 /* CourseFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4342C0528D700ADA740 /* CourseFilter.swift */; };
 		3F0BD4382C052BCE00ADA740 /* StudentDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4372C052BCE00ADA740 /* StudentDetailView.swift */; };
+		3F0BD43D2C05384000ADA740 /* BarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD43C2C05384000ADA740 /* BarChartView.swift */; };
+		3F0BD43F2C05385C00ADA740 /* PieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD43E2C05385C00ADA740 /* PieChartView.swift */; };
+		3F0BD4422C05DD5D00ADA740 /* AddInvoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4412C05DD5D00ADA740 /* AddInvoiceView.swift */; };
+		3F0BD4442C05DDBF00ADA740 /* InvoiceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4432C05DDBF00ADA740 /* InvoiceDetailView.swift */; };
+		3F0BD4462C05E0F600ADA740 /* MailComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4452C05E0F600ADA740 /* MailComposeView.swift */; };
+		3F0BD4482C05E21900ADA740 /* InvoiceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4472C05E21900ADA740 /* InvoiceItem.swift */; };
+		3F0BD44D2C05EA2F00ADA740 /* SessionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD44C2C05EA2F00ADA740 /* SessionDetailView.swift */; };
+		3F0BD4512C05F04800ADA740 /* CalendarListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4502C05F04800ADA740 /* CalendarListView.swift */; };
+		3F0BD4532C05F3C600ADA740 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4522C05F3C600ADA740 /* MockData.swift */; };
+		3F0BD4552C06017600ADA740 /* ExistingStudentPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4542C06017600ADA740 /* ExistingStudentPickerView.swift */; };
+		3F0BD4572C06037C00ADA740 /* DataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4562C06037C00ADA740 /* DataModel.swift */; };
+		3F0BD45B2C062BA100ADA740 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD45A2C062BA100ADA740 /* NotificationManager.swift */; };
+		3F0BD45D2C062EF100ADA740 /* EmailStudentsByCourseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD45C2C062EF100ADA740 /* EmailStudentsByCourseView.swift */; };
+		3F0BD45F2C062EFA00ADA740 /* EmailListsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD45E2C062EFA00ADA740 /* EmailListsView.swift */; };
+		3F0BD4612C0636E500ADA740 /* EmailList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4602C0636E500ADA740 /* EmailList.swift */; };
+		3F0BD4632C06371400ADA740 /* AddEmailListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4622C06371400ADA740 /* AddEmailListView.swift */; };
+		3F0BD4652C06400E00ADA740 /* EditEmailListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4642C06400E00ADA740 /* EditEmailListView.swift */; };
+		3F0BD4672C06435000ADA740 /* AddStudentsToEmailListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4662C06435000ADA740 /* AddStudentsToEmailListView.swift */; };
+		3F0BD4692C0645C600ADA740 /* EmailListDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4682C0645C600ADA740 /* EmailListDetailView.swift */; };
+		3F0BD46B2C0653C100ADA740 /* Expense.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD46A2C0653C100ADA740 /* Expense.swift */; };
+		3F0BD46E2C06544E00ADA740 /* AddExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD46D2C06544E00ADA740 /* AddExpenseView.swift */; };
+		3F0BD4712C065D0200ADA740 /* FinancialBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4702C065D0200ADA740 /* FinancialBarChartView.swift */; };
+		3F0BD4732C065D2700ADA740 /* CertificationPieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4722C065D2700ADA740 /* CertificationPieChartView.swift */; };
+		3F0BD4752C065D3D00ADA740 /* CourseBarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4742C065D3D00ADA740 /* CourseBarChartView.swift */; };
+		3F0BD4772C065D5700ADA740 /* CertificationLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4762C065D5700ADA740 /* CertificationLineChartView.swift */; };
+		3F0BD4792C0724BA00ADA740 /* MainTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4782C0724BA00ADA740 /* MainTab.swift */; };
+		3F0BD47C2C0724E900ADA740 /* MoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD47B2C0724E900ADA740 /* MoreView.swift */; };
+		3F0BD4812C08781600ADA740 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4802C08781600ADA740 /* ActivityViewController.swift */; };
+		3F0BD4832C08852900ADA740 /* InvoiceSummaryChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4822C08852900ADA740 /* InvoiceSummaryChartView.swift */; };
+		3F0BD4862C088A2000ADA740 /* AddDiveShopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4852C088A2000ADA740 /* AddDiveShopView.swift */; };
+		3F0BD4882C088E2900ADA740 /* DiveShopsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4872C088E2900ADA740 /* DiveShopsView.swift */; };
+		3F0BD48A2C088F2700ADA740 /* DiveShopDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4892C088F2700ADA740 /* DiveShopDetailView.swift */; };
 		3FCFA47D2B8EA3CF00B0EB86 /* diveManagerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCFA47C2B8EA3CF00B0EB86 /* diveManagerApp.swift */; };
 		3FCFA47F2B8EA3CF00B0EB86 /* CalanderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCFA47E2B8EA3CF00B0EB86 /* CalanderView.swift */; };
 		3FCFA4812B8EA3D000B0EB86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FCFA4802B8EA3D000B0EB86 /* Assets.xcassets */; };
@@ -61,7 +93,7 @@
 		3F0BD4192C0509CE00ADA740 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		3F0BD41B2C050AD500ADA740 /* CoursesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursesView.swift; sourceTree = "<group>"; };
 		3F0BD41D2C050AFD00ADA740 /* StudentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentsView.swift; sourceTree = "<group>"; };
-		3F0BD41F2C050B0700ADA740 /* InvoicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoicesView.swift; sourceTree = "<group>"; };
+		3F0BD41F2C050B0700ADA740 /* InvoiceManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceManagementView.swift; sourceTree = "<group>"; };
 		3F0BD4212C050BD000ADA740 /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
 		3F0BD4232C050BF100ADA740 /* CertificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificationsView.swift; sourceTree = "<group>"; };
 		3F0BD4252C050D6700ADA740 /* FinancialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinancialView.swift; sourceTree = "<group>"; };
@@ -73,6 +105,38 @@
 		3F0BD4322C05117000ADA740 /* AddSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSessionView.swift; sourceTree = "<group>"; };
 		3F0BD4342C0528D700ADA740 /* CourseFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseFilter.swift; sourceTree = "<group>"; };
 		3F0BD4372C052BCE00ADA740 /* StudentDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentDetailView.swift; sourceTree = "<group>"; };
+		3F0BD43C2C05384000ADA740 /* BarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartView.swift; sourceTree = "<group>"; };
+		3F0BD43E2C05385C00ADA740 /* PieChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartView.swift; sourceTree = "<group>"; };
+		3F0BD4412C05DD5D00ADA740 /* AddInvoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInvoiceView.swift; sourceTree = "<group>"; };
+		3F0BD4432C05DDBF00ADA740 /* InvoiceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceDetailView.swift; sourceTree = "<group>"; };
+		3F0BD4452C05E0F600ADA740 /* MailComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailComposeView.swift; sourceTree = "<group>"; };
+		3F0BD4472C05E21900ADA740 /* InvoiceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceItem.swift; sourceTree = "<group>"; };
+		3F0BD44C2C05EA2F00ADA740 /* SessionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailView.swift; sourceTree = "<group>"; };
+		3F0BD4502C05F04800ADA740 /* CalendarListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarListView.swift; sourceTree = "<group>"; };
+		3F0BD4522C05F3C600ADA740 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		3F0BD4542C06017600ADA740 /* ExistingStudentPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExistingStudentPickerView.swift; sourceTree = "<group>"; };
+		3F0BD4562C06037C00ADA740 /* DataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModel.swift; sourceTree = "<group>"; };
+		3F0BD45A2C062BA100ADA740 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		3F0BD45C2C062EF100ADA740 /* EmailStudentsByCourseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailStudentsByCourseView.swift; sourceTree = "<group>"; };
+		3F0BD45E2C062EFA00ADA740 /* EmailListsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailListsView.swift; sourceTree = "<group>"; };
+		3F0BD4602C0636E500ADA740 /* EmailList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailList.swift; sourceTree = "<group>"; };
+		3F0BD4622C06371400ADA740 /* AddEmailListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEmailListView.swift; sourceTree = "<group>"; };
+		3F0BD4642C06400E00ADA740 /* EditEmailListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEmailListView.swift; sourceTree = "<group>"; };
+		3F0BD4662C06435000ADA740 /* AddStudentsToEmailListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStudentsToEmailListView.swift; sourceTree = "<group>"; };
+		3F0BD4682C0645C600ADA740 /* EmailListDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailListDetailView.swift; sourceTree = "<group>"; };
+		3F0BD46A2C0653C100ADA740 /* Expense.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expense.swift; sourceTree = "<group>"; };
+		3F0BD46D2C06544E00ADA740 /* AddExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExpenseView.swift; sourceTree = "<group>"; };
+		3F0BD4702C065D0200ADA740 /* FinancialBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinancialBarChartView.swift; sourceTree = "<group>"; };
+		3F0BD4722C065D2700ADA740 /* CertificationPieChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificationPieChartView.swift; sourceTree = "<group>"; };
+		3F0BD4742C065D3D00ADA740 /* CourseBarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseBarChartView.swift; sourceTree = "<group>"; };
+		3F0BD4762C065D5700ADA740 /* CertificationLineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificationLineChartView.swift; sourceTree = "<group>"; };
+		3F0BD4782C0724BA00ADA740 /* MainTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTab.swift; sourceTree = "<group>"; };
+		3F0BD47B2C0724E900ADA740 /* MoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreView.swift; sourceTree = "<group>"; };
+		3F0BD4802C08781600ADA740 /* ActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
+		3F0BD4822C08852900ADA740 /* InvoiceSummaryChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceSummaryChartView.swift; sourceTree = "<group>"; };
+		3F0BD4852C088A2000ADA740 /* AddDiveShopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDiveShopView.swift; sourceTree = "<group>"; };
+		3F0BD4872C088E2900ADA740 /* DiveShopsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiveShopsView.swift; sourceTree = "<group>"; };
+		3F0BD4892C088F2700ADA740 /* DiveShopDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiveShopDetailView.swift; sourceTree = "<group>"; };
 		3FCFA4792B8EA3CF00B0EB86 /* diveManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = diveManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FCFA47C2B8EA3CF00B0EB86 /* diveManagerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = diveManagerApp.swift; sourceTree = "<group>"; };
 		3FCFA47E2B8EA3CF00B0EB86 /* CalanderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalanderView.swift; sourceTree = "<group>"; };
@@ -103,6 +167,7 @@
 				3F0B47FC2B8EB01300001B3A /* CustomTabBar */,
 				3F0B47FB2B8EB00500001B3A /* Calendar */,
 				3F0BD4342C0528D700ADA740 /* CourseFilter.swift */,
+				3F0BD4452C05E0F600ADA740 /* MailComposeView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -111,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				3FCFA47E2B8EA3CF00B0EB86 /* CalanderView.swift */,
+				3F0BD4502C05F04800ADA740 /* CalendarListView.swift */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -143,9 +209,102 @@
 			children = (
 				3F0BD41D2C050AFD00ADA740 /* StudentsView.swift */,
 				3F0BD4302C05114F00ADA740 /* AddStudentView.swift */,
+				3F0BD4542C06017600ADA740 /* ExistingStudentPickerView.swift */,
 				3F0BD4372C052BCE00ADA740 /* StudentDetailView.swift */,
 			);
 			path = Students;
+			sourceTree = "<group>";
+		};
+		3F0BD43B2C05375500ADA740 /* Certifications */ = {
+			isa = PBXGroup;
+			children = (
+				3F0BD4232C050BF100ADA740 /* CertificationsView.swift */,
+				3F0BD43C2C05384000ADA740 /* BarChartView.swift */,
+				3F0BD43E2C05385C00ADA740 /* PieChartView.swift */,
+			);
+			path = Certifications;
+			sourceTree = "<group>";
+		};
+		3F0BD4402C05DD3F00ADA740 /* Invoices */ = {
+			isa = PBXGroup;
+			children = (
+				3F0BD41F2C050B0700ADA740 /* InvoiceManagementView.swift */,
+				3F0BD4412C05DD5D00ADA740 /* AddInvoiceView.swift */,
+				3F0BD4432C05DDBF00ADA740 /* InvoiceDetailView.swift */,
+				3F0BD4822C08852900ADA740 /* InvoiceSummaryChartView.swift */,
+			);
+			path = Invoices;
+			sourceTree = "<group>";
+		};
+		3F0BD4492C05E99800ADA740 /* Schedule */ = {
+			isa = PBXGroup;
+			children = (
+				3F0BD4212C050BD000ADA740 /* ScheduleView.swift */,
+				3F0BD44C2C05EA2F00ADA740 /* SessionDetailView.swift */,
+			);
+			path = Schedule;
+			sourceTree = "<group>";
+		};
+		3F0BD4582C062AC000ADA740 /* Communications */ = {
+			isa = PBXGroup;
+			children = (
+				3F0BD4292C050DAF00ADA740 /* CommunicationsView.swift */,
+				3F0BD45C2C062EF100ADA740 /* EmailStudentsByCourseView.swift */,
+				3F0BD45E2C062EFA00ADA740 /* EmailListsView.swift */,
+				3F0BD4622C06371400ADA740 /* AddEmailListView.swift */,
+				3F0BD4682C0645C600ADA740 /* EmailListDetailView.swift */,
+				3F0BD4642C06400E00ADA740 /* EditEmailListView.swift */,
+				3F0BD4662C06435000ADA740 /* AddStudentsToEmailListView.swift */,
+			);
+			path = Communications;
+			sourceTree = "<group>";
+		};
+		3F0BD4592C062B9300ADA740 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				3F0BD45A2C062BA100ADA740 /* NotificationManager.swift */,
+				3F0BD4802C08781600ADA740 /* ActivityViewController.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		3F0BD46C2C06540100ADA740 /* Financial */ = {
+			isa = PBXGroup;
+			children = (
+				3F0BD4252C050D6700ADA740 /* FinancialView.swift */,
+				3F0BD46D2C06544E00ADA740 /* AddExpenseView.swift */,
+			);
+			path = Financial;
+			sourceTree = "<group>";
+		};
+		3F0BD46F2C065CCF00ADA740 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				3F0BD4272C050D9900ADA740 /* AnalyticsView.swift */,
+				3F0BD4702C065D0200ADA740 /* FinancialBarChartView.swift */,
+				3F0BD4722C065D2700ADA740 /* CertificationPieChartView.swift */,
+				3F0BD4742C065D3D00ADA740 /* CourseBarChartView.swift */,
+				3F0BD4762C065D5700ADA740 /* CertificationLineChartView.swift */,
+			);
+			path = Analytics;
+			sourceTree = "<group>";
+		};
+		3F0BD47A2C0724DE00ADA740 /* More */ = {
+			isa = PBXGroup;
+			children = (
+				3F0BD47B2C0724E900ADA740 /* MoreView.swift */,
+			);
+			path = More;
+			sourceTree = "<group>";
+		};
+		3F0BD4842C088A1100ADA740 /* DiveShop */ = {
+			isa = PBXGroup;
+			children = (
+				3F0BD4852C088A2000ADA740 /* AddDiveShopView.swift */,
+				3F0BD4872C088E2900ADA740 /* DiveShopsView.swift */,
+				3F0BD4892C088F2700ADA740 /* DiveShopDetailView.swift */,
+			);
+			path = DiveShop;
 			sourceTree = "<group>";
 		};
 		3FCFA4702B8EA3CF00B0EB86 = {
@@ -168,6 +327,7 @@
 			isa = PBXGroup;
 			children = (
 				3FCFA47C2B8EA3CF00B0EB86 /* diveManagerApp.swift */,
+				3F0BD4592C062B9300ADA740 /* Managers */,
 				3F0B47FA2B8EAFFD00001B3A /* Components */,
 				3FCFA48B2B8EA40900B0EB86 /* Models */,
 				3FCFA48A2B8EA3FA00B0EB86 /* Core */,
@@ -204,9 +364,14 @@
 				3F0BD4172C0509B900ADA740 /* CertificationAgency.swift */,
 				3FF4D7A82B8FE35E007C8F9A /* Course.swift */,
 				3F0BD4152C05098600ADA740 /* DiveShop.swift */,
+				3F0BD4602C0636E500ADA740 /* EmailList.swift */,
+				3F0BD46A2C0653C100ADA740 /* Expense.swift */,
 				3F0BD4112C05090800ADA740 /* Invoice.swift */,
+				3F0BD4472C05E21900ADA740 /* InvoiceItem.swift */,
 				3F0BD4192C0509CE00ADA740 /* Session.swift */,
 				3F0BD40F2C0508E400ADA740 /* Student.swift */,
+				3F0BD4522C05F3C600ADA740 /* MockData.swift */,
+				3F0BD4562C06037C00ADA740 /* DataModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -214,15 +379,18 @@
 		3FCFA48C2B8EA42400B0EB86 /* Root */ = {
 			isa = PBXGroup;
 			children = (
+				3F0BD4842C088A1100ADA740 /* DiveShop */,
+				3F0BD47A2C0724DE00ADA740 /* More */,
+				3F0BD46F2C065CCF00ADA740 /* Analytics */,
+				3F0BD43B2C05375500ADA740 /* Certifications */,
+				3F0BD4582C062AC000ADA740 /* Communications */,
 				3F0BD42B2C0510CC00ADA740 /* Courses */,
+				3F0BD46C2C06540100ADA740 /* Financial */,
+				3F0BD4402C05DD3F00ADA740 /* Invoices */,
+				3F0BD4492C05E99800ADA740 /* Schedule */,
 				3F0BD4362C052B9F00ADA740 /* Students */,
 				3F0B47FF2B8EB04C00001B3A /* HomeView.swift */,
-				3F0BD4272C050D9900ADA740 /* AnalyticsView.swift */,
-				3F0BD4232C050BF100ADA740 /* CertificationsView.swift */,
-				3F0BD4292C050DAF00ADA740 /* CommunicationsView.swift */,
-				3F0BD4252C050D6700ADA740 /* FinancialView.swift */,
-				3F0BD41F2C050B0700ADA740 /* InvoicesView.swift */,
-				3F0BD4212C050BD000ADA740 /* ScheduleView.swift */,
+				3F0BD4782C0724BA00ADA740 /* MainTab.swift */,
 			);
 			path = Root;
 			sourceTree = "<group>";
@@ -275,6 +443,8 @@
 			dependencies = (
 			);
 			name = diveManager;
+			packageProductDependencies = (
+			);
 			productName = diveManager;
 			productReference = 3FCFA4792B8EA3CF00B0EB86 /* diveManager.app */;
 			productType = "com.apple.product-type.application";
@@ -303,6 +473,8 @@
 				Base,
 			);
 			mainGroup = 3FCFA4702B8EA3CF00B0EB86;
+			packageReferences = (
+			);
 			productRefGroup = 3FCFA47A2B8EA3CF00B0EB86 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -329,38 +501,70 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F0BD43F2C05385C00ADA740 /* PieChartView.swift in Sources */,
+				3F0BD45F2C062EFA00ADA740 /* EmailListsView.swift in Sources */,
 				3F0BD41A2C0509CE00ADA740 /* Session.swift in Sources */,
 				3F0BD4382C052BCE00ADA740 /* StudentDetailView.swift in Sources */,
+				3F0BD4792C0724BA00ADA740 /* MainTab.swift in Sources */,
 				3FF4D7B32B8FE4EE007C8F9A /* HistoryListView.swift in Sources */,
+				3F0BD44D2C05EA2F00ADA740 /* SessionDetailView.swift in Sources */,
 				3F0BD4162C05098600ADA740 /* DiveShop.swift in Sources */,
 				3FCFA47F2B8EA3CF00B0EB86 /* CalanderView.swift in Sources */,
+				3F0BD4732C065D2700ADA740 /* CertificationPieChartView.swift in Sources */,
 				3FF4D7B62B90BE12007C8F9A /* SideMenuView.swift in Sources */,
+				3F0BD4692C0645C600ADA740 /* EmailListDetailView.swift in Sources */,
 				3FF4D7A92B8FE35E007C8F9A /* Course.swift in Sources */,
 				3F0B48002B8EB04C00001B3A /* HomeView.swift in Sources */,
+				3F0BD4772C065D5700ADA740 /* CertificationLineChartView.swift in Sources */,
+				3F0BD4882C088E2900ADA740 /* DiveShopsView.swift in Sources */,
 				3F0B48022B8EB19700001B3A /* AppTabBarView.swift in Sources */,
 				3F0BD41C2C050AD500ADA740 /* CoursesView.swift in Sources */,
+				3F0BD4652C06400E00ADA740 /* EditEmailListView.swift in Sources */,
 				3F0BD4282C050D9900ADA740 /* AnalyticsView.swift in Sources */,
 				3F0BD4102C0508E400ADA740 /* Student.swift in Sources */,
+				3F0BD48A2C088F2700ADA740 /* DiveShopDetailView.swift in Sources */,
+				3F0BD4632C06371400ADA740 /* AddEmailListView.swift in Sources */,
 				3F0BD4312C05114F00ADA740 /* AddStudentView.swift in Sources */,
-				3F0BD4202C050B0700ADA740 /* InvoicesView.swift in Sources */,
+				3F0BD4202C050B0700ADA740 /* InvoiceManagementView.swift in Sources */,
 				3F0BD4352C0528D700ADA740 /* CourseFilter.swift in Sources */,
+				3F0BD4482C05E21900ADA740 /* InvoiceItem.swift in Sources */,
+				3F0BD46E2C06544E00ADA740 /* AddExpenseView.swift in Sources */,
 				3F0B480A2B8F6D2E00001B3A /* TabBarItem.swift in Sources */,
 				3FF4D7A72B8FDF31007C8F9A /* SettingsView.swift in Sources */,
+				3F0BD46B2C0653C100ADA740 /* Expense.swift in Sources */,
 				3F0B48042B8EB42000001B3A /* CustomTabBarView.swift in Sources */,
+				3F0BD4672C06435000ADA740 /* AddStudentsToEmailListView.swift in Sources */,
+				3F0BD47C2C0724E900ADA740 /* MoreView.swift in Sources */,
+				3F0BD4552C06017600ADA740 /* ExistingStudentPickerView.swift in Sources */,
+				3F0BD4752C065D3D00ADA740 /* CourseBarChartView.swift in Sources */,
+				3F0BD45B2C062BA100ADA740 /* NotificationManager.swift in Sources */,
+				3F0BD4442C05DDBF00ADA740 /* InvoiceDetailView.swift in Sources */,
+				3F0BD4532C05F3C600ADA740 /* MockData.swift in Sources */,
 				3F0BD4222C050BD000ADA740 /* ScheduleView.swift in Sources */,
 				3F0BD4142C05097700ADA740 /* Certification.swift in Sources */,
 				3F0BD42F2C0510F700ADA740 /* AddCourseView.swift in Sources */,
+				3F0BD4422C05DD5D00ADA740 /* AddInvoiceView.swift in Sources */,
+				3F0BD4512C05F04800ADA740 /* CalendarListView.swift in Sources */,
 				3F0BD41E2C050AFD00ADA740 /* StudentsView.swift in Sources */,
 				3F0BD42D2C0510E800ADA740 /* CoursesDetailView.swift in Sources */,
 				3FCFA47D2B8EA3CF00B0EB86 /* diveManagerApp.swift in Sources */,
 				3F0BD42A2C050DAF00ADA740 /* CommunicationsView.swift in Sources */,
 				3F0BD4332C05117000ADA740 /* AddSessionView.swift in Sources */,
+				3F0BD4812C08781600ADA740 /* ActivityViewController.swift in Sources */,
 				3FF4D7B12B8FE466007C8F9A /* InvoicesListView.swift in Sources */,
+				3F0BD4572C06037C00ADA740 /* DataModel.swift in Sources */,
 				3F0BD4242C050BF100ADA740 /* CertificationsView.swift in Sources */,
+				3F0BD4712C065D0200ADA740 /* FinancialBarChartView.swift in Sources */,
 				3F0BD4262C050D6700ADA740 /* FinancialView.swift in Sources */,
 				3F0BD4122C05090800ADA740 /* Invoice.swift in Sources */,
+				3F0BD4862C088A2000ADA740 /* AddDiveShopView.swift in Sources */,
+				3F0BD45D2C062EF100ADA740 /* EmailStudentsByCourseView.swift in Sources */,
+				3F0BD4462C05E0F600ADA740 /* MailComposeView.swift in Sources */,
 				3F0B47F92B8EA5E200001B3A /* Date+Extension.swift in Sources */,
+				3F0BD4832C08852900ADA740 /* InvoiceSummaryChartView.swift in Sources */,
+				3F0BD4612C0636E500ADA740 /* EmailList.swift in Sources */,
 				3F0B48062B8EB9F700001B3A /* CustomTabBarContainerView.swift in Sources */,
+				3F0BD43D2C05384000ADA740 /* BarChartView.swift in Sources */,
 				3F0B48082B8EC33100001B3A /* TabBarItemsPreferenceKey.swift in Sources */,
 				3F0BD4182C0509B900ADA740 /* CertificationAgency.swift in Sources */,
 			);
