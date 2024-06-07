@@ -1,18 +1,37 @@
 import SwiftUI
 
+enum ScheduleFilter: String, CaseIterable, Identifiable {
+    case today = "Today"
+    case thisWeek = "This Week"
+    case thisMonth = "This Month"
+
+    var id: String { self.rawValue }
+}
+
 struct ScheduleView: View {
     @EnvironmentObject var dataModel: DataModel
     @State private var showingAddCourseView = false
-    @State private var selectedFilter: CourseFilter = .upcoming
+    @State private var selectedFilter: ScheduleFilter = .today
 
     var filteredCourses: [Course] {
+        let now = Date()
+        let calendar = Calendar.current
+
         switch selectedFilter {
-        case .upcoming:
-            return dataModel.courses.filter { $0.startDate > Date() }
-        case .inProgress:
-            return dataModel.courses.filter { !$0.isCompleted && $0.startDate <= Date() && $0.endDate >= Date() }
-        case .completed:
-            return dataModel.courses.filter { $0.isCompleted }
+        case .today:
+            return dataModel.courses.filter {
+                $0.startDate <= now && $0.endDate >= now
+            }
+        case .thisWeek:
+            let endOfWeek = calendar.date(byAdding: .day, value: 7, to: now)!
+            return dataModel.courses.filter {
+                $0.startDate >= now && $0.startDate <= endOfWeek
+            }
+        case .thisMonth:
+            let endOfMonth = calendar.date(byAdding: .day, value: 30, to: now)!
+            return dataModel.courses.filter {
+                $0.startDate >= now && $0.startDate <= endOfMonth
+            }
         }
     }
 
@@ -20,14 +39,15 @@ struct ScheduleView: View {
         NavigationStack {
             VStack {
                 Picker("Filter", selection: $selectedFilter) {
-                    ForEach(CourseFilter.allCases) { filter in
+                    ForEach(ScheduleFilter.allCases) { filter in
                         Text(filter.rawValue).tag(filter)
                     }
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 .padding(.horizontal)
-
-                
+                .onChange(of: selectedFilter) { newValue in
+                    print("Selected Filter: \(newValue.rawValue)")
+                }
 
                 List {
                     ForEach(filteredCourses) { course in
@@ -44,20 +64,20 @@ struct ScheduleView: View {
                                 .font(.subheadline)
                         }
                     }
-                    .onDelete(perform: deleteCourse)
+                    //.onDelete(perform: deleteCourse)
                 }
                 .listStyle(PlainListStyle())
             }
             .navigationTitle("Schedule Management")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: { showingAddCourseView = true }) {
-                        Label("Add Course", systemImage: "plus")
-                    }
-                }
-            }
+//            .toolbar {
+//                ToolbarItem(placement: .navigationBarTrailing) {
+//                    Button(action: { showingAddCourseView = true }) {
+//                        Label("Add Course", systemImage: "plus")
+//                    }
+//                }
+//            }
             .sheet(isPresented: $showingAddCourseView) {
-                AddCourseView()
+                AddCourseView(courses: $dataModel.courses)
                     .environmentObject(dataModel)
             }
         }
@@ -69,7 +89,7 @@ struct ScheduleView: View {
 
     private func formattedDateRange(start: Date, end: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd MMM yy"
+        formatter.dateFormat = "dd MMM"
         return "\(formatter.string(from: start)) - \(formatter.string(from: end))"
     }
 }

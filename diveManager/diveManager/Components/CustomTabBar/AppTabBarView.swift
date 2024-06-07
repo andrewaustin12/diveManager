@@ -19,11 +19,11 @@ struct AppTabBarView: View {
             HomeView()
                 .tabBarItem(tab: .home, selection: $tabSelection)
             
-            InvoicesListView()
+            InvoiceManagementView()
                 .tabBarItem(tab: .invoices, selection: $tabSelection)
             
-            HistoryListView()
-                .tabBarItem(tab: .history, selection: $tabSelection)
+//            HistoryListView()
+//                .tabBarItem(tab: .history, selection: $tabSelection)
             
             SettingsView()
                 .tabBarItem(tab: .settings, selection: $tabSelection)
@@ -44,16 +44,16 @@ extension AppTabBarView {
                     Image(systemName: "house")
                     Text("Home")
                 }
-            InvoicesListView()
+            InvoiceManagementView()
                 .tabItem {
                     Image(systemName: "doc")
                     Text("Invoices")
                 }
-            HistoryListView()
-                .tabItem {
-                    Image(systemName: "list.bullet.rectangle.portrait.fill")
-                    Text("Profile")
-                }
+//            HistoryListView()
+//                .tabItem {
+//                    Image(systemName: "list.bullet.rectangle.portrait.fill")
+//                    Text("Profile")
+//                }
             SettingsView()
                 .tabItem {
                     Image(systemName: "gear")

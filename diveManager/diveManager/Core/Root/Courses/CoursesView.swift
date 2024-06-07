@@ -7,11 +7,21 @@ struct CoursesView: View {
     @State private var selectedFilter: CourseFilter = .inProgress
     
     var filteredCourses: [Course] {
+        let now = Date()
+        let calendar = Calendar.current
+        
         switch selectedFilter {
         case .upcoming:
-            return dataModel.courses.filter { $0.startDate > Date() }
+            return dataModel.courses.filter { $0.startDate > now }
         case .inProgress:
-            return dataModel.courses.filter { !$0.isCompleted && $0.startDate <= Date() && $0.endDate >= Date() }
+            return dataModel.courses.filter {
+                !$0.isCompleted && (
+                    calendar.isDateInToday($0.startDate) ||
+                    calendar.isDateInToday($0.endDate) ||
+                    ($0.startDate <= now && $0.endDate >= now)
+                )
+            }
+
         case .completed:
             return dataModel.courses.filter { $0.isCompleted }
         }
@@ -30,7 +40,6 @@ struct CoursesView: View {
                 .padding(.horizontal)
                 
                 List {
-                    
                     ForEach(filteredCourses) { course in
                         NavigationLink(destination: CourseDetailView(course: binding(for: course))) {
                             VStack(alignment: .leading) {
@@ -55,7 +64,7 @@ struct CoursesView: View {
                     }
                 }
                 .sheet(isPresented: $showingAddCourse) {
-                    AddCourseView()
+                    AddCourseView(courses: $dataModel.courses)
                         .environmentObject(dataModel)
                 }
             }

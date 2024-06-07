@@ -6,16 +6,31 @@
 //
 
 import SwiftUI
+import TipKit
 
 @main
 struct diveManagerApp: App {
+    @AppStorage("hasCompletedOnboarding") var hasCompletedOnboarding: Bool = false
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject private var dataModel = DataModel()
     
     var body: some Scene {
         WindowGroup {
-            MainTabView()
-                .environmentObject(dataModel)
+            Group {
+                if hasCompletedOnboarding {
+                    MainTabView()
+                } else {
+                    OnboardingTabView()
+                }
+            }
+            .environmentObject(dataModel)
+            .task {
+                try? Tips.resetDatastore()
+                try? Tips.configure([
+                    //.displayFrequency(.immediate)
+                    .datastoreLocation(.applicationDefault)
+                ])
+            }
         }
     }
 }

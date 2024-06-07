@@ -4,6 +4,7 @@ struct CourseDetailView: View {
     @Binding var course: Course
     @State private var showingAddSession = false
     @State private var showingAddStudent = false
+    @State private var showingAddCourseToInvoice = false
 
     var body: some View {
         List {
@@ -27,6 +28,18 @@ struct CourseDetailView: View {
                 DatePicker("Start Date", selection: $course.startDate, displayedComponents: .date)
                 DatePicker("End Date", selection: $course.endDate, displayedComponents: .date)
                 Toggle("Completed", isOn: $course.isCompleted)
+                
+                Button(action: {
+                    showingAddCourseToInvoice = true
+                }) {
+                    HStack {
+                        Spacer()
+                        Text("Add Course to Invoice")
+                            .font(.headline)
+                            .foregroundColor(.blue)
+                        Spacer()
+                    }
+                }
             }
 
             Section(header: Text("Students")) {
@@ -74,6 +87,10 @@ struct CourseDetailView: View {
         }
         .sheet(isPresented: $showingAddSession) {
             AddSessionView(sessions: $course.sessions)
+                .environmentObject(DataModel())
+        }
+        .sheet(isPresented: $showingAddCourseToInvoice) {
+            AddCourseToInvoiceView(course: $course)
                 .environmentObject(DataModel())
         }
     }

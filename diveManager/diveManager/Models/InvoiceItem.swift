@@ -11,5 +11,6 @@ struct InvoiceItem: Identifiable, Codable {
     var id = UUID()
     var description: String
     var amount: Double
+    var category: RevenueStream
 }
 

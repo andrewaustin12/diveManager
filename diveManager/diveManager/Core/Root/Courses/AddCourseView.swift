@@ -2,8 +2,9 @@ import SwiftUI
 
 struct AddCourseView: View {
     @EnvironmentObject var dataModel: DataModel
+    @Binding var courses: [Course]
     @Environment(\.presentationMode) var presentationMode
-    @State private var diveShop: String = ""
+    @State private var selectedDiveShop: DiveShop?
     @State private var selectedAgency: CertificationAgency = .padi
     @State private var selectedCourse: String = CertificationAgency.PADI.openWater.rawValue
     @State private var startDate: Date = Date()
@@ -12,11 +13,19 @@ struct AddCourseView: View {
     @State private var students: [Student] = []
     @State private var showingAddStudent = false
     
+    var isAddCourseButtonDisabled: Bool {
+        selectedDiveShop == nil || selectedCourse.isEmpty
+    }
+    
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text("Course Information")) {
-                    TextField("Dive Shop", text: $diveShop)
+                    Picker("Dive Shop", selection: $selectedDiveShop) {
+                        ForEach(dataModel.diveShops) { diveShop in
+                            Text(diveShop.name).tag(diveShop as DiveShop?)
+                        }
+                    }
                     
                     Picker("Certification Agency", selection: $selectedAgency) {
                         ForEach(CertificationAgency.allCases) { agency in
@@ -29,8 +38,8 @@ struct AddCourseView: View {
                             Text(course).tag(course)
                         }
                     }
-                    .onChange(of: selectedAgency) { _ in
-                        selectedCourse = selectedAgency.getCourses().first ?? ""
+                    .onChange(of: selectedAgency) { newValue in
+                        selectedCourse = newValue.getCourses().first ?? ""
                     }
                     
                     DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
@@ -49,10 +58,6 @@ struct AddCourseView: View {
                         Label("Add Student", systemImage: "plus")
                     }
                 }
-                
-                Button(action: addCourse) {
-                    Text("Add Course")
-                }
             }
             .navigationTitle("Add Course")
             .toolbar {
@@ -61,10 +66,16 @@ struct AddCourseView: View {
                         presentationMode.wrappedValue.dismiss()
                     }
                 }
+                ToolbarItem(placement: .primaryAction) {
+                    Button(action: addCourse) {
+                        Text("Add Course")
+                    }
+                    .disabled(isAddCourseButtonDisabled)
+                }
             }
             .sheet(isPresented: $showingAddStudent) {
                 AddStudentView(students: $students)
-                    .environmentObject(dataModel)
+                    .environmentObject(DataModel())
             }
         }
     }
@@ -75,12 +86,13 @@ struct AddCourseView: View {
             startDate: startDate,
             endDate: endDate,
             sessions: [],
-            diveShop: DiveShop(name: diveShop, address: "", phone: ""),
+            diveShop: selectedDiveShop!,
             certificationAgency: selectedAgency,
             selectedCourse: selectedCourse,
             isCompleted: isCompleted
         )
-        dataModel.courses.append(newCourse)
+        print(newCourse)
+        courses.append(newCourse)
         presentationMode.wrappedValue.dismiss()
     }
     
@@ -91,7 +103,6 @@ struct AddCourseView: View {
 
 struct AddCourseView_Previews: PreviewProvider {
     static var previews: some View {
-        AddCourseView()
-            .environmentObject(DataModel())
+        AddCourseView(courses: .constant([]))
     }
 }

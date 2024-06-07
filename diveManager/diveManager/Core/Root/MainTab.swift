@@ -18,12 +18,12 @@ struct MainTabView: View {
                     Label("Schedule", systemImage: "calendar")
                 }
 
-            FinancialView()
+            OverviewView()
                 .tabItem {
                     Label("Financials", systemImage: "dollarsign.circle")
                 }
 
-            MoreView()
+            SettingsView()
                 .tabItem {
                     Label("Settings", systemImage: "gear")
                 }

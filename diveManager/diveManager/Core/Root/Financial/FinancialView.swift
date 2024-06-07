@@ -1,12 +1,14 @@
 import SwiftUI
 import Charts
 import PDFKit
+import TipKit
 
 enum DateFilter: String, CaseIterable, Identifiable {
     case sevenDays = "7 Days"
     case oneMonth = "1 Month"
     case quarterly = "Quarterly"
     case yearly = "Yearly"
+    case yearToDate = "YTD"
     
     var id: String { self.rawValue }
 }
@@ -22,8 +24,10 @@ enum PaymentFilter: String, CaseIterable, Identifiable {
 struct FinancialView: View {
     @EnvironmentObject var dataModel: DataModel
     @State private var showingAddExpenseView = false
+    @State private var showingExpenseView = false
+    @State private var showingRevenueView = false
     @State private var showingAddInvoiceView = false
-    @State private var selectedDateFilter: DateFilter = .sevenDays
+    @State private var selectedDateFilter: DateFilter = .yearToDate
     @State private var selectedPaymentFilter: PaymentFilter = .all
     @State private var showingExportSheet = false
     @State private var exportURL: URL?
@@ -31,6 +35,8 @@ struct FinancialView: View {
     @State private var isSummaryExpanded = true
     @State private var isInvoicesExpanded = true
     @State private var isExpensesExpanded = true
+    private var profitTip = EstProfitTip()
+    private var taxTip = EstTaxTip()
     
     enum ExportType {
         case csv, pdf
@@ -49,6 +55,8 @@ struct FinancialView: View {
             startDate = Calendar.current.date(byAdding: .month, value: -3, to: now)!
         case .yearly:
             startDate = Calendar.current.date(byAdding: .year, value: -1, to: now)!
+        case .yearToDate:
+               startDate = Calendar.current.date(from: Calendar.current.dateComponents([.year], from: now))!
         }
         
         let dateFilteredInvoices = dataModel.invoices.filter { $0.date >= startDate }
@@ -76,47 +84,65 @@ struct FinancialView: View {
             startDate = Calendar.current.date(byAdding: .month, value: -3, to: now)!
         case .yearly:
             startDate = Calendar.current.date(byAdding: .year, value: -1, to: now)!
+        case .yearToDate:
+            startDate = Calendar.current.date(from: Calendar.current.dateComponents([.year], from: now))!
         }
         
         return dataModel.expenses.filter { $0.date >= startDate }
     }
     
     private var dateRangeText: String {
-            let now = Date()
-            let formatter = DateFormatter()
-            formatter.dateFormat = "MMM d"
-            let yearFormatter = DateFormatter()
-            yearFormatter.dateFormat = "yyyy"
-            
-            let startDate: Date
-            
-            switch selectedDateFilter {
-            case .sevenDays:
-                startDate = Calendar.current.date(byAdding: .day, value: -7, to: now)!
-            case .oneMonth:
-                startDate = Calendar.current.date(byAdding: .month, value: -1, to: now)!
-            case .quarterly:
-                startDate = Calendar.current.date(byAdding: .month, value: -3, to: now)!
-            case .yearly:
-                startDate = Calendar.current.date(byAdding: .year, value: -1, to: now)!
-            }
-            
-            let startMonth = Calendar.current.component(.month, from: startDate)
-            let endMonth = Calendar.current.component(.month, from: now)
-            let startYear = Calendar.current.component(.year, from: startDate)
-            let endYear = Calendar.current.component(.year, from: now)
-            
-            if startMonth == endMonth && startYear == endYear {
-                return "\(formatter.string(from: startDate))-\(formatter.string(from: now)), \(yearFormatter.string(from: now))"
-            } else {
-                let startFormatter = DateFormatter()
-                startFormatter.dateFormat = "MMM d"
-                let endFormatter = DateFormatter()
-                endFormatter.dateFormat = "MMM d, yyyy"
-                
-                return "\(startFormatter.string(from: startDate)) - \(endFormatter.string(from: now))"
-            }
+        let now = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d"
+        let yearFormatter = DateFormatter()
+        yearFormatter.dateFormat = "yyyy"
+        
+        let startDate: Date
+        
+        switch selectedDateFilter {
+        case .sevenDays:
+            startDate = Calendar.current.date(byAdding: .day, value: -7, to: now)!
+        case .oneMonth:
+            startDate = Calendar.current.date(byAdding: .month, value: -1, to: now)!
+        case .quarterly:
+            startDate = Calendar.current.date(byAdding: .month, value: -3, to: now)!
+        case .yearly:
+            startDate = Calendar.current.date(byAdding: .year, value: -1, to: now)!
+        case .yearToDate:
+                    startDate = Calendar.current.date(from: Calendar.current.dateComponents([.year], from: now))!
         }
+        
+        let startMonth = Calendar.current.component(.month, from: startDate)
+        let endMonth = Calendar.current.component(.month, from: now)
+        let startYear = Calendar.current.component(.year, from: startDate)
+        let endYear = Calendar.current.component(.year, from: now)
+        
+        if startMonth == endMonth && startYear == endYear {
+            return "\(formatter.string(from: startDate))-\(formatter.string(from: now)), \(yearFormatter.string(from: now))"
+        } else {
+            let startFormatter = DateFormatter()
+            startFormatter.dateFormat = "MMM d"
+            let endFormatter = DateFormatter()
+            endFormatter.dateFormat = "MMM d, yyyy"
+            
+            return "\(startFormatter.string(from: startDate)) - \(endFormatter.string(from: now))"
+        }
+    }
+    
+    private var currentDayOfYear: Int {
+        return Calendar.current.ordinality(of: .day, in: .year, for: Date()) ?? 1
+    }
+    
+    private var estimatedAnnualProfit: Double {
+        let totalNetIncome = dataModel.invoices.reduce(0) { $0 + $1.amount } - dataModel.expenses.reduce(0) { $0 + $1.amount }
+        let dailyProfit = totalNetIncome / Double(currentDayOfYear)
+        return dailyProfit * 365
+    }
+    
+    private var estimatedTaxes: Double {
+        return calculateEstimatedTaxes(for: estimatedAnnualProfit)
+    }
     
     var body: some View {
         NavigationStack {
@@ -131,93 +157,87 @@ struct FinancialView: View {
                     .padding(.horizontal)
                     .padding(.vertical, 4)
                     
-                    Text(dateRangeText)
-                        .font(.title2)
-                        .bold()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal)
                     
-                    List {
-                        Section(header: HStack {
-                            Text("Summary")
-                            Spacer()
-                            Button(action: {
-                                isSummaryExpanded.toggle()
-                            }) {
-                                Image(systemName: isSummaryExpanded ? "chevron.up" : "chevron.down")
-                                    .foregroundColor(.blue)
-                            }
-                        }) {
-                            if isSummaryExpanded {
-                                SummarySectionView(totalIncome: totalIncome(), totalExpenses: totalExpenses(), netIncome: netIncome())
-                            }
+                    ScrollView {
+                        
+                        VStack(alignment: .leading) {
+                            Text("\(dateRangeText)")
+                                .font(.title)
+                                .bold()
                         }
                         
-                        Section(header: HStack {
-                            Text("Invoices")
+                        
+                        GroupBox{
+                            SummarySectionView(totalIncome: totalIncome(), totalExpenses: totalExpenses(), netIncome: netIncome())
+                        }
+                        
+                        
+                        HStack {
                             
-                            Menu {
-                                Picker("Filter by Payment Status", selection: $selectedPaymentFilter) {
-                                    ForEach(PaymentFilter.allCases) { filter in
-                                        Text(filter.rawValue).tag(filter)
+                            GroupBox {
+                                VStack(alignment: .leading) {
+                                    HStack {
+                                        Text("Est. 2024 Profit")
+                                        
+                                        Spacer()
+                                        
+                                        Image(systemName: "info.circle")
+                                            .onTapGesture {
+                                                EstProfitTip.isProfitTaped.toggle()
+                                            }
+                                        
                                     }
+                                    .font(.subheadline)
+                                    .foregroundStyle(.secondary)
+                                    
+                                    
+                                    Text("$\(estimatedAnnualProfit, specifier: "%.f")")
+                                        .font(.title)
+                                        .bold()
                                 }
-                            } label: {
-                                Label("Filter", systemImage: "line.horizontal.3.decrease.circle")
+                                
                             }
-                            Spacer()
-                            Button(action: {
-                                isInvoicesExpanded.toggle()
-                            }) {
-                                Image(systemName: isInvoicesExpanded ? "chevron.up" : "chevron.down")
-                                    .foregroundColor(.blue)
-                            }
-                        }) {
-                            if isInvoicesExpanded {
-                                ForEach(filteredInvoices) { invoice in
-                                    NavigationLink(destination: InvoiceDetailView(invoice: invoice)) {
-                                        VStack(alignment: .leading) {
-                                            Text(invoice.student?.firstName ?? invoice.diveShop?.name ?? "Unknown")
-                                                .font(.headline)
-                                            Text("Amount: \(invoice.amount, format: .currency(code: "USD"))")
-                                                .font(.subheadline)
-                                            Text("Due: \(invoice.dueDate, formatter: dateFormatter)")
-                                                .font(.subheadline)
-                                            Text(invoice.isPaid ? "Paid" : "Unpaid")
-                                                .foregroundColor(invoice.isPaid ? .green : .red)
-                                        }
+                            
+                            
+                            GroupBox {
+                                VStack(alignment: .leading) {
+                                    HStack {
+                                        Text("Est. 2024 Taxes")
+                                        
+                                        Spacer()
+                                        Image(systemName: "info.circle")
+                                            .onTapGesture {
+                                                EstTaxTip.isTaxTapped.toggle()
+                                            }
                                     }
+                                    .font(.subheadline)
+                                    .foregroundStyle(.secondary)
+                                    Text("$\(estimatedTaxes, specifier: "%.f")")
+                                        .font(.title)
+                                        .bold()
                                 }
                             }
+                            
+                        }
+                        .overlay {
+                            TipView(profitTip)
+                                .tipViewStyle(MiniTipViewStyle())
+                                .shadow(radius: 2)
+                                .offset(x: -27, y: 43)
+                        }
+                        .overlay {
+                            TipView(taxTip)
+                                .tipViewStyle(HeadlineTipViewStyle())
+                                .shadow(radius: 2)
+                                .offset(x: 55, y: 43)
                         }
                         
-                        Section(header: HStack {
-                            Text("Expenses")
-                            Spacer()
-                            Button(action: {
-                                isExpensesExpanded.toggle()
-                            }) {
-                                Image(systemName: isExpensesExpanded ? "chevron.up" : "chevron.down")
-                                    .foregroundColor(.blue)
-                            }
-                        }) {
-                            if isExpensesExpanded {
-                                ForEach(filteredExpenses) { expense in
-                                    VStack(alignment: .leading) {
-                                        Text(expense.description)
-                                            .font(.headline)
-                                        Text("Amount: \(expense.amount, format: .currency(code: "USD"))")
-                                            .font(.subheadline)
-                                        Text("Date: \(expense.date, formatter: dateFormatter)")
-                                            .font(.subheadline)
-                                    }
-                                }
-                                .onDelete(perform: deleteExpense)
-                            }
+                        GroupBox {
+                            RevenueStreamsBarChart(filteredInvoices: filteredInvoices)
                         }
                     }
+                    .padding(.horizontal)
                     .scrollIndicators(.hidden)
-                    .listStyle(PlainListStyle())
                     .frame(maxWidth: min(geometry.size.width, 700))
                 }
             }
@@ -255,6 +275,7 @@ struct FinancialView: View {
                     ActivityViewController(activityItems: [url])
                 }
             }
+            
         }
     }
     
@@ -378,11 +399,24 @@ struct FinancialView: View {
     private func deleteExpense(at offsets: IndexSet) {
         dataModel.expenses.remove(atOffsets: offsets)
     }
+    
+    private func binding(for invoice: Invoice) -> Binding<Invoice> {
+        guard let index = dataModel.invoices.firstIndex(where: { $0.id == invoice.id }) else {
+            fatalError("Invoice not found")
+        }
+        return $dataModel.invoices[index]
+    }
+    
+    func calculateEstimatedTaxes(for estimatedAnnualProfit: Double) -> Double {
+        let taxRate = UserDefaults.standard.double(forKey: "taxRate") / 100
+        print("Selected tax rate: \(taxRate)")
+        return estimatedAnnualProfit * taxRate
+    }
 }
 
 private let dateFormatter: DateFormatter = {
     let formatter = DateFormatter()
-    formatter.dateStyle = .short
+    formatter.dateFormat = "MMM d, yyyy"
     return formatter
 }()
 
@@ -390,55 +424,6 @@ struct FinancialView_Previews: PreviewProvider {
     static var previews: some View {
         FinancialView()
             .environmentObject(DataModel())
-    }
-}
-
-struct SummarySectionView: View {
-    let totalIncome: Double
-    let totalExpenses: Double
-    let netIncome: Double
-    
-    var body: some View {
-        VStack {
-            HStack {
-                Text("Total Income:")
-                Spacer()
-                Text("\(totalIncome, format: .currency(code: "USD"))")
-            }
-            HStack {
-                Text("Total Expenses:")
-                Spacer()
-                Text("\(totalExpenses, format: .currency(code: "USD"))")
-            }
-            HStack {
-                Text("Net Income:")
-                Spacer()
-                Text("\(netIncome, format: .currency(code: "USD"))")
-                    .foregroundColor(netIncome >= 0 ? .green : .red)
-            }
-            
-            Chart {
-                BarMark(
-                    x: .value("Category", "Total Income"),
-                    y: .value("Amount", totalIncome)
-                )
-                .foregroundStyle(.blue)
-                
-                BarMark(
-                    x: .value("Category", "Total Expenses"),
-                    y: .value("Amount", totalExpenses)
-                )
-                .foregroundStyle(.red)
-                
-                BarMark(
-                    x: .value("Category", "Net Income"),
-                    y: .value("Amount", netIncome)
-                )
-                .foregroundStyle(netIncome >= 0 ? .green : .red)
-            }
-            .frame(height: 200)
-        }
-        .padding()
     }
 }
 
@@ -455,5 +440,37 @@ extension View {
         return renderer.image { _ in
             view?.drawHierarchy(in: controller.view.bounds, afterScreenUpdates: true)
         }
+    }
+}
+
+struct MiniTipViewStyle: TipViewStyle {
+    func makeBody(configuration: TipViewStyle.Configuration) -> some View {
+        VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 8.0) {
+                configuration.title?.font(.system(size: 12))
+                configuration.message?.font(.system(size: 12))
+                
+            }
+            .padding(5)
+            
+        }
+        
+        .frame(width: 180)
+    }
+}
+
+struct HeadlineTipViewStyle: TipViewStyle {
+    func makeBody(configuration: TipViewStyle.Configuration) -> some View {
+        VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 8.0) {
+                configuration.title?.font(.system(size: 12))
+                configuration.message?.font(.system(size: 12))
+                
+            }
+            .padding(5)
+            
+        }
+        
+        .frame(width: 220)
     }
 }
