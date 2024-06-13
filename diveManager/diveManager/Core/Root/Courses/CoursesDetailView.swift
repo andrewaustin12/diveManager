@@ -70,7 +70,11 @@ struct CourseDetailView: View {
             Section(header: Text("Sessions")) {
                 ForEach(course.sessions) { session in
                     VStack(alignment: .leading) {
-                        Text("Session at \(session.location) on \(session.date, formatter: dateFormatter)")
+                        HStack {
+                            Text("Location: \(session.location)")
+                            Spacer()
+                            Text("\(session.date, formatter: dateFormatter)")
+                        }
                         Text("Type: \(session.type.displayName)")
                         Text("Duration: \(session.duration) minutes")
                         if !session.notes.isEmpty {
@@ -135,10 +139,10 @@ struct CourseDetailView: View {
 
 private let dateFormatter: DateFormatter = {
     let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .none
+    formatter.dateFormat = "dd MMM"
     return formatter
 }()
+
 
 struct CourseDetailView_Previews: PreviewProvider {
     static var previews: some View {
