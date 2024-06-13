@@ -56,7 +56,7 @@ struct FinancialView: View {
         case .yearly:
             startDate = Calendar.current.date(byAdding: .year, value: -1, to: now)!
         case .yearToDate:
-               startDate = Calendar.current.date(from: Calendar.current.dateComponents([.year], from: now))!
+            startDate = Calendar.current.date(from: Calendar.current.dateComponents([.year], from: now))!
         }
         
         let dateFilteredInvoices = dataModel.invoices.filter { $0.date >= startDate }
@@ -110,7 +110,7 @@ struct FinancialView: View {
         case .yearly:
             startDate = Calendar.current.date(byAdding: .year, value: -1, to: now)!
         case .yearToDate:
-                    startDate = Calendar.current.date(from: Calendar.current.dateComponents([.year], from: now))!
+            startDate = Calendar.current.date(from: Calendar.current.dateComponents([.year], from: now))!
         }
         
         let startMonth = Calendar.current.component(.month, from: startDate)
@@ -142,6 +142,10 @@ struct FinancialView: View {
     
     private var estimatedTaxes: Double {
         return calculateEstimatedTaxes(for: estimatedAnnualProfit)
+    }
+    
+    var currentCurrencySymbol: String {
+        return UserDefaults.standard.currency.symbol
     }
     
     var body: some View {
@@ -191,7 +195,7 @@ struct FinancialView: View {
                                     .foregroundStyle(.secondary)
                                     
                                     
-                                    Text("$\(estimatedAnnualProfit, specifier: "%.f")")
+                                    Text("\(currentCurrencySymbol)\(estimatedAnnualProfit, specifier: "%.f")")
                                         .font(.title)
                                         .bold()
                                 }
@@ -212,7 +216,7 @@ struct FinancialView: View {
                                     }
                                     .font(.subheadline)
                                     .foregroundStyle(.secondary)
-                                    Text("$\(estimatedTaxes, specifier: "%.f")")
+                                    Text("\(currentCurrencySymbol)\(estimatedTaxes, specifier: "%.f")")
                                         .font(.title)
                                         .bold()
                                 }

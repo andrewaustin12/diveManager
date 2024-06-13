@@ -4,9 +4,9 @@ import SwiftUI
 //import RevenueCatUI
 
 struct SettingsView: View {
-    @State private var taxRate: Double = UserDefaults.standard.double(forKey: "taxRate")
-    @State private var commissionRate: Double = UserDefaults.standard.double(forKey: "commissionRate")
-    @State private var selectedCurrency: Currency = Currency(rawValue: UserDefaults.standard.string(forKey: "selectedCurrency") ?? "USD") ?? .usd
+    @State private var taxRate: Double = UserDefaults.standard.taxRate
+    @State private var commissionRate: Double = UserDefaults.standard.commissionRate
+    @State private var selectedCurrency: Currency = UserDefaults.standard.currency
     
     var body: some View {
         NavigationStack {
@@ -20,23 +20,24 @@ struct SettingsView: View {
                             })
                         }
                         
-//                        HStack {
-//                            Image(systemName: "dollarsign.circle")
-//                            Stepper("Commission Rate: \(commissionRate, specifier: "%.0f")%", value: $commissionRate, in: 0...100, step: 1, onEditingChanged: { _ in
-//                                UserDefaults.standard.commissionRate = commissionRate
-//                            })
-//                        }
+                        HStack {
+                            Image(systemName: "dollarsign.circle")
+                            Stepper("Commission Rate: \(commissionRate, specifier: "%.0f")%", value: $commissionRate, in: 0...100, step: 1, onEditingChanged: { _ in
+                                UserDefaults.standard.commissionRate = commissionRate
+                            })
+                        }
                         
                         HStack {
                             Image(systemName: selectedCurrency.iconName)
-                            Picker("Money Denomination", selection: $selectedCurrency) {
+                            Picker("Currency", selection: $selectedCurrency) {
                                 ForEach(Currency.allCases, id: \.self) { currency in
                                     Text(currency.rawValue).tag(currency)
                                 }
                             }
+                            .pickerStyle(MenuPickerStyle())
                         }
                         .onChange(of: selectedCurrency) { newValue in
-                            UserDefaults.standard.set(newValue.rawValue, forKey: "selectedCurrency")
+                            UserDefaults.standard.currency = newValue
                         }
                     }
                     
@@ -73,37 +74,20 @@ struct SettingsView: View {
     }
 }
 
-enum Currency: String, CaseIterable {
-    case usd = "USD"
-    case euro = "Euro"
-    case pound = "Pound"
-    case baht = "Thai Baht"
-    
-    var iconName: String {
-        switch self {
-        case .usd:
-            return "dollarsign"
-        case .euro:
-            return "eurosign"
-        case .pound:
-            return "sterlingsign"
-        case .baht:
-            return "bahtsign"
-        }
-    }
-}
+
 
 #Preview {
     SettingsView()
+        .environmentObject(DataModel())
 }
 
 func openAppStoreForRating() {
-    guard let url = URL(string: "https://apps.apple.com/app/idYOUR_APP_ID") else {
-        return // Invalid URL
-    }
-    if UIApplication.shared.canOpenURL(url) {
-        UIApplication.shared.open(url)
-    }
+    //    guard let url = URL(string: "https://apps.apple.com/app/idYOUR_APP_ID") else {
+    //        return // Invalid URL
+    //    }
+    //    if UIApplication.shared.canOpenURL(url) {
+    //        UIApplication.shared.open(url)
+    //    }
 }
 
 private func sendEmail() {

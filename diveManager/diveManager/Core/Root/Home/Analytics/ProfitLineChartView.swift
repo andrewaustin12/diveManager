@@ -4,6 +4,10 @@ import Charts
 struct ProfitLineChartView: View {
     @EnvironmentObject var dataModel: DataModel
     @StateObject private var profitVM: ProfitViewModel
+    
+    var currentCurrencySymbol: String {
+        return UserDefaults.standard.currency.symbol
+    }
 
     init(dataModel: DataModel) {
         _profitVM = StateObject(wrappedValue: ProfitViewModel(dataModel: dataModel))
@@ -18,11 +22,10 @@ struct ProfitLineChartView: View {
         VStack(alignment: .leading) {
             VStack(alignment: .leading) {
                 Text(profitText)
-                Text("$\(formattedProfit)")
+                Text("\(currentCurrencySymbol)\(formattedProfit)")
                     .bold()
                     .foregroundColor(profitColor)
             }
-            .padding(.bottom, 10)
             
             Chart(profitVM.monthlyProfits) { data in
                 LineMark(

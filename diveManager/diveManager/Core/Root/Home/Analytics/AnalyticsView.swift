@@ -24,22 +24,25 @@ struct AnalyticsView: View {
         return yearToDateRevenue - yearToDateExpenses
     }
     
+    var currentCurrencySymbol: String {
+        return UserDefaults.standard.currency.symbol
+    }
+    
     var body: some View {
         NavigationStack {
-            List {
-                Section(header: Text("YTD Profit")) {
-                    
+            ScrollView {
+                GroupBox {
                     VStack(alignment: .leading) {
-                        
-                        Text("$\(yearToDateProfit, specifier: "%.2f")")
+                        Text("YTD Profit")
+                            .font(.subheadline)
+                        Text("\(currentCurrencySymbol)\(yearToDateProfit, specifier: "%.2f")")
                             .font(.title)
-                        
+                            .bold()
                     }
-                    
-                    
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 
-                Section(header: Text("YTD Revenue")) {
+                GroupBox {
                     ProfitLineChartView(dataModel: DataModel())
                 }
                 
@@ -47,24 +50,25 @@ struct AnalyticsView: View {
 //                    RevenueLineChartView()
 //                }
                 
-                Section(header: Text("YTD Expenses")) {
+                GroupBox {
                     ExpensesLineChartView()
                 }
                 
                 
-                Section(header: Text("Monthly Income")) {
-                    FinancialBarChartView()
+                GroupBox {
+                    MonthlyAvgIncomeBarChartView()
                 }
                 
-                Section(header: Text("Top 5 Courses")) {
+                GroupBox {
                     CourseBarChartView()
                     
                 }
                 
-                Section(header: Text("Certifications Issued")) {
+                GroupBox {
                         CertificationPieChartView()
                 }
             }
+            .padding()
             .navigationTitle("Analytics")
         }
     }

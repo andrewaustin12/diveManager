@@ -43,6 +43,10 @@ struct RevenueView: View {
             (month: dateFormatter.string(from: key), invoices: value.0, total: value.1)
         }
     }
+    
+    var currentCurrencySymbol: String {
+        return UserDefaults.standard.currency.symbol
+    }
 
     var body: some View {
         NavigationStack {
@@ -55,7 +59,7 @@ struct RevenueView: View {
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
 
-                        Text("$\(yearToDateRevenue, specifier: "%.2f")")
+                        Text("\(currentCurrencySymbol)\(yearToDateRevenue, specifier: "%.2f")")
                             .font(.largeTitle)
                             .bold()
                     }
@@ -71,7 +75,7 @@ struct RevenueView: View {
                                     VStack(alignment: .leading) {
                                         Text(invoice.student?.firstName ?? invoice.diveShop?.name ?? "Unknown")
                                             .font(.headline)
-                                        Text("Amount: \(invoice.amount, format: .currency(code: "USD"))")
+                                        Text("Amount: \(invoice.amount, specifier: "\(currentCurrencySymbol)%.2f")")
                                             .font(.subheadline)
                                             .foregroundColor(.secondary)
                                         Text("Date: \(invoice.date, formatter: dateFormatter)")
@@ -85,7 +89,7 @@ struct RevenueView: View {
                                     Text(monthData.month)
                                         .font(.headline)
                                     Spacer()
-                                    Text("$\(monthData.total, specifier: "%.2f")")
+                                    Text("\(currentCurrencySymbol)\(monthData.total, specifier: "%.2f")")
                                         .bold()
                                         .foregroundColor(.primary)
                                 }

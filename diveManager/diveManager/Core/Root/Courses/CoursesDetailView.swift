@@ -2,9 +2,11 @@ import SwiftUI
 
 struct CourseDetailView: View {
     @Binding var course: Course
+    @EnvironmentObject var dataModel: DataModel
     @State private var showingAddSession = false
     @State private var showingAddStudent = false
     @State private var showingAddCourseToInvoice = false
+    @State private var isEditing = false
 
     var body: some View {
         List {
@@ -19,25 +21,35 @@ struct CourseDetailView: View {
                         }
                     }
                 ))
+                .disabled(!isEditing)
 
                 Picker("Course", selection: $course.selectedCourse) {
                     ForEach(course.certificationAgency.getCourses(), id: \.self) { course in
                         Text(course).tag(course)
                     }
                 }
-                DatePicker("Start Date", selection: $course.startDate, displayedComponents: .date)
-                DatePicker("End Date", selection: $course.endDate, displayedComponents: .date)
-                Toggle("Completed", isOn: $course.isCompleted)
+                .disabled(!isEditing)
                 
-                Button(action: {
-                    showingAddCourseToInvoice = true
-                }) {
-                    HStack {
-                        Spacer()
-                        Text("Add Course to Invoice")
-                            .font(.headline)
-                            .foregroundColor(.blue)
-                        Spacer()
+                DatePicker("Start Date", selection: $course.startDate, displayedComponents: .date)
+                    .disabled(!isEditing)
+                
+                DatePicker("End Date", selection: $course.endDate, displayedComponents: .date)
+                    .disabled(!isEditing)
+                
+                Toggle("Completed", isOn: $course.isCompleted)
+                    .disabled(!isEditing)
+                
+                if isEditing {
+                    Button(action: {
+                        showingAddCourseToInvoice = true
+                    }) {
+                        HStack {
+                            Spacer()
+                            Text("Add Course to Invoice")
+                                .font(.headline)
+                                .foregroundColor(.blue)
+                            Spacer()
+                        }
                     }
                 }
             }
@@ -46,10 +58,12 @@ struct CourseDetailView: View {
                 ForEach(course.students) { student in
                     Text("\(student.firstName) \(student.lastName)")
                 }
-                .onDelete(perform: deleteStudent)
+                .onDelete(perform: isEditing ? deleteStudent : nil)
 
-                Button(action: { showingAddStudent = true }) {
-                    Label("Add Student", systemImage: "person.badge.plus")
+                if isEditing {
+                    Button(action: { showingAddStudent = true }) {
+                        Label("Add Student", systemImage: "person.badge.plus")
+                    }
                 }
             }
 
@@ -57,7 +71,7 @@ struct CourseDetailView: View {
                 ForEach(course.sessions) { session in
                     VStack(alignment: .leading) {
                         Text("Session at \(session.location) on \(session.date, formatter: dateFormatter)")
-                        Text("Type: \(session.type.rawValue)")
+                        Text("Type: \(session.type.displayName)")
                         Text("Duration: \(session.duration) minutes")
                         if !session.notes.isEmpty {
                             Text("Notes: \(session.notes)")
@@ -66,18 +80,20 @@ struct CourseDetailView: View {
                         }
                     }
                 }
-                .onDelete(perform: deleteSession)
+                .onDelete(perform: isEditing ? deleteSession : nil)
 
-                Button(action: { showingAddSession = true }) {
-                    Label("Add Session", systemImage: "calendar.badge.plus")
+                if isEditing {
+                    Button(action: { showingAddSession = true }) {
+                        Label("Add Session", systemImage: "calendar.badge.plus")
+                    }
                 }
             }
         }
         .navigationTitle(course.selectedCourse)
         .toolbar {
-            ToolbarItem(placement: .bottomBar) {
-                Button(action: saveCourse) {
-                    Text("Save")
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: toggleEditing) {
+                    Text(isEditing ? "Save" : "Edit")
                 }
             }
         }
@@ -95,15 +111,24 @@ struct CourseDetailView: View {
         }
     }
 
-    func saveCourse() {
-        // Save changes to the course (if needed)
+    private func toggleEditing() {
+        if isEditing {
+            saveCourse()
+        }
+        isEditing.toggle()
     }
 
-    func deleteStudent(at offsets: IndexSet) {
+    private func saveCourse() {
+        if let index = dataModel.courses.firstIndex(where: { $0.id == course.id }) {
+                    dataModel.courses[index] = course
+                }
+    }
+
+    private func deleteStudent(at offsets: IndexSet) {
         course.students.remove(atOffsets: offsets)
     }
 
-    func deleteSession(at offsets: IndexSet) {
+    private func deleteSession(at offsets: IndexSet) {
         course.sessions.remove(atOffsets: offsets)
     }
 }
@@ -117,7 +142,9 @@ private let dateFormatter: DateFormatter = {
 
 struct CourseDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        CourseDetailView(course: .constant(MockData.courses[0]))
-            .environmentObject(DataModel())
+        NavigationStack {
+            CourseDetailView(course: .constant(MockData.courses[0]))
+                .environmentObject(DataModel())
+        }
     }
 }

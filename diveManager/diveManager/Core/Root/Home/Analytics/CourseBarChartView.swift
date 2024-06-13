@@ -37,19 +37,26 @@ struct CourseBarChartView: View {
                     .fontWeight(.semibold)
                     .font(.footnote)
                     .foregroundStyle(.secondary)
-                    .padding(.bottom, 12)
             }
             
             Chart {
                 ForEach(top5ChartData, id: \.courseGroup) { item in
                     BarMark(
-                        x: .value("Course", item.courseGroup.course),
-                        y: .value("Count", item.count)
+                        x: .value("Count", item.count),
+                        y: .value("Course", item.courseGroup.course)
                     )
-                    .foregroundStyle(Color.blue)
+                    .foregroundStyle(Color.teal.gradient)
                 }
+                .cornerRadius(6)
             }
             .frame(height: 200)
+            .chartXAxis {
+                AxisMarks(preset: .aligned, values: .stride(by: 1)) {
+                    AxisGridLine()
+                    AxisTick()
+                    AxisValueLabel()
+                }
+            }
         }
     }
 }
@@ -58,6 +65,6 @@ struct CourseBarChartView_Previews: PreviewProvider {
     static var previews: some View {
         CourseBarChartView()
             .environmentObject(DataModel()) // Providing a sample DataModel for preview
-            .frame(height: 300)
+            .frame(height: 200)
     }
 }

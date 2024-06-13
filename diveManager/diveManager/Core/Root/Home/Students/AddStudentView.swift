@@ -110,5 +110,6 @@ struct AddStudentView: View {
 struct AddStudentView_Previews: PreviewProvider {
     static var previews: some View {
         AddStudentView(students: .constant(MockData.students))
+            .environmentObject(DataModel())
     }
 }

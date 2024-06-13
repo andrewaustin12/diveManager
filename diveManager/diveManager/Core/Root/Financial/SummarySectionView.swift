@@ -1,11 +1,14 @@
-import Charts
-
 import SwiftUI
+import Charts
 
 struct SummarySectionView: View {
     let totalIncome: Double
     let totalExpenses: Double
     let netIncome: Double
+    
+    var currentCurrencySymbol: String {
+        return UserDefaults.standard.currency.symbol
+    }
     
     var body: some View {
         VStack {
@@ -15,7 +18,7 @@ struct SummarySectionView: View {
                     .bold()
                     .foregroundStyle(.secondary)
                 Spacer()
-                Text("\(totalIncome, format: .currency(code: "USD"))")
+                Text("\(totalIncome, specifier: "\(currentCurrencySymbol)%.2f")")
             }
             HStack {
                 Text("Total Expenses:")
@@ -23,7 +26,7 @@ struct SummarySectionView: View {
                     .bold()
                     .foregroundStyle(.secondary)
                 Spacer()
-                Text("\(totalExpenses, format: .currency(code: "USD"))")
+                Text("\(totalExpenses, specifier: "\(currentCurrencySymbol)%.2f")")
             }
             HStack {
                 Text("Net Income:")
@@ -31,11 +34,10 @@ struct SummarySectionView: View {
                     .bold()
                     .foregroundStyle(.secondary)
                 Spacer()
-                Text("\(netIncome, format: .currency(code: "USD"))")
+                Text("\(netIncome, specifier: "\(currentCurrencySymbol)%.2f")")
                     .foregroundColor(netIncome >= 0 ? .green : .pink)
                     .bold()
             }
-            
             
             Chart {
                 BarMark(
@@ -58,7 +60,6 @@ struct SummarySectionView: View {
                 )
                 .foregroundStyle(netIncome >= 0 ? Color.green.gradient : Color.pink.gradient)
                 .cornerRadius(6)
-                
                 
             }
             .frame(height: 200)

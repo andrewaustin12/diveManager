@@ -77,35 +77,32 @@ struct HomeSectionView<Destination: View>: View {
     let destination: Destination
     
     var body: some View {
-        GeometryReader { geometry in
-            NavigationLink(destination: destination) {
-                GroupBox {
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Image(systemName: systemImage)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 40, height: 40)
-                                .foregroundColor(.blue)
-                            Spacer()
-                        }
-                        Text(title)
-                            .font(.title2)
-                            .fontWeight(.bold)
-                        Text(description)
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
+        NavigationLink(destination: destination) {
+            GroupBox {
+                VStack(alignment: .leading) {
+                    HStack {
+                        Image(systemName: systemImage)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(.blue)
+                        Spacer()
                     }
-                    .padding()
-                    .frame(height: 80)
+                    Text(title)
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    Text(description)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
                 }
-                .groupBoxStyle(DefaultGroupBoxStyle())
+                .padding()
+                .frame(height: 80)
             }
-            .buttonStyle(PlainButtonStyle())
-            .frame(width: geometry.size.width, height: 100) // Fixed height
-            .padding(.bottom, 10)  // Add bottom padding for spacing
+            .groupBoxStyle(DefaultGroupBoxStyle())
         }
+        .buttonStyle(PlainButtonStyle())
         .frame(height: 100) // Fixed height
+        .padding(.bottom, 10)  // Add bottom padding for spacing
     }
 }
 

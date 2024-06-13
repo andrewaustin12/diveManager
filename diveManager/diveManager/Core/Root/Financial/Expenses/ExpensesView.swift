@@ -43,6 +43,10 @@ struct ExpensesView: View {
         }
     }
     
+    var currentCurrencySymbol: String {
+        return UserDefaults.standard.currency.symbol
+    }
+    
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
@@ -55,7 +59,7 @@ struct ExpensesView: View {
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                         
-                        Text("$\(yearToDateExpenses, specifier: "%.2f")")
+                        Text("\(currentCurrencySymbol)\(yearToDateExpenses, specifier: "%.2f")")
                             .font(.largeTitle)
                             .bold()
                     }
@@ -71,7 +75,7 @@ struct ExpensesView: View {
                                     VStack(alignment: .leading) {
                                         Text(expense.description)
                                             .font(.headline)
-                                        Text("Amount: \(expense.amount, format: .currency(code: "USD"))")
+                                        Text("Amount: \(expense.amount, specifier: "\(currentCurrencySymbol)%.2f")")
                                             .font(.subheadline)
                                             .foregroundColor(.secondary)
                                         Text("Date: \(expense.date, formatter: dateFormatter)")
@@ -85,7 +89,7 @@ struct ExpensesView: View {
                                     Text(monthData.month)
                                         .font(.headline)
                                     Spacer()
-                                    Text("$\(monthData.total, specifier: "%.2f")")
+                                    Text("\(currentCurrencySymbol)\(monthData.total, specifier: "%.2f")")
                                         .bold()
                                         .foregroundColor(.primary)
                                 }

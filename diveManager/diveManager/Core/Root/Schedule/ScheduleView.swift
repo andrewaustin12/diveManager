@@ -1,4 +1,5 @@
 import SwiftUI
+import EventKitUI
 
 enum ScheduleFilter: String, CaseIterable, Identifiable {
     case today = "Today"
@@ -12,6 +13,9 @@ struct ScheduleView: View {
     @EnvironmentObject var dataModel: DataModel
     @State private var showingAddCourseView = false
     @State private var selectedFilter: ScheduleFilter = .today
+    @State private var showingEventEditView = false
+    @State private var selectedCourse: Course?
+    @State private var calendarAccessGranted = false
 
     var filteredCourses: [Course] {
         let now = Date()
@@ -51,40 +55,56 @@ struct ScheduleView: View {
 
                 List {
                     ForEach(filteredCourses) { course in
-                        VStack(alignment: .leading) {
-                            Text(course.selectedCourse)
-                                .font(.headline)
-                            if let diveShop = course.diveShop {
-                                Text("Dive Shop: \(diveShop.name)")
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(course.selectedCourse)
+                                    .font(.headline)
+                                if let diveShop = course.diveShop {
+                                    Text("Dive Shop: \(diveShop.name)")
+                                        .font(.subheadline)
+                                }
+                                Text("Course Dates: \(formattedDateRange(start: course.startDate, end: course.endDate))")
+                                    .font(.subheadline)
+                                Text("Students: \(course.students.count)")
                                     .font(.subheadline)
                             }
-                            Text("Course Dates: \(formattedDateRange(start: course.startDate, end: course.endDate))")
-                                .font(.subheadline)
-                            Text("Students: \(course.students.count)")
-                                .font(.subheadline)
+                            Spacer()
+                            Button(action: {
+                                selectedCourse = course
+                                showingEventEditView = true
+                            }) {
+                                Image(systemName: "calendar.badge.plus")
+                                    .foregroundColor(.blue)
+                            }
                         }
                     }
-                    //.onDelete(perform: deleteCourse)
                 }
                 .listStyle(PlainListStyle())
             }
             .navigationTitle("Schedule Management")
-//            .toolbar {
-//                ToolbarItem(placement: .navigationBarTrailing) {
-//                    Button(action: { showingAddCourseView = true }) {
-//                        Label("Add Course", systemImage: "plus")
-//                    }
-//                }
+            .onAppear(perform: requestCalendarAccess)
+//            .sheet(isPresented: $showingAddCourseView) {
+//                AddCourseView(courses: $dataModel.courses)
+//                    .environmentObject(dataModel)
 //            }
-            .sheet(isPresented: $showingAddCourseView) {
-                AddCourseView(courses: $dataModel.courses)
-                    .environmentObject(dataModel)
+            .sheet(isPresented: $showingEventEditView) {
+                if let selectedCourse = selectedCourse {
+                    
+                    EKEventEditView(eventStore: EventManager.shared.getEventStore(), course: selectedCourse)
+                }
             }
         }
     }
 
-    private func deleteCourse(at offsets: IndexSet) {
-        dataModel.courses.remove(atOffsets: offsets)
+    private func requestCalendarAccess() {
+        EventManager.shared.requestCalendarAccess { granted, error in
+            DispatchQueue.main.async {
+                calendarAccessGranted = granted
+                if let error = error {
+                    print("Error requesting access: \(error.localizedDescription)")
+                }
+            }
+        }
     }
 
     private func formattedDateRange(start: Date, end: Date) -> String {
@@ -93,6 +113,7 @@ struct ScheduleView: View {
         return "\(formatter.string(from: start)) - \(formatter.string(from: end))"
     }
 }
+
 
 struct ScheduleView_Previews: PreviewProvider {
     static var previews: some View {

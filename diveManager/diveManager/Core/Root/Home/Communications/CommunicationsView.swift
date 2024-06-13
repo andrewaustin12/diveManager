@@ -17,25 +17,11 @@ struct CommunicationsView: View {
                     CommunicationsSectionView(
                         title: "Email Lists",
                         systemImage: "list.bullet",
-                        description: "Create and manaage email lists",
+                        description: "Create and manage email lists",
                         destination: EmailListsView()
                     )
                 }
                 .padding()
-//                GroupBox(label: Label("Email Students by Course", systemImage: "person.3")) {
-//                    NavigationLink(destination: EmailStudentsByCourseView()) {
-//                        Text("Email Students by Course")
-//                    }
-//                }
-//                .padding(.horizontal)
-//                
-//
-//                GroupBox(label: Label("Manage Email Lists", systemImage: "list.bullet")) {
-//                    NavigationLink(destination: EmailListsView()) {
-//                        Text("Manage Email Lists")
-//                    }
-//                }
-//                .padding(.horizontal)
             }
             .navigationTitle("Communications")
         }
@@ -87,3 +73,5 @@ struct CommunicationsSectionView<Destination: View>: View {
         .frame(height: 100) // Fixed height
     }
 }
+
+

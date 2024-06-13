@@ -5,9 +5,10 @@ struct AddStudentsToEmailListView: View {
     @Environment(\.presentationMode) var presentationMode
     @Binding var selectedStudents: Set<UUID>
     @Binding var emailList: EmailList
+    @State private var searchText = ""
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List(dataModel.students) { student in
                 Toggle("\(student.firstName) \(student.lastName)", isOn: Binding(
                     get: { self.selectedStudents.contains(student.id) },
@@ -24,6 +25,7 @@ struct AddStudentsToEmailListView: View {
                     }
                 ))
             }
+            .searchable(text: $searchText)
             .navigationTitle("Add Students")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -43,7 +45,9 @@ struct AddStudentsToEmailListView: View {
 
 struct AddStudentsToEmailListView_Previews: PreviewProvider {
     static var previews: some View {
-        AddStudentsToEmailListView(selectedStudents: .constant(Set(MockData.students.map { $0.id })), emailList: .constant(EmailList(name: "Sample List", students: MockData.students)))
-            .environmentObject(DataModel())
+        NavigationStack {
+            AddStudentsToEmailListView(selectedStudents: .constant(Set(MockData.students.map { $0.id })), emailList: .constant(EmailList(name: "Sample List", students: MockData.students)))
+                .environmentObject(DataModel())
+        }
     }
 }

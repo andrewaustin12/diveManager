@@ -18,4 +18,16 @@ enum SessionType: String, CaseIterable, Identifiable {
     case classroom
 
     var id: String { self.rawValue }
+
+    var displayName: String {
+        switch self {
+        case .confinedWater:
+            return "Confined Water"
+        case .openWater:
+            return "Open Water"
+        case .classroom:
+            return "Classroom"
+        }
+    }
 }
+

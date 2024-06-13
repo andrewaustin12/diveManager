@@ -7,13 +7,22 @@ struct EmailStudentsByCourseView: View {
     @State private var showingMailCompose = false
     @State private var mailResult: Result<MFMailComposeResult, Error>? = nil
     @State private var selectedStudents: [UUID: Bool] = [:]
+    @State private var searchText: String = ""
+
+    var filteredCourses: [Course] {
+        if searchText.isEmpty {
+            return dataModel.courses
+        } else {
+            return dataModel.courses.filter { $0.selectedCourse.localizedCaseInsensitiveContains(searchText) }
+        }
+    }
 
     var body: some View {
         NavigationStack {
             VStack {
                 List {
                     Section(header: Text("Select a Course")) {
-                        ForEach(dataModel.courses) { course in
+                        ForEach(filteredCourses) { course in
                             HStack {
                                 VStack(alignment: .leading) {
                                     Text(course.selectedCourse)
@@ -31,11 +40,12 @@ struct EmailStudentsByCourseView: View {
                             }
                             .contentShape(Rectangle())
                             .onTapGesture {
-                                selectCourse(course)
+                                toggleCourseSelection(course)
                             }
                         }
                     }
                 }
+                .searchable(text: $searchText)
                 .navigationTitle("Email Students")
 
                 if let course = selectedCourse {
@@ -54,13 +64,14 @@ struct EmailStudentsByCourseView: View {
                         Button(action: sendEmailToCourseStudents) {
                             Text("Email Selected Students")
                                 .font(.headline)
-                                .foregroundColor(.blue)
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
                         }
                         .padding()
                     }
-                } else {
-                    Text("Please select a course to see the students.")
-                        .padding()
                 }
             }
             .sheet(isPresented: $showingMailCompose) {
@@ -79,9 +90,14 @@ struct EmailStudentsByCourseView: View {
         }
     }
 
-    private func selectCourse(_ course: Course) {
-        selectedCourse = course
-        selectedStudents = Dictionary(uniqueKeysWithValues: course.students.map { ($0.id, true) })
+    private func toggleCourseSelection(_ course: Course) {
+        if selectedCourse?.id == course.id {
+            selectedCourse = nil
+            selectedStudents = [:]
+        } else {
+            selectedCourse = course
+            selectedStudents = Dictionary(uniqueKeysWithValues: course.students.map { ($0.id, true) })
+        }
     }
 
     private func sendEmailToCourseStudents() {
@@ -95,7 +111,7 @@ struct EmailStudentsByCourseView: View {
     }
 }
 
-struct EmailStudentsView_Previews: PreviewProvider {
+struct EmailStudentsByCourseView_Previews: PreviewProvider {
     static var previews: some View {
         EmailStudentsByCourseView()
             .environmentObject(DataModel())

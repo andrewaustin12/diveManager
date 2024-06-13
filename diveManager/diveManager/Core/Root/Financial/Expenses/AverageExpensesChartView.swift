@@ -36,12 +36,15 @@ struct AverageExpensesChartView: View {
             return ""
         }
     }
+    var currentCurrencySymbol: String {
+        return UserDefaults.standard.currency.symbol
+    }
 
     var body: some View {
         VStack(alignment: .leading) {
             VStack(alignment: .leading) {
                 Text("Expenses")
-                Text("Avg Month $\(String(format: "%.f", averageMonthlyExpenses)) \(displayDateString)")
+                Text("Avg Month \(currentCurrencySymbol)\(String(format: "%.f", averageMonthlyExpenses)) \(displayDateString)")
                     .bold()
                     .foregroundStyle(.secondary)
             }

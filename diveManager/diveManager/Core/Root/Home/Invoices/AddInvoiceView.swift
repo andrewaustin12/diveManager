@@ -17,6 +17,7 @@ struct AddInvoiceView: View {
     @State private var selectedCategory: RevenueStream = .course
     @State private var showingReminderSheet = false
     @State private var reminderDate = Date()
+    @State private var showingAddItemView = false
 
     var allFieldsFilled: Bool {
         if billingType == .student {
@@ -27,7 +28,7 @@ struct AddInvoiceView: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section(header: Text("Invoice Information")) {
                     Picker("Billing Type", selection: $billingType) {
@@ -56,7 +57,16 @@ struct AddInvoiceView: View {
                     Toggle("Paid", isOn: $isPaid)
                 }
 
-                Section(header: Text("Itemized Breakdown")) {
+                Section(header: HStack {
+                    Text("Items")
+                    Spacer()
+                    Button(action: {
+                        showingAddItemView = true
+                    }) {
+                        Image(systemName: "plus.circle.fill")
+                            .foregroundColor(.blue)
+                    }
+                }) {
                     ForEach(items) { item in
                         VStack(alignment: .leading) {
                             HStack {
@@ -64,32 +74,11 @@ struct AddInvoiceView: View {
                                 Spacer()
                                 Text("$\(item.amount, specifier: "%.2f")")
                             }
-                            Text("Category: \(item.category.rawValue)")
-                                .foregroundColor(.secondary)
                         }
                     }
                     .onDelete(perform: deleteItem)
 
-                    VStack {
-                        Picker("Category", selection: $selectedCategory) {
-                            ForEach(RevenueStream.allCases, id: \.self) { category in
-                                Text(category.rawValue).tag(category)
-                            }
-                        }
-                        .pickerStyle(MenuPickerStyle())
-                        TextField("Amount", text: $newItemAmount)
-                            .keyboardType(.decimalPad)
-                        TextField("Description", text: $newItemDescription)
-                        
-                        
-                        HStack {
-                            Spacer()
-                            Button(action: addItem) {
-                                Image(systemName: "plus.circle.fill")
-                                    .foregroundColor(.blue)
-                            }
-                        }
-                    }
+                    
                 }
                 
                 Section(header: Text("Reminder")) {
@@ -131,6 +120,9 @@ struct AddInvoiceView: View {
             .sheet(isPresented: $showingReminderSheet) {
                 ReminderSheet(notificationDate: $reminderDate, onSetReminder: { reminderDate = $0; showingReminderSheet = false })
             }
+            .sheet(isPresented: $showingAddItemView) {
+                AddInvoiceItemView(items: $items)
+                    }
         }
     }
 

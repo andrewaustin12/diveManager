@@ -33,12 +33,16 @@ struct RevenueStreamsBarChart: View {
     var maxValue: Double {
         revenueData.map { $0.totalAmount }.max() ?? 0
     }
+    
+    var currentCurrencySymbol: String {
+        return UserDefaults.standard.currency.symbol
+    }
 
     var body: some View {
         VStack(alignment: .leading) {
             VStack(alignment: .leading) {
                 Text("Revenue Distribution")
-                Text("Total: $\(totalRevenue, specifier: "%.f")")
+                Text("Total: \(currentCurrencySymbol)\(totalRevenue, specifier: "%.f")")
                     .font(.subheadline)
                     .bold()
                     .foregroundStyle(.secondary)
@@ -51,6 +55,12 @@ struct RevenueStreamsBarChart: View {
                 )
                 .foregroundStyle(Color.teal.gradient)
                 .cornerRadius(6)
+                .annotation(position: .overlay, alignment: .trailing, spacing: 2) {
+                                    Text("\(currentCurrencySymbol)\(data.totalAmount, specifier: "%.f")")
+                                        .font(.footnote)
+                                        .bold()
+                                        .foregroundColor(.white)
+                                }
             }
             .chartXAxis {
                 AxisMarks(position: .bottom, values: .automatic) { value in

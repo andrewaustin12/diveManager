@@ -31,6 +31,8 @@ struct InvoiceManagementView: View {
             return invoices.filter { $0.date >= startOfThreeMonthsAgo }
         }
     }
+    
+    
 
     var body: some View {
         NavigationStack {
@@ -42,6 +44,7 @@ struct InvoiceManagementView: View {
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 .padding(.horizontal)
+                .padding(.bottom, 5)
                 
                 List {
                     Section {
@@ -54,7 +57,6 @@ struct InvoiceManagementView: View {
                     }
                     .onDelete(perform: deleteInvoice)
                 }
-                .scrollContentBackground(.automatic)
                 .toolbar {
                     Button(action: { showingAddInvoice = true }) {
                         Label("Add Invoice", systemImage: "plus")
@@ -86,35 +88,7 @@ struct InvoiceManagementView: View {
     }
 }
 
-struct InvoiceRow: View {
-    var invoice: Invoice
 
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                Text(invoice.billingType == .student ? "\(invoice.student?.firstName ?? "") \(invoice.student?.lastName ?? "")" : invoice.diveShop?.name ?? "")
-                    .font(.headline)
-                Text("Amount: $\(invoice.amount, specifier: "%.2f")")
-                    .font(.subheadline)
-                Text("Due: \(formattedDate(invoice.dueDate))")
-                    .font(.subheadline)
-            }
-            Spacer()
-            Text(invoice.isPaid ? "Paid" : "Unpaid")
-                .foregroundColor(invoice.isPaid ? .green : .red)
-                .bold()
-                .padding(7)
-                .background(invoice.isPaid ? Color.green.opacity(0.1) : Color.red.opacity(0.1))
-                .cornerRadius(8)
-        }
-    }
-
-    private func formattedDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        return formatter.string(from: date)
-    }
-}
 
 struct InvoiceManagementView_Previews: PreviewProvider {
     static var previews: some View {

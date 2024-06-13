@@ -3,6 +3,10 @@ import Charts
 
 struct InvoiceSummaryChartView: View {
     let invoices: [Invoice]
+    
+    var currentCurrencySymbol: String {
+        return UserDefaults.standard.currency.symbol
+    }
 
     var body: some View {
         VStack {
@@ -10,7 +14,7 @@ struct InvoiceSummaryChartView: View {
                 Text("Total Paid Amount:")
                     .font(.headline)
                 Spacer()
-                Text("\(totalPaidAmount, format: .currency(code: "USD"))")
+                Text("\(currentCurrencySymbol)\(totalPaidAmount, specifier: "%.2f")")
                     .foregroundColor(.green)
                     .bold()
             }
@@ -18,7 +22,7 @@ struct InvoiceSummaryChartView: View {
                 Text("Total Unpaid Amount:")
                     .font(.headline)
                 Spacer()
-                Text("\(totalUnpaidAmount, format: .currency(code: "USD"))")
+                Text("\(currentCurrencySymbol)\(totalUnpaidAmount, specifier: "%.2f")")
                     .foregroundColor(.red)
                     .bold()
             }
@@ -30,14 +34,14 @@ struct InvoiceSummaryChartView: View {
                         x: .value("Status", "Paid"),
                         y: .value("Count", paidInvoices.count)
                     )
-                    .foregroundStyle(.green)
+                    .foregroundStyle(Color.green.gradient)
                     .cornerRadius(6)
                     
                     BarMark(
                         x: .value("Status", "Unpaid"),
                         y: .value("Count", unpaidInvoices.count)
                     )
-                    .foregroundStyle(.red)
+                    .foregroundStyle(Color.pink.gradient)
                     .cornerRadius(6)
                 }
                 .chartYAxis {
@@ -52,10 +56,10 @@ struct InvoiceSummaryChartView: View {
                         .padding()
                 })
             }
-            
+                
             
         }
-        .padding()
+        .frame(height: 200)
     }
 
     private var paidInvoices: [Invoice] {

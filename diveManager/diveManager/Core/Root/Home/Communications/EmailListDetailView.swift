@@ -15,17 +15,15 @@ struct EmailListDetailView: View {
                     Text("\(student.firstName) \(student.lastName)")
                 }
             }
-
-            HStack {
+        }
+        .navigationTitle(emailList.name)
+        .toolbar {
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Button(action: {
                     showingMailCompose = true
                 }) {
-                    Text("Email List")
-                        .font(.headline)
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
+                    Image(systemName: "envelope")
+                        
                 }
                 .sheet(isPresented: $showingMailCompose) {
                     if MFMailComposeViewController.canSendMail() {
@@ -39,31 +37,27 @@ struct EmailListDetailView: View {
                         Text("Mail services are not available")
                     }
                 }
-                Spacer()
+                
                 Button(action: {
                     showingEditEmailListView = true
                 }) {
-                    Text("Edit List")
-                        .font(.headline)
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
+                    Image(systemName: "pencil")
+                        
                 }
                 .sheet(isPresented: $showingEditEmailListView) {
                     EditEmailListView(emailList: emailList)
                         .environmentObject(dataModel)
                 }
             }
-            .padding()
         }
-        .navigationTitle(emailList.name)
     }
 }
 
 struct EmailListDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        EmailListDetailView(emailList: EmailList(name: "Sample List", students: MockData.students))
-            .environmentObject(DataModel())
+        NavigationStack {
+            EmailListDetailView(emailList: EmailList(name: "Sample List", students: MockData.students))
+                .environmentObject(DataModel())
+        }
     }
 }
