@@ -18,5 +18,6 @@ class DataModel: ObservableObject {
     @Published var expenses: [Expense] = MockData.expenses
     @Published var invoices: [Invoice] = MockData.invoices
     @Published var students: [Student] = MockData.students
+    @Published var certifications: [Certification] = []
+    
 }
-

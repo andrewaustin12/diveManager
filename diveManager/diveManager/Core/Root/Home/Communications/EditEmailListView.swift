@@ -30,13 +30,20 @@ struct EditEmailListView: View {
                     .onDelete(perform: deleteStudent)
                 }
 
-                Section(header: Text("Add Students")) {
+                Section(header: Text("Add Individual Students")) {
                     Button(action: {
                         showingAddStudentSheet = true
                     }) {
                         Label("Add Student", systemImage: "plus")
                     }
                 }
+//                Section(header: Text("Add Students by Certification")) {
+//                    Button(action: {
+//                        showingAddStudentSheet = true
+//                    }) {
+//                        Label("Add Student", systemImage: "plus")
+//                    }
+//                }
             }
             .navigationTitle("Edit Email List")
             .toolbar {

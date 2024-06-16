@@ -65,6 +65,16 @@ struct HomeView: View {
                 }
                 .padding()
             }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(action: {
+                        // paywall action
+                    }) {
+                        Label("Crown", systemImage: "crown")
+                    }
+                }
+            }
+
             .navigationTitle("Dashboard")
         }
     }
@@ -85,7 +95,7 @@ struct HomeSectionView<Destination: View>: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 40, height: 40)
-                            .foregroundColor(.blue)
+                            .foregroundColor(.teal)
                         Spacer()
                     }
                     Text(title)
@@ -105,6 +115,7 @@ struct HomeSectionView<Destination: View>: View {
         .padding(.bottom, 10)  // Add bottom padding for spacing
     }
 }
+
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {

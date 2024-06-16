@@ -3,10 +3,12 @@ import Foundation
 enum BillingType: String, Codable, CaseIterable {
     case student = "Student"
     case diveShop = "Dive Shop"
+    
 }
 
 enum RevenueStream: String, CaseIterable, Codable {
     case course = "Courses"
+    case dm = "DM"
     case sales = "Sales"
     case misc = "Misc"
 }
@@ -28,6 +30,15 @@ struct Invoice: Identifiable, Codable, Hashable {
     var amount: Double
     var isPaid: Bool
     var billingType: BillingType
-    var items: [InvoiceItem] = []
+    var items: [InvoiceItem] = [] {
+        didSet {
+            recalculateAmount()
+        }
+    }
     var reminderDate: Date?
+    
+    mutating func recalculateAmount() {
+        amount = items.reduce(0) { $0 + $1.amount }
+    }
 }
+

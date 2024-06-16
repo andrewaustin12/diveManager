@@ -15,6 +15,7 @@ struct SettingsView: View {
                     Section("Customization") {
                         HStack {
                             Image(systemName: "dollarsign.circle")
+                                .foregroundStyle(Color.teal)
                             Stepper("Tax Rate: \(taxRate, specifier: "%.0f")%", value: $taxRate, in: 0...100, step: 1, onEditingChanged: { _ in
                                 UserDefaults.standard.taxRate = taxRate
                             })
@@ -22,6 +23,7 @@ struct SettingsView: View {
                         
                         HStack {
                             Image(systemName: "dollarsign.circle")
+                                .foregroundStyle(Color.teal)
                             Stepper("Commission Rate: \(commissionRate, specifier: "%.0f")%", value: $commissionRate, in: 0...100, step: 1, onEditingChanged: { _ in
                                 UserDefaults.standard.commissionRate = commissionRate
                             })
@@ -29,9 +31,11 @@ struct SettingsView: View {
                         
                         HStack {
                             Image(systemName: selectedCurrency.iconName)
+                                .foregroundStyle(Color.teal)
                             Picker("Currency", selection: $selectedCurrency) {
                                 ForEach(Currency.allCases, id: \.self) { currency in
                                     Text(currency.rawValue).tag(currency)
+                                        
                                 }
                             }
                             .pickerStyle(MenuPickerStyle())
@@ -41,11 +45,13 @@ struct SettingsView: View {
                         }
                     }
                     
+                    
                     Section("Support") {
                         Label {
                             Text("Feedback")
                         } icon: {
                             Image(systemName: "envelope")
+                                .foregroundStyle(Color.teal)
                         }
                         .onTapGesture {
                             sendEmail()

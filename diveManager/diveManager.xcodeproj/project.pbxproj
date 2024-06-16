@@ -69,7 +69,6 @@
 		3F0BD4A02C0B8DB400ADA740 /* ProfitLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD49F2C0B8DB400ADA740 /* ProfitLineChartView.swift */; };
 		3F0BD4A22C0BA90200ADA740 /* ExpensesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4A12C0BA90200ADA740 /* ExpensesView.swift */; };
 		3F0BD4A52C0BBA4900ADA740 /* AverageExpensesChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4A42C0BBA4900ADA740 /* AverageExpensesChartView.swift */; };
-		3F0BD4A72C0C704400ADA740 /* InvoicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4A62C0C704400ADA740 /* InvoicesView.swift */; };
 		3F0BD4AA2C0C71DB00ADA740 /* RevenueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4A92C0C71DB00ADA740 /* RevenueView.swift */; };
 		3F0BD4AC2C0C730A00ADA740 /* AverageRevenueChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4AB2C0C730A00ADA740 /* AverageRevenueChartView.swift */; };
 		3F0BD4AF2C0C736A00ADA740 /* RevenueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4AE2C0C736A00ADA740 /* RevenueViewModel.swift */; };
@@ -89,6 +88,7 @@
 		3F0BD4EB2C18ADBC00ADA740 /* InvoiceRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4EA2C18ADBC00ADA740 /* InvoiceRowView.swift */; };
 		3F0BD4EE2C199E4E00ADA740 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4ED2C199E4E00ADA740 /* EventManager.swift */; };
 		3F0BD4F12C19A69200ADA740 /* EKEventEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4F02C19A69100ADA740 /* EKEventEditView.swift */; };
+		3F0BD4F32C1B520100ADA740 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4F22C1B520100ADA740 /* User.swift */; };
 		3FCFA47D2B8EA3CF00B0EB86 /* diveManagerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCFA47C2B8EA3CF00B0EB86 /* diveManagerApp.swift */; };
 		3FCFA4812B8EA3D000B0EB86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FCFA4802B8EA3D000B0EB86 /* Assets.xcassets */; };
 		3FCFA4842B8EA3D000B0EB86 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FCFA4832B8EA3D000B0EB86 /* Preview Assets.xcassets */; };
@@ -159,7 +159,6 @@
 		3F0BD49F2C0B8DB400ADA740 /* ProfitLineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitLineChartView.swift; sourceTree = "<group>"; };
 		3F0BD4A12C0BA90200ADA740 /* ExpensesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesView.swift; sourceTree = "<group>"; };
 		3F0BD4A42C0BBA4900ADA740 /* AverageExpensesChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AverageExpensesChartView.swift; sourceTree = "<group>"; };
-		3F0BD4A62C0C704400ADA740 /* InvoicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoicesView.swift; sourceTree = "<group>"; };
 		3F0BD4A92C0C71DB00ADA740 /* RevenueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevenueView.swift; sourceTree = "<group>"; };
 		3F0BD4AB2C0C730A00ADA740 /* AverageRevenueChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AverageRevenueChartView.swift; sourceTree = "<group>"; };
 		3F0BD4AE2C0C736A00ADA740 /* RevenueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevenueViewModel.swift; sourceTree = "<group>"; };
@@ -180,6 +179,7 @@
 		3F0BD4ED2C199E4E00ADA740 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		3F0BD4EF2C19A5BD00ADA740 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3F0BD4F02C19A69100ADA740 /* EKEventEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EKEventEditView.swift; sourceTree = "<group>"; };
+		3F0BD4F22C1B520100ADA740 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		3FCFA4792B8EA3CF00B0EB86 /* diveManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = diveManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FCFA47C2B8EA3CF00B0EB86 /* diveManagerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = diveManagerApp.swift; sourceTree = "<group>"; };
 		3FCFA4802B8EA3D000B0EB86 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -250,7 +250,6 @@
 			isa = PBXGroup;
 			children = (
 				3F0BD41F2C050B0700ADA740 /* InvoiceManagementView.swift */,
-				3F0BD4A62C0C704400ADA740 /* InvoicesView.swift */,
 				3F0BD4412C05DD5D00ADA740 /* AddInvoiceView.swift */,
 				3F0BD4432C05DDBF00ADA740 /* InvoiceDetailView.swift */,
 				3F0BD4E82C1898EB00ADA740 /* AddInvoiceItemView.swift */,
@@ -469,6 +468,7 @@
 				3F0BD40F2C0508E400ADA740 /* Student.swift */,
 				3F0BD4522C05F3C600ADA740 /* MockData.swift */,
 				3F0BD4562C06037C00ADA740 /* DataModel.swift */,
+				3F0BD4F22C1B520100ADA740 /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -604,7 +604,6 @@
 				3F0BD4202C050B0700ADA740 /* InvoiceManagementView.swift in Sources */,
 				3F0BD48D2C08B89A00ADA740 /* SummarySectionView.swift in Sources */,
 				3F0BD4352C0528D700ADA740 /* CourseFilter.swift in Sources */,
-				3F0BD4A72C0C704400ADA740 /* InvoicesView.swift in Sources */,
 				3F0BD4B32C0CB9AC00ADA740 /* UserDefaults.swift in Sources */,
 				3F0BD4E92C1898EB00ADA740 /* AddInvoiceItemView.swift in Sources */,
 				3F0BD49E2C0B8D9200ADA740 /* ProfitsViewModel.swift in Sources */,
@@ -627,6 +626,7 @@
 				3F0BD4222C050BD000ADA740 /* ScheduleView.swift in Sources */,
 				3F0BD4142C05097700ADA740 /* Certification.swift in Sources */,
 				3F0BD42F2C0510F700ADA740 /* AddCourseView.swift in Sources */,
+				3F0BD4F32C1B520100ADA740 /* User.swift in Sources */,
 				3F0BD4422C05DD5D00ADA740 /* AddInvoiceView.swift in Sources */,
 				3F0BD41E2C050AFD00ADA740 /* StudentsView.swift in Sources */,
 				3F0BD42D2C0510E800ADA740 /* CoursesDetailView.swift in Sources */,
@@ -792,7 +792,6 @@
 				INFOPLIST_FILE = diveManager/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Dive Manager";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
-				INFOPLIST_KEY_NSCalendarsUsageDescription = "This app would like to add events to your calendar ";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -826,7 +825,6 @@
 				INFOPLIST_FILE = diveManager/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Dive Manager";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.sports";
-				INFOPLIST_KEY_NSCalendarsUsageDescription = "This app would like to add events to your calendar ";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

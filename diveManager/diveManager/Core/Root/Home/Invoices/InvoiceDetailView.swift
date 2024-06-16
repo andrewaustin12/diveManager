@@ -10,11 +10,11 @@ struct InvoiceDetailView: View {
     @State private var isEditing = false
     
     private var numberFormatter: NumberFormatter {
-            let formatter = NumberFormatter()
-            formatter.numberStyle = .currency
-            formatter.currencySymbol = currentCurrencySymbol
-            return formatter
-        }
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.currencySymbol = currentCurrencySymbol
+        return formatter
+    }
     
     var currentCurrencySymbol: String {
         return UserDefaults.standard.currency.symbol

@@ -1,22 +1,5 @@
 import Foundation
 
-import Foundation
-
-//struct Course: Identifiable {
-//    var id = UUID()
-//    var students: [Student]
-//    var startDate: Date
-//    var endDate: Date
-//    var sessions: [Session]
-//    var diveShop: DiveShop?
-//    var certificationAgency: CertificationAgency?
-//    var isCompleted: Bool
-//}
-
-import Foundation
-
-import Foundation
-
 struct Course: Identifiable, Hashable, Equatable {
     var id = UUID()
     var students: [Student]

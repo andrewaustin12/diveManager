@@ -68,40 +68,16 @@ struct ScheduleView: View {
                                 Text("Students: \(course.students.count)")
                                     .font(.subheadline)
                             }
-                            Spacer()
-                            Button(action: {
-                                selectedCourse = course
-                                showingEventEditView = true
-                            }) {
-                                Image(systemName: "calendar.badge.plus")
-                                    .foregroundColor(.blue)
-                            }
                         }
                     }
                 }
                 .listStyle(PlainListStyle())
             }
             .navigationTitle("Schedule Management")
-            .onAppear(perform: requestCalendarAccess)
-//            .sheet(isPresented: $showingAddCourseView) {
-//                AddCourseView(courses: $dataModel.courses)
-//                    .environmentObject(dataModel)
-//            }
             .sheet(isPresented: $showingEventEditView) {
                 if let selectedCourse = selectedCourse {
                     
                     EKEventEditView(eventStore: EventManager.shared.getEventStore(), course: selectedCourse)
-                }
-            }
-        }
-    }
-
-    private func requestCalendarAccess() {
-        EventManager.shared.requestCalendarAccess { granted, error in
-            DispatchQueue.main.async {
-                calendarAccessGranted = granted
-                if let error = error {
-                    print("Error requesting access: \(error.localizedDescription)")
                 }
             }
         }

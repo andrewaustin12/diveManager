@@ -24,6 +24,7 @@ struct diveManagerApp: App {
                 }
             }
             .environmentObject(dataModel)
+            .accentColor(Color.teal)
             .task {
                 try? Tips.resetDatastore()
                 try? Tips.configure([

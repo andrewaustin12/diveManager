@@ -384,7 +384,7 @@ struct MockData {
                 value: 30,
                 to: Date()
             )!,
-            amount: 500.0,
+            amount: 400.0,
             isPaid: false,
             billingType: .student,
             items: [item[0], item[5]]
@@ -484,10 +484,10 @@ struct MockData {
                     timeIntervalSince1970: 1702600000
                 )
             )!,
-            amount: 500.0,
+            amount: 700.0,
             isPaid: false,
             billingType: .student,
-            items: [item[0], item[3], item[5]]
+            items: [item[0], item[3], item[5], item[6]]
         ), // April 12, 2024
         Invoice(
             student: students[6],
@@ -534,7 +534,8 @@ struct MockData {
         InvoiceItem(description: "Advanced openwater course", amount: 200, category: .course), //2
         InvoiceItem(description: "Mask", amount: 100, category: .sales), //3
         InvoiceItem(description: "Apeks Regs", amount: 1200, category: .sales), //4
-        InvoiceItem(description: "Extra day of training", amount: 200, category: .misc) //5
+        InvoiceItem(description: "Extra day of training", amount: 200, category: .misc), //5
+        InvoiceItem(description: "DM for 4 people", amount: 200, category: .dm) //5
     ]
 }
 
