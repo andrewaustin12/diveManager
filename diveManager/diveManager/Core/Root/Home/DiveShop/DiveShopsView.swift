@@ -1,7 +1,9 @@
 import SwiftUI
+import SwiftData
 
 struct DiveShopsView: View {
-    @State private var diveShops: [DiveShop] = MockData.diveShops
+    @Environment(\.modelContext) private var context
+    @Query var diveShops: [DiveShop]
     @State private var showingAddDiveShop = false
     @State private var searchQuery: String = ""
 
@@ -9,14 +11,16 @@ struct DiveShopsView: View {
         NavigationStack {
             VStack {
                 List {
-                    ForEach(filteredDiveShops()) { diveShop in
-                        NavigationLink(destination: DiveShopDetailView(diveShop: binding(for: diveShop))) {
+                    ForEach(filteredDiveShops(), id: \.id) { diveShop in
+                        NavigationLink(destination: DiveShopDetailView(diveShop: diveShop)) {
                             VStack(alignment: .leading) {
                                 Text(diveShop.name)
                                     .font(.headline)
                                 Text(diveShop.address)
                                     .font(.subheadline)
                                 Text(diveShop.phone)
+                                    .font(.subheadline)
+                                Text(diveShop.email)
                                     .font(.subheadline)
                             }
                         }
@@ -25,20 +29,26 @@ struct DiveShopsView: View {
                 }
                 .navigationTitle("Dive Shops")
                 .toolbar {
-                    Button(action: { showingAddDiveShop = true }) {
-                        Label("Add Dive Shop", systemImage: "plus")
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: { showingAddDiveShop = true }) {
+                            Label("Add Dive Shop", systemImage: "plus")
+                        }
                     }
                 }
                 .sheet(isPresented: $showingAddDiveShop) {
-                    AddDiveShopView(diveShops: $diveShops)
+                    AddDiveShopView()
                 }
             }
             .searchable(text: $searchQuery, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search dive shops")
         }
     }
 
-    func deleteDiveShop(at offsets: IndexSet) {
-        diveShops.remove(atOffsets: offsets)
+    private func deleteDiveShop(at offsets: IndexSet) {
+        for index in offsets {
+            let diveShop = diveShops[index]
+            context.delete(diveShop)
+        }
+        try? context.save()
     }
 
     private func filteredDiveShops() -> [DiveShop] {
@@ -52,18 +62,14 @@ struct DiveShopsView: View {
             }
         }
     }
-
-    private func binding(for diveShop: DiveShop) -> Binding<DiveShop> {
-        guard let index = diveShops.firstIndex(where: { $0.id == diveShop.id }) else {
-            fatalError("Dive Shop not found")
-        }
-        return $diveShops[index]
-    }
 }
 
 struct DiveShopsView_Previews: PreviewProvider {
     static var previews: some View {
-        DiveShopsView()
-            .environmentObject(DataModel())
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try! ModelContainer(for: DiveShop.self, configurations: config)
+        
+        return DiveShopsView()
+            .modelContainer(container)
     }
 }

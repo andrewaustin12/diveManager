@@ -79,8 +79,8 @@ struct InvoiceSummaryChartView: View {
     }
 }
 
-struct InvoiceSummaryChartView_Previews: PreviewProvider {
-    static var previews: some View {
-        InvoiceSummaryChartView(invoices: MockData.invoices)
-    }
-}
+//struct InvoiceSummaryChartView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        InvoiceSummaryChartView(invoices: MockData.invoices)
+//    }
+//}

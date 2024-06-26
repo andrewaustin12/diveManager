@@ -43,6 +43,7 @@ struct OverviewView: View {
                     }
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }

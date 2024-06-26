@@ -1,8 +1,10 @@
 import Foundation
-import Combine
+import SwiftUI
 
 class ExpensesViewModel: ObservableObject {
     @Published var expenses: [Expense] = []
+    @Published var showingPDFPreview = false
+    @Published var exportURL: URL?
 
     func expensesOverLastYear() -> [MonthlyExpense] {
         let calendar = Calendar.current
@@ -57,4 +59,11 @@ class ExpensesViewModel: ObservableObject {
     func loadExpenses(from dataModel: DataModel) {
         self.expenses = dataModel.expenses
     }
+    
+    func getLastFourYearsExpenses() -> [Int] {
+        let currentYear = Calendar.current.component(.year, from: Date())
+        return (0..<4).map { currentYear - $0 }
+    }
+    
+    
 }

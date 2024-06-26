@@ -1,17 +1,33 @@
-
 import Foundation
+import SwiftData
 
-struct Expense: Identifiable {
+@Model
+final class Expense: Identifiable {
     var id = UUID()
-    var category: RevenueStream
     var date: Date
     var amount: Double
-    var description: String
+    var expenseDescription: String
+    
+    init(id: UUID = UUID(), date: Date, amount: Double, expenseDescription: String) {
+        self.id = id
+        self.date = date
+        self.amount = amount
+        self.expenseDescription = expenseDescription
+    }
     
 }
 
-struct MonthlyExpense: Identifiable {
-    let id = UUID()
-    let month: Date
-    let totalExpenses: Double
+
+
+@Model
+final class MonthlyExpense: Identifiable {
+    var id: UUID
+    var month: Date
+    var totalExpenses: Double
+    
+    init(id: UUID = UUID(), month: Date, totalExpenses: Double = 0.0) {
+        self.id = id
+        self.month = month
+        self.totalExpenses = totalExpenses
+    }
 }

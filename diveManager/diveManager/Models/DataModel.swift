@@ -12,12 +12,12 @@ import Combine
 import Foundation
 
 class DataModel: ObservableObject {
-    @Published var courses: [Course] = MockData.courses
-    @Published var diveShops: [DiveShop] = MockData.diveShops
-    @Published var emailLists: [EmailList] = MockData.emailLists
-    @Published var expenses: [Expense] = MockData.expenses
-    @Published var invoices: [Invoice] = MockData.invoices
-    @Published var students: [Student] = MockData.students
+    @Published var courses: [Course] = []
+    @Published var diveShops: [DiveShop] = []
+    @Published var emailLists: [EmailList] = []
+    @Published var expenses: [Expense] = []
+    @Published var invoices: [Invoice] = []
+    @Published var students: [Student] = []
     @Published var certifications: [Certification] = []
-    
+    @Published var goals: [Goal] = []
 }

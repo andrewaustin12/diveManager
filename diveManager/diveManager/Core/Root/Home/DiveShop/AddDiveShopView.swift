@@ -1,11 +1,13 @@
 import SwiftUI
+import SwiftData
 
 struct AddDiveShopView: View {
     @Environment(\.presentationMode) var presentationMode
-    @Binding var diveShops: [DiveShop]
+    @Environment(\.modelContext) private var context
     @State private var name: String = ""
     @State private var address: String = ""
     @State private var phone: String = ""
+    @State private var email: String = ""
 
     var body: some View {
         NavigationStack {
@@ -14,6 +16,7 @@ struct AddDiveShopView: View {
                     TextField("Name", text: $name)
                     TextField("Address", text: $address)
                     TextField("Phone", text: $phone)
+                    TextField("Email", text: $email)
                 }
             }
             .navigationTitle("Add Dive Shop")
@@ -25,11 +28,11 @@ struct AddDiveShopView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
-                        let newDiveShop = DiveShop(name: name, address: address, phone: phone)
-                        diveShops.append(newDiveShop)
+                        let newDiveShop = DiveShop(name: name, address: address, phone: phone, email: email)
+                        context.insert(newDiveShop)
                         presentationMode.wrappedValue.dismiss()
                     }
-                    .disabled(name.isEmpty || address.isEmpty || phone.isEmpty)
+                    .disabled(name.isEmpty || address.isEmpty || phone.isEmpty || email.isEmpty)
                 }
             }
         }
@@ -38,6 +41,10 @@ struct AddDiveShopView: View {
 
 struct AddDiveShopView_Previews: PreviewProvider {
     static var previews: some View {
-        AddDiveShopView(diveShops: .constant([DiveShop(name: "Sample Shop", address: "123 Ocean Ave", phone: "123-456-7890")]))
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try! ModelContainer(for: DiveShop.self, configurations: config)
+        
+        return AddDiveShopView()
+            .modelContainer(container)
     }
 }

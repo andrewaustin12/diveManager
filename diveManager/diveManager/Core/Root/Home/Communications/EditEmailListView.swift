@@ -1,14 +1,16 @@
 import SwiftUI
+import SwiftData
 
 struct EditEmailListView: View {
-    @EnvironmentObject var dataModel: DataModel
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.modelContext) private var context
+    @Environment(\.dismiss) private var dismiss
     @State var emailList: EmailList
     @State private var selectedStudents: Set<UUID> = []
     @State private var showingAddStudentSheet = false
+    @Query private var students: [Student]
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section(header: Text("List Information")) {
                     TextField("List Name", text: $emailList.name)
@@ -37,31 +39,27 @@ struct EditEmailListView: View {
                         Label("Add Student", systemImage: "plus")
                     }
                 }
-//                Section(header: Text("Add Students by Certification")) {
-//                    Button(action: {
-//                        showingAddStudentSheet = true
-//                    }) {
-//                        Label("Add Student", systemImage: "plus")
-//                    }
-//                }
             }
             .navigationTitle("Edit Email List")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
-                        presentationMode.wrappedValue.dismiss()
+                        dismiss()
                     }
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") {
                         saveChanges()
-                        presentationMode.wrappedValue.dismiss()
+                        dismiss()
                     }
                 }
             }
             .sheet(isPresented: $showingAddStudentSheet) {
-                AddStudentsToEmailListView(selectedStudents: $selectedStudents, emailList: $emailList)
-                    .environmentObject(dataModel)
+                AddStudentsToEmailListView(selectedStudents: $selectedStudents)
+                    .environment(\.modelContext, context)
+                    .onDisappear {
+                        updateEmailListWithSelectedStudents()
+                    }
             }
             .onAppear {
                 self.selectedStudents = Set(emailList.students.map { $0.id })
@@ -71,25 +69,43 @@ struct EditEmailListView: View {
 
     private func removeStudent(_ student: Student) {
         emailList.students.removeAll { $0.id == student.id }
+        selectedStudents.remove(student.id)
     }
 
     private func deleteStudent(at offsets: IndexSet) {
-        emailList.students.remove(atOffsets: offsets)
+        for index in offsets {
+            let student = emailList.students[index]
+            removeStudent(student)
+        }
     }
 
     private func saveChanges() {
-        if let index = dataModel.emailLists.firstIndex(where: { $0.id == emailList.id }) {
-            emailList.students = dataModel.students.filter { selectedStudents.contains($0.id) }
-            dataModel.emailLists[index] = emailList
+        updateEmailListWithSelectedStudents()
+        
+        do {
+            try context.save()
+        } catch {
+            print("Failed to save email list changes: \(error)")
+        }
+    }
+
+    private func updateEmailListWithSelectedStudents() {
+        for studentID in selectedStudents {
+            if let student = students.first(where: { $0.id == studentID }) {
+                if !emailList.students.contains(where: { $0.id == student.id }) {
+                    emailList.students.append(student)
+                }
+            }
         }
     }
 }
 
-
 struct EditEmailListView_Previews: PreviewProvider {
     static var previews: some View {
-        EditEmailListView(emailList: EmailList(name: "Sample List", students: MockData.students))
-            .environmentObject(DataModel())
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try! ModelContainer(for: EmailList.self, Student.self, configurations: config)
+
+        EditEmailListView(emailList: EmailList(name: "Sample List", students: []))
+            .modelContainer(container)
     }
 }
-

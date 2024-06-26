@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 enum StudentFilter: String, CaseIterable, Identifiable {
     case all = "All Students"
@@ -8,37 +9,39 @@ enum StudentFilter: String, CaseIterable, Identifiable {
 }
 
 struct AddStudentsToEmailListView: View {
-    @EnvironmentObject var dataModel: DataModel
-    @Environment(\.presentationMode) var presentationMode
-    @Binding var selectedStudents: Set<UUID>
-    @Binding var emailList: EmailList
+    @Environment(\.modelContext) private var context // Use the model context environment
+    @Environment(\.dismiss) private var dismiss // Use the dismiss environment action
+    @Binding var selectedStudents: Set<UUID> // Binding to track selected students by their UUID
     @State private var searchText = ""
     @State private var selectedFilter: StudentFilter = .all
-    @State private var selectedCertification: Certification?
+    @State private var selectedCertificationName: String? = nil
+    @Query private var students: [Student] // Use SwiftData query to fetch students
 
-    var uniqueCertifications: [Certification] {
-            let allCertifications = dataModel.students.flatMap { $0.certifications }
-            let uniqueCertifications = Array(Set(allCertifications))
-            return uniqueCertifications.sorted { $0.name < $1.name }
-        }
+    // Get unique certification names from students
+    var uniqueCertificationNames: [String] {
+        let allCertificationNames = students.flatMap { $0.certifications.map { $0.name } }
+        let uniqueCertificationNames = Array(Set(allCertificationNames))
+        return uniqueCertificationNames.sorted()
+    }
 
+    // Filter students based on the selected filter and search text
     var filteredStudents: [Student] {
-        let students: [Student]
+        var students: [Student]
         
         switch selectedFilter {
         case .all:
-            students = dataModel.students
+            students = self.students
         case .certification:
-            guard let certification = selectedCertification else { return [] }
-            students = dataModel.students.filter { student in
-                student.certifications.contains(certification)
+            guard let certificationName = selectedCertificationName else { return [] }
+            students = self.students.filter { student in
+                student.certifications.contains { $0.name == certificationName }
             }
         }
         
         if searchText.isEmpty {
             return students
         } else {
-            return students.filter { $0.firstName.contains(searchText) || $0.lastName.contains(searchText) }
+            return students.filter { $0.firstName.localizedCaseInsensitiveContains(searchText) || $0.lastName.localizedCaseInsensitiveContains(searchText) }
         }
     }
 
@@ -59,10 +62,10 @@ struct AddStudentsToEmailListView: View {
                     .padding(.horizontal)
                     
                     if selectedFilter == .certification {
-                        Picker("Certification", selection: $selectedCertification) {
-                            Text("Select Certification").tag(nil as Certification?)
-                            ForEach(uniqueCertifications, id: \.self) { certification in
-                                Text(certification.name).tag(certification as Certification?)
+                        Picker("Certification", selection: $selectedCertificationName) {
+                            Text("Select Certification").tag(nil as String?)
+                            ForEach(uniqueCertificationNames, id: \.self) { certificationName in
+                                Text(certificationName).tag(certificationName as String?)
                             }
                         }
                         .padding(.horizontal)
@@ -79,12 +82,8 @@ struct AddStudentsToEmailListView: View {
                             set: { newValue in
                                 if newValue {
                                     self.selectedStudents.insert(student.id)
-                                    if !emailList.students.contains(where: { $0.id == student.id }) {
-                                        emailList.students.append(student)
-                                    }
                                 } else {
                                     self.selectedStudents.remove(student.id)
-                                    emailList.students.removeAll { $0.id == student.id }
                                 }
                             }
                         )) {
@@ -97,12 +96,12 @@ struct AddStudentsToEmailListView: View {
                 .toolbar {
                     ToolbarItem(placement: .cancellationAction) {
                         Button("Cancel") {
-                            presentationMode.wrappedValue.dismiss()
+                            dismiss()
                         }
                     }
                     ToolbarItem(placement: .confirmationAction) {
                         Button("Done") {
-                            presentationMode.wrappedValue.dismiss()
+                            dismiss()
                         }
                     }
                 }
@@ -113,9 +112,10 @@ struct AddStudentsToEmailListView: View {
 
 struct AddStudentsToEmailListView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationStack {
-            AddStudentsToEmailListView(selectedStudents: .constant(Set(MockData.students.map { $0.id })), emailList: .constant(EmailList(name: "Sample List", students: MockData.students)))
-                .environmentObject(DataModel())
-        }
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try! ModelContainer(for: EmailList.self, Student.self, configurations: config)
+
+        AddStudentsToEmailListView(selectedStudents: .constant(Set()))
+            .modelContainer(container) // Use model container for preview
     }
 }

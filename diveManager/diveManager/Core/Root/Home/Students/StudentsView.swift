@@ -1,17 +1,33 @@
 import SwiftUI
+import SwiftData
 
 struct StudentsView: View {
-    @State private var students: [Student] = MockData.students
+    @Environment(\.modelContext) private var context
+    @Query var students: [Student]
     @State private var showingAddStudent = false
-    @State private var selectedStudent: Student?
+    @State private var selectedStudents: [Student] = []
     @State private var searchQuery: String = ""
+
+    var filteredStudents: [Student] {
+        if searchQuery.isEmpty {
+            return students
+        } else {
+            return students.filter { student in
+                student.firstName.localizedCaseInsensitiveContains(searchQuery) ||
+                student.lastName.localizedCaseInsensitiveContains(searchQuery) ||
+                student.studentID.localizedCaseInsensitiveContains(searchQuery) ||
+                student.email.localizedCaseInsensitiveContains(searchQuery) ||
+                student.certifications.map { $0.name }.joined(separator: " ").localizedCaseInsensitiveContains(searchQuery)
+            }
+        }
+    }
 
     var body: some View {
         NavigationStack {
             VStack {
                 List {
-                    ForEach(filteredStudents()) { student in
-                        NavigationLink(destination: StudentDetailView(student: binding(for: student))) {
+                    ForEach(filteredStudents, id: \.id) { student in
+                        NavigationLink(destination: StudentDetailView(student: student)) {
                             VStack(alignment: .leading) {
                                 Text("\(student.firstName) \(student.lastName)")
                                     .font(.headline)
@@ -31,7 +47,8 @@ struct StudentsView: View {
                     }
                 }
                 .sheet(isPresented: $showingAddStudent) {
-                    AddStudentView(students: $students)
+                    AddNewStudentView(selectedStudents: $selectedStudents)
+                        .environment(\.modelContext, context)
                 }
             }
             .searchable(text: $searchQuery, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search students")
@@ -39,33 +56,20 @@ struct StudentsView: View {
     }
 
     func deleteStudent(at offsets: IndexSet) {
-        students.remove(atOffsets: offsets)
-    }
-
-    private func filteredStudents() -> [Student] {
-        if searchQuery.isEmpty {
-            return students
-        } else {
-            return students.filter { student in
-                student.firstName.localizedCaseInsensitiveContains(searchQuery) ||
-                student.lastName.localizedCaseInsensitiveContains(searchQuery) ||
-                student.studentID.localizedCaseInsensitiveContains(searchQuery) ||
-                student.email.localizedCaseInsensitiveContains(searchQuery) ||
-                student.certifications.map { $0.name }.joined(separator: " ").localizedCaseInsensitiveContains(searchQuery)
-            }
+        for index in offsets {
+            let student = students[index]
+            context.delete(student)
         }
-    }
-
-    private func binding(for student: Student) -> Binding<Student> {
-        guard let index = students.firstIndex(where: { $0.id == student.id }) else {
-            fatalError("Student not found")
-        }
-        return $students[index]
+        try? context.save()
     }
 }
 
 struct StudentsView_Previews: PreviewProvider {
     static var previews: some View {
-        StudentsView()
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try! ModelContainer(for: Student.self, configurations: config)
+        
+        return StudentsView()
+            .modelContainer(container)
     }
 }

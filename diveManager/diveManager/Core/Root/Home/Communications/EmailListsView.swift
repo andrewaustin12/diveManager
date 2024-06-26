@@ -1,27 +1,35 @@
 import SwiftUI
-import MessageUI
+import SwiftData
 
 struct EmailListsView: View {
-    @EnvironmentObject var dataModel: DataModel
+    @Environment(\.modelContext) private var context
+    @Query var emailLists: [EmailList]
     @State private var showingAddEmailListView = false
-    @State private var showingMailCompose = false
-    @State private var mailResult: Result<MFMailComposeResult, Error>? = nil
-    @State private var selectedEmailList: EmailList?
-
+    
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(dataModel.emailLists) { emailList in
-                    NavigationLink(destination: EmailListDetailView(emailList: emailList)) {
-                        VStack(alignment: .leading) {
-                            Text(emailList.name)
-                                .font(.headline)
-                            Text("Students: \(emailList.students.count)")
-                                .font(.subheadline)
+            VStack {
+                if emailLists.isEmpty {
+                    ContentUnavailableView {
+                        Label("No Lists Available", systemImage: "tray")
+                    } description: {
+                        Text("Please add new lists.")
+                    } 
+                } else {
+                    List {
+                        ForEach(emailLists) { emailList in
+                            NavigationLink(destination: EmailListDetailView(emailList: emailList)) {
+                                VStack(alignment: .leading) {
+                                    Text(emailList.name)
+                                        .font(.headline)
+                                    Text("Students: \(emailList.students.count)")
+                                        .font(.subheadline)
+                                }
+                            }
                         }
+                        .onDelete(perform: deleteEmailList)
                     }
                 }
-                .onDelete(perform: deleteEmailList)
             }
             .navigationTitle("Email Lists")
             .toolbar {
@@ -33,19 +41,21 @@ struct EmailListsView: View {
             }
             .sheet(isPresented: $showingAddEmailListView) {
                 AddEmailListView()
-                    .environmentObject(dataModel)
             }
         }
     }
-
+    
     private func deleteEmailList(at offsets: IndexSet) {
-        dataModel.emailLists.remove(atOffsets: offsets)
+        for index in offsets {
+            let emailList = emailLists[index]
+            context.delete(emailList)
+        }
     }
 }
 
 struct EmailListsView_Previews: PreviewProvider {
     static var previews: some View {
         EmailListsView()
-            .environmentObject(DataModel())
+            .modelContainer(for: [EmailList.self, Student.self, Certification.self])
     }
 }

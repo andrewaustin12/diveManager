@@ -1,5 +1,5 @@
 import SwiftUI
-//import WishKit
+import WishKit
 //import RevenueCat
 //import RevenueCatUI
 
@@ -47,6 +47,14 @@ struct SettingsView: View {
                     
                     
                     Section("Support") {
+                        NavigationLink(destination: WishKit.view) {
+                            Label {
+                                Text("Feature Request")
+                            } icon: {
+                                Image(systemName: "lightbulb.min")
+                                    .foregroundStyle(Color.teal)
+                            }
+                        }
                         Label {
                             Text("Feedback")
                         } icon: {

@@ -1,28 +1,30 @@
 import SwiftUI
+import UserNotifications
+import SwiftData
 
 struct AddCourseView: View {
-    @EnvironmentObject var dataModel: DataModel
-    @Binding var courses: [Course]
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.modelContext) private var context
+    @Environment(\.dismiss) private var dismiss
     @State private var selectedDiveShop: DiveShop?
     @State private var selectedAgency: CertificationAgency = .padi
-    @State private var selectedCourse: String = CertificationAgency.PADI.openWater.rawValue
+    @State private var selectedCourse: String = CertificationAgency.padi.getCourses().first ?? ""
     @State private var startDate: Date = Date()
     @State private var endDate: Date = Date()
     @State private var isCompleted: Bool = false
     @State private var students: [Student] = []
     @State private var showingAddStudent = false
+    @Query private var diveShops: [DiveShop]
     
     var isAddCourseButtonDisabled: Bool {
         selectedDiveShop == nil || selectedCourse.isEmpty
     }
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section(header: Text("Course Information")) {
                     Picker("Dive Shop", selection: $selectedDiveShop) {
-                        ForEach(dataModel.diveShops) { diveShop in
+                        ForEach(diveShops) { diveShop in
                             Text(diveShop.name).tag(diveShop as DiveShop?)
                         }
                     }
@@ -50,7 +52,7 @@ struct AddCourseView: View {
                 
                 Section(header: Text("Students")) {
                     ForEach(students) { student in
-                        Text(student.firstName)
+                        Text("\(student.firstName) \(student.lastName)")
                     }
                     .onDelete(perform: deleteStudent)
                     
@@ -63,7 +65,7 @@ struct AddCourseView: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
-                        presentationMode.wrappedValue.dismiss()
+                        dismiss()
                     }
                 }
                 ToolbarItem(placement: .primaryAction) {
@@ -74,35 +76,82 @@ struct AddCourseView: View {
                 }
             }
             .sheet(isPresented: $showingAddStudent) {
-                AddStudentView(students: $students)
-                    .environmentObject(DataModel())
+                AddStudentView(selectedStudents: $students)
             }
         }
     }
     
     func addCourse() {
+        guard let selectedDiveShop = selectedDiveShop else { return }
+        
         let newCourse = Course(
-            students: students,
+            students: [],
             startDate: startDate,
             endDate: endDate,
             sessions: [],
-            diveShop: selectedDiveShop!,
+            diveShop: selectedDiveShop,
             certificationAgency: selectedAgency,
             selectedCourse: selectedCourse,
             isCompleted: isCompleted
         )
-        print(newCourse)
-        courses.append(newCourse)
-        presentationMode.wrappedValue.dismiss()
+        
+        context.insert(newCourse)
+        
+        // Add students to the course
+        for student in students {
+            if let existingStudent = fetchExistingStudent(matching: student) {
+                // If the student already exists in the context, use that instance
+                newCourse.students.append(existingStudent)
+            } else {
+                // If the student doesn't exist, insert it into the context
+                context.insert(student)
+                newCourse.students.append(student)
+            }
+        }
+        
+        scheduleCourseCompletionNotification(for: newCourse)
+        
+        dismiss()
+    }
+
+    // Helper function to fetch existing students
+    private func fetchExistingStudent(matching student: Student) -> Student? {
+        let predicate = #Predicate<Student> { $0.id == student.id }
+        let descriptor = FetchDescriptor(predicate: predicate)
+        return try? context.fetch(descriptor).first
     }
     
     func deleteStudent(at offsets: IndexSet) {
         students.remove(atOffsets: offsets)
     }
+    
+    private func scheduleCourseCompletionNotification(for course: Course) {
+        let content = UNMutableNotificationContent()
+        content.title = "Course Completed"
+        content.body = "The course \(course.selectedCourse) at \(course.diveShop?.name ?? "Dive Shop") has finished. Don't forget to add it to the invoice."
+        content.sound = .default
+        
+        let triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: course.endDate)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
+        
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Error scheduling notification: \(error.localizedDescription)")
+            } else {
+                print("Notification scheduled for course: \(course.selectedCourse)")
+            }
+        }
+    }
 }
 
 struct AddCourseView_Previews: PreviewProvider {
     static var previews: some View {
-        AddCourseView(courses: .constant([]))
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try! ModelContainer(for: Course.self, DiveShop.self, Student.self, configurations: config)
+        
+        AddCourseView()
+            .modelContainer(container)
     }
 }

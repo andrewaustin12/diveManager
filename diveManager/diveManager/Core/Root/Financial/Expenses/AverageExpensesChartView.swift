@@ -1,13 +1,30 @@
 import SwiftUI
 import Charts
+import SwiftData
 
 struct AverageExpensesChartView: View {
-    @EnvironmentObject var dataModel: DataModel
-    @StateObject private var expensesVM = ExpensesViewModel()
+    @Environment(\.modelContext) private var context // Use the SwiftData model context environment
+    @Query private var expenses: [Expense]
     var selectedYear: Int
 
     var expensesForYear: [MonthlyExpense] {
-        expensesVM.expensesForYear(selectedYear)
+        let calendar = Calendar.current
+        // Generate all months of the selected year
+        let months = (1...12).map { month -> Date in
+            calendar.date(from: DateComponents(year: selectedYear, month: month))!
+        }
+        // Group expenses by month
+        let groupedExpenses = Dictionary(grouping: expenses.filter {
+            calendar.component(.year, from: $0.date) == selectedYear
+        }, by: { expense in
+            calendar.dateComponents([.year, .month], from: expense.date)
+        })
+        // Map expenses to each month, filling in missing months with zero expenses
+        return months.map { month in
+            let dateComponents = calendar.dateComponents([.year, .month], from: month)
+            let totalExpenses = groupedExpenses[dateComponents]?.reduce(0) { $0 + $1.amount } ?? 0
+            return MonthlyExpense(month: month, totalExpenses: totalExpenses)
+        }
     }
 
     var totalMonths: Int {
@@ -36,6 +53,7 @@ struct AverageExpensesChartView: View {
             return ""
         }
     }
+    
     var currentCurrencySymbol: String {
         return UserDefaults.standard.currency.symbol
     }
@@ -66,15 +84,16 @@ struct AverageExpensesChartView: View {
             }
             .chartYAxis(.automatic)
         }
-        .onAppear {
-            expensesVM.loadExpenses(from: dataModel)
-        }
     }
 }
 
 struct AverageExpensesChartView_Previews: PreviewProvider {
     static var previews: some View {
-        AverageExpensesChartView(selectedYear: 2024)
-            .environmentObject(DataModel())
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try! ModelContainer(for: Expense.self, configurations: config)
+        
+        return AverageExpensesChartView(selectedYear: 2024)
+            .modelContainer(container) // Use model container for preview
     }
 }
+

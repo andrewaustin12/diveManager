@@ -1,39 +1,42 @@
 import SwiftUI
+import SwiftData
 
 struct DiveShopDetailView: View {
-    @Binding var diveShop: DiveShop
-    @State private var isEditing = false
+    @Environment(\.modelContext) private var context
+    @Bindable var diveShop: DiveShop
 
     var body: some View {
         Form {
-            Section(header: Text("Dive Shop Information")) {
+            Section(header: Text("Dive Shop Details")) {
                 TextField("Name", text: $diveShop.name)
-                    .disabled(!isEditing)
                 TextField("Address", text: $diveShop.address)
-                    .disabled(!isEditing)
                 TextField("Phone", text: $diveShop.phone)
-                    .disabled(!isEditing)
+                TextField("Email", text: $diveShop.email)
             }
         }
-        .navigationTitle(diveShop.name)
+        .navigationTitle("Dive Shop Details")
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    isEditing.toggle()
-                }) {
-                    Text(isEditing ? "Done" : "Edit")
+            ToolbarItem(placement: .primaryAction) {
+                Button("Save") {
+                    saveDiveShop()
                 }
             }
         }
     }
+
+    private func saveDiveShop() {
+        // Save changes to the context
+        try? context.save()
+    }
 }
+
 
 struct DiveShopDetailView_Previews: PreviewProvider {
     @State static var diveShop = MockData.diveShops[0]
 
     static var previews: some View {
         NavigationStack {
-            DiveShopDetailView(diveShop: $diveShop)
+            DiveShopDetailView(diveShop: diveShop)
         }
     }
 }

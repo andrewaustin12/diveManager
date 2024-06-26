@@ -1,4 +1,6 @@
 import Foundation
+import SwiftData
+
 
 enum CertificationAgency: String, CaseIterable, Codable, Identifiable {
     case padi
@@ -22,6 +24,7 @@ enum CertificationAgency: String, CaseIterable, Codable, Identifiable {
         }
 
     enum PADI: String, CaseIterable, Identifiable {
+        case discoverScubaDive = "Discover Scuba Dive"
         case openWater = "Open Water Diver"
         case advancedOpenWater = "Advanced Open Water Diver"
         case rescueDiver = "Rescue Diver"

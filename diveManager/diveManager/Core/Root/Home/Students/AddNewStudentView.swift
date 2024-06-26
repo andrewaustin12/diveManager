@@ -1,7 +1,7 @@
 import SwiftUI
 import SwiftData
 
-struct AddStudentView: View {
+struct AddNewStudentView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
     @State private var firstName: String = ""
@@ -23,12 +23,6 @@ struct AddStudentView: View {
                     TextField("Last Name", text: $lastName)
                     TextField("Student ID", text: $studentID)
                     TextField("Email", text: $email)
-                    
-                    Button(action: {
-                        showExistingStudentPicker = true
-                    }) {
-                        Label("Add Existing Student", systemImage: "person.2.fill")
-                    }
                 }
 
                 Section(header: Text("Certifications")) {
@@ -108,12 +102,12 @@ struct AddStudentView: View {
     }
 }
 
-struct AddStudentView_Previews: PreviewProvider {
+struct AddNewStudentView_Previews: PreviewProvider {
     static var previews: some View {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         let container = try! ModelContainer(for: Student.self, Certification.self, configurations: config)
         
-        AddStudentView(selectedStudents: .constant([]))
+        AddNewStudentView(selectedStudents: .constant([]))
             .modelContainer(container)
     }
 }

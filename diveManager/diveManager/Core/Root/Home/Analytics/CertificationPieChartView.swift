@@ -1,11 +1,16 @@
 import SwiftUI
+import SwiftData
 import Charts
 
 struct CertificationPieChartView: View {
-    @EnvironmentObject private var dataModel: DataModel
+    @Environment(\.modelContext) private var context // SwiftData context
+    @Query private var students: [Student] // Query to fetch students from the data model
 
     var body: some View {
-        let certifications = dataModel.students.flatMap { $0.certifications }
+        // Extract certifications from students
+        let certifications = students.flatMap { $0.certifications }
+        
+        // Group certifications by agency
         let groupedCertifications = Dictionary(grouping: certifications, by: { $0.agency })
         let chartData = groupedCertifications.map { (key, value) in
             (key.displayName, value.count)
@@ -41,10 +46,10 @@ struct CertificationPieChartView: View {
     }
 }
 
-struct CertificationPieChartView_Previews: PreviewProvider {
-    static var previews: some View {
-        CertificationPieChartView()
-            .environmentObject(DataModel())
-            .frame(height: 300)
-    }
+#Preview {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: Student.self, Certification.self, configurations: config)
+
+    return CertificationPieChartView()
+        .modelContainer(container)
 }

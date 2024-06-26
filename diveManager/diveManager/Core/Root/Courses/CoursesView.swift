@@ -1,8 +1,10 @@
 import SwiftUI
 import EventKit
+import SwiftData
 
 struct CoursesView: View {
-    @EnvironmentObject var dataModel: DataModel
+    @Environment(\.modelContext) private var context
+    @Query private var courses: [Course]
     @State private var showingAddCourse = false
     @State private var selectedFilter: CourseFilter = .inProgress
     
@@ -12,25 +14,23 @@ struct CoursesView: View {
         
         switch selectedFilter {
         case .upcoming:
-            return dataModel.courses.filter { $0.startDate > now }
+            return courses.filter { $0.startDate > now }
         case .inProgress:
-            return dataModel.courses.filter {
+            return courses.filter {
                 !$0.isCompleted && (
                     calendar.isDateInToday($0.startDate) ||
                     calendar.isDateInToday($0.endDate) ||
                     ($0.startDate <= now && $0.endDate >= now)
                 )
             }
-
         case .completed:
-            return dataModel.courses.filter { $0.isCompleted }
+            return courses.filter { $0.isCompleted }
         }
     }
     
     var body: some View {
         NavigationStack {
             VStack {
-                
                 Picker("Filter", selection: $selectedFilter) {
                     ForEach(CourseFilter.allCases) { filter in
                         Text(filter.rawValue).tag(filter)
@@ -64,15 +64,20 @@ struct CoursesView: View {
                     }
                 }
                 .sheet(isPresented: $showingAddCourse) {
-                    AddCourseView(courses: $dataModel.courses)
-                        .environmentObject(dataModel)
+                    AddCourseView()
+                        .environment(\.modelContext, context)
                 }
             }
         }
     }
     
     func deleteCourse(at offsets: IndexSet) {
-        dataModel.courses.remove(atOffsets: offsets)
+        for index in offsets {
+                    let course = filteredCourses[index]
+                    if let originalIndex = courses.firstIndex(where: { $0.id == course.id }) {
+                        context.delete(courses[originalIndex])
+                    }
+                }
     }
     
     private func formattedDateRange(start: Date, end: Date) -> String {
@@ -82,16 +87,19 @@ struct CoursesView: View {
     }
     
     private func binding(for course: Course) -> Binding<Course> {
-        guard let index = dataModel.courses.firstIndex(where: { $0.id == course.id }) else {
+        guard let index = courses.firstIndex(where: { $0.id == course.id }) else {
             fatalError("Course not found")
         }
-        return $dataModel.courses[index]
+        return .constant(courses[index])
     }
 }
 
 struct CoursesView_Previews: PreviewProvider {
     static var previews: some View {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try! ModelContainer(for: Course.self, configurations: config)
+        
         CoursesView()
-            .environmentObject(DataModel())
+            .modelContainer(container)
     }
 }

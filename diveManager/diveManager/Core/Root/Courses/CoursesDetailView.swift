@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct CourseDetailView: View {
+    @Environment(\.modelContext) private var context
     @Binding var course: Course
     @EnvironmentObject var dataModel: DataModel
     @State private var showingAddSession = false
@@ -15,7 +16,7 @@ struct CourseDetailView: View {
                     get: { course.diveShop?.name ?? "" },
                     set: {
                         if course.diveShop == nil {
-                            course.diveShop = DiveShop(name: $0, address: "", phone: "")
+                            course.diveShop = DiveShop(name: $0, address: "", phone: "", email: "")
                         } else {
                             course.diveShop?.name = $0
                         }
@@ -102,9 +103,9 @@ struct CourseDetailView: View {
             }
         }
         .sheet(isPresented: $showingAddStudent) {
-            AddStudentView(students: $course.students)
-                .environmentObject(DataModel())
-        }
+                    AddStudentView(selectedStudents: $course.students) // Ensure binding is passed correctly
+                        .environment(\.modelContext, context)
+                }
         .sheet(isPresented: $showingAddSession) {
             AddSessionView(sessions: $course.sessions)
                 .environmentObject(DataModel())

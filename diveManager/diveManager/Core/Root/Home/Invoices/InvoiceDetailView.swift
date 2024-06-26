@@ -63,7 +63,7 @@ struct InvoiceDetailView: View {
                     }) {
                         ForEach(invoice.items) { item in
                             HStack {
-                                Text(item.description)
+                                Text(item.itemDescription)
                                 Spacer()
                                 Text(numberFormatter.string(from: NSNumber(value: item.amount)) ?? "\(currentCurrencySymbol)0.00")
                                     .foregroundColor(.secondary)
@@ -135,7 +135,7 @@ struct InvoiceDetailView: View {
     
     private func composeEmailBody() -> String {
         let recipientName = invoice.billingType == .student ? "\(invoice.student?.firstName ?? "") \(invoice.student?.lastName ?? "")" : (invoice.diveShop?.name ?? "")
-        let itemDetails = invoice.items.map { "\($0.description): \(numberFormatter.string(from: NSNumber(value: $0.amount)) ?? "$0.00")" }.joined(separator: "\n")
+        let itemDetails = invoice.items.map { "\($0.itemDescription): \(numberFormatter.string(from: NSNumber(value: $0.amount)) ?? "$0.00")" }.joined(separator: "\n")
         return """
         Hello \(recipientName),
         

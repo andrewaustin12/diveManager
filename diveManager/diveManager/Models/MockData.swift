@@ -254,8 +254,8 @@ struct MockData {
             location: "Pool A",
             type: .confinedWater,
             duration: 60,
-            notes: "Basic pool training",
-            description: "Introductory pool session"
+            notes: "Basic pool training"
+            
         ),
         Session(
             date: Date(),
@@ -264,8 +264,8 @@ struct MockData {
             location: "Ocean B",
             type: .openWater,
             duration: 120,
-            notes: "Open water session",
-            description: "Advanced open water session"
+            notes: "Open water session"
+            
         ),
         // Add more mock sessions as needed
     ]
@@ -276,7 +276,7 @@ struct MockData {
             startDate: Date().addingTimeInterval(-86400 * 30), // 30 days ago
             endDate: Date().addingTimeInterval(-86400 * 26),
             sessions: [sessions[0], sessions[1]],
-            diveShop: DiveShop(name: "Dive Shop A", address: "Location A", phone: "123-456-7890"),
+            diveShop: DiveShop(name: "Dive Shop A", address: "Location A", phone: "123-456-7890", email: "diveshopA@gmail.com"),
             certificationAgency: .padi,
             selectedCourse: CertificationAgency.PADI.openWater.rawValue,
             isCompleted: true
@@ -286,7 +286,7 @@ struct MockData {
             startDate: Date().addingTimeInterval(-86400 * 60), // 60 days ago
             endDate: Date().addingTimeInterval(-86400 * 58),
             sessions: [sessions[1]],
-            diveShop: DiveShop(name: "Dive Shop B", address: "Location B", phone: "987-654-3210"),
+            diveShop: DiveShop(name: "Dive Shop B", address: "Location B", phone: "987-654-3210", email: "diveshopB@gmail.com"),
             certificationAgency: .ssi,
             selectedCourse: CertificationAgency.SSI.advancedAdventurer.rawValue,
             isCompleted: true
@@ -297,7 +297,7 @@ struct MockData {
             startDate: Date().addingTimeInterval(-86400 * 20), // 20 days ago
             endDate: Date().addingTimeInterval(-86400 * 15),
             sessions: [sessions[0]],
-            diveShop: DiveShop(name: "Dive Shop C", address: "Location C", phone: "456-789-0123"),
+            diveShop: DiveShop(name: "Dive Shop C", address: "Location C", phone: "456-789-0123", email: "diveshopc@gmail.com"),
             certificationAgency: .tdi,
             selectedCourse: CertificationAgency.TDI.trimixDiver.rawValue,
             isCompleted: true
@@ -307,7 +307,7 @@ struct MockData {
             startDate: Date().addingTimeInterval(-86400 * 10), // 10 days ago
             endDate: Date().addingTimeInterval(-86400 * 8),
             sessions: [sessions[1]],
-            diveShop: DiveShop(name: "Dive Shop D", address: "Location D", phone: "789-012-3456"),
+            diveShop: DiveShop(name: "Dive Shop D", address: "Location D", phone: "789-012-3456", email: "diveshopC@gmail.com"),
             certificationAgency: .naui,
             selectedCourse: CertificationAgency.NAUI.advancedScubaDiver.rawValue,
             isCompleted: true
@@ -317,7 +317,7 @@ struct MockData {
             startDate: Date().addingTimeInterval(-86400 * 1), // 15 days from now
             endDate: Date().addingTimeInterval(86400 * 3),
             sessions: [sessions[1]],
-            diveShop: DiveShop(name: "Dive Shop F", address: "Location F", phone: "890-123-4567"),
+            diveShop: DiveShop(name: "Dive Shop F", address: "Location F", phone: "890-123-4567", email: "diveshopF@gmail.com"),
             certificationAgency: .tdi,
             selectedCourse: CertificationAgency.TDI.sidemountDiver.rawValue,
             isCompleted: false
@@ -327,7 +327,7 @@ struct MockData {
             startDate: Date().addingTimeInterval(86400 * 1), // 1 days from now
             endDate: Date().addingTimeInterval(86400 * 3),
             sessions: [sessions[1]],
-            diveShop: DiveShop(name: "Big Blue Tech", address: "Koh Tao", phone: "890-123-4567"),
+            diveShop: DiveShop(name: "Big Blue Tech", address: "Koh Tao", phone: "890-123-4567", email: "bigbluetech@gmail.com"),
             certificationAgency: .tdi,
             selectedCourse: CertificationAgency.TDI.sidemountDiver.rawValue,
             isCompleted: false
@@ -338,7 +338,7 @@ struct MockData {
             startDate: Date().addingTimeInterval(86400 * 1), // 1 day from now
             endDate: Date().addingTimeInterval(86400 * 30), // 30 days from now
             sessions: [sessions[0]],
-            diveShop: DiveShop(name: "Dive Shop E", address: "Location E", phone: "234-567-8901"),
+            diveShop: DiveShop(name: "Dive Shop E", address: "Location E", phone: "234-567-8901", email: "diveshopE@gmail.com"),
             certificationAgency: .padi,
             selectedCourse: CertificationAgency.PADI.divemaster.rawValue,
             isCompleted: false
@@ -348,7 +348,7 @@ struct MockData {
             startDate: Date().addingTimeInterval(86400 * 1), // 1 day from now
             endDate: Date().addingTimeInterval(86400 * 30), // 30 days from now
             sessions: [sessions[0]],
-            diveShop: DiveShop(name: "Dive Shop E", address: "Location E", phone: "234-567-8901"),
+            diveShop: DiveShop(name: "Dive Shop E", address: "Location E", phone: "234-567-8901", email: "diveshopE@gmail.com"),
             certificationAgency: .padi,
             selectedCourse: CertificationAgency.PADI.instructorDevelopmentCourse.rawValue,
             isCompleted: false
@@ -358,7 +358,7 @@ struct MockData {
             startDate: Date().addingTimeInterval(86400 * 15), // 15 days from now
             endDate: Date().addingTimeInterval(86400 * 18),
             sessions: [sessions[1]],
-            diveShop: DiveShop(name: "Dive Shop F", address: "Location F", phone: "890-123-4567"),
+            diveShop: DiveShop(name: "Dive Shop F", address: "Location F", phone: "890-123-4567", email: "diveshopF@gmail.com"),
             certificationAgency: .sdi,
             selectedCourse: CertificationAgency.SDI.rescueDiver.rawValue,
             isCompleted: false
@@ -367,11 +367,11 @@ struct MockData {
     ]
     
     static let diveShops: [DiveShop] = [
-        DiveShop(name: "Oceanic Adventures", address: "123 Ocean Ave, Honolulu, HI", phone: "808-123-4567"), //0
-        DiveShop(name: "Blue Water Divers", address: "456 Beach Blvd, Miami, FL", phone: "305-987-6543"), // 1
-        DiveShop(name: "Deep Sea Explorers", address: "789 Marina Way, San Diego, CA", phone: "619-543-2109"), //2
-        DiveShop(name: "Davy Jones Locker", address: "Koh Tao, Thailand", phone: "+31 007452322"),//3
-        DiveShop(name: "Big Blue Tech", address: "Koh Tao, Thailand", phone: "+12 32355222")//4
+        DiveShop(name: "Oceanic Adventures", address: "123 Ocean Ave, Honolulu, HI", phone: "808-123-4567", email: "diveshopA@gmail.com"), //0
+        DiveShop(name: "Blue Water Divers", address: "456 Beach Blvd, Miami, FL", phone: "305-987-6543", email: "diveshopA@gmail.com"), // 1
+        DiveShop(name: "Deep Sea Explorers", address: "789 Marina Way, San Diego, CA", phone: "619-543-2109", email: "diveshopA@gmail.com"), //2
+        DiveShop(name: "Davy Jones Locker", address: "Koh Tao, Thailand", phone: "+31 007452322", email: "diveshopA@gmail.com"),//3
+        DiveShop(name: "Big Blue Tech", address: "Koh Tao, Thailand", phone: "+12 32355222", email: "diveshopA@gmail.com")//4
     ]
     
     static let invoices: [Invoice] = [
@@ -384,10 +384,10 @@ struct MockData {
                 value: 30,
                 to: Date()
             )!,
-            amount: 400.0,
+            //amount: 400.0,
             isPaid: false,
             billingType: .student,
-            items: [item[0], item[5]]
+            amount: 232, items: [item[0], item[5]]
         ),
         Invoice(
             student: nil,
@@ -398,10 +398,10 @@ struct MockData {
                 value: 15,
                 to: Date()
             )!,
-            amount: 1800.0,
+            //amount: 1800.0,
             isPaid: true,
             billingType: .diveShop,
-            items: [item[0], item[4], item[5]]
+            amount: 432, items: [item[0], item[4], item[5]]
         ),
         Invoice(
             student: nil,
@@ -412,10 +412,10 @@ struct MockData {
                 value: 45,
                 to: Date()
             )!,
-            amount: 350.0,
+            //amount: 350.0,
             isPaid: false,
             billingType: .diveShop,
-            items: [item[3], item[1]]
+            amount: 656, items: [item[3], item[1]]
         ),
         Invoice(
             student: students[2],
@@ -430,10 +430,10 @@ struct MockData {
                     timeIntervalSince1970: 1700000000
                 )
             )!,
-            amount: 1700.0,
+            //amount: 1700.0,
             isPaid: true,
             billingType: .student,
-            items: [item[2], item[4], item[5], item[3]]
+            amount: 232, items: [item[2], item[4], item[5], item[3]]
         ), // March 15, 2024
         Invoice(
             student: students[3],
@@ -448,10 +448,10 @@ struct MockData {
                     timeIntervalSince1970: 1700600000
                 )
             )!,
-            amount: 550.0,
+            //amount: 550.0,
             isPaid: true,
             billingType: .student,
-            items: [item[1], item[2], item[3]]
+            amount: 321, items: [item[1], item[2], item[3]]
         ), // March 22, 2024
         Invoice(
             student: students[4],
@@ -466,10 +466,10 @@ struct MockData {
                     timeIntervalSince1970: 1702000000
                 )
             )!,
-            amount: 400.0,
+            //amount: 400.0,
             isPaid: false,
             billingType: .student,
-            items: [item[0], item[2]]
+            amount: 486, items: [item[0], item[2]]
         ), // April 5, 2024
         Invoice(
             student: students[5],
@@ -484,10 +484,10 @@ struct MockData {
                     timeIntervalSince1970: 1702600000
                 )
             )!,
-            amount: 700.0,
+            //amount: 700.0,
             isPaid: false,
             billingType: .student,
-            items: [item[0], item[3], item[5], item[6]]
+            amount: 500, items: [item[0], item[3], item[5], item[6]]
         ), // April 12, 2024
         Invoice(
             student: students[6],
@@ -502,10 +502,10 @@ struct MockData {
                     timeIntervalSince1970: 1703200000
                 )
             )!,
-            amount: 650.0,
+            //amount: 650.0,
             isPaid: true,
             billingType: .student,
-            items: [item[1], item[2], item[5]]
+            amount: 400, items: [item[1], item[2], item[5]]
         ) // April 20, 2024
     ]
     
@@ -514,28 +514,34 @@ struct MockData {
     ]
     
     static let expenses: [Expense] = [
-        Expense(category: .misc, date: Date(), amount: 2300.0, description: "Equipment Purchase"),
-        Expense(category: .misc, date: Date(), amount: 150.0, description: "Facility Rent"),
-        Expense(category: .sales, date: Date().addingTimeInterval(-86400 * 10), amount: 50.0, description: "Mask"),
-        Expense(category: .course, date: Date().addingTimeInterval(-86400 * 45), amount: 50.0, description: "try dive"),
-        Expense(category: .course, date: Date().addingTimeInterval(-86400 * 20), amount: 150.0, description: "sidemount course"),
-        Expense(category: .misc, date: Date().addingTimeInterval(-86400 * 38), amount: 50.0, description: "Marketing"),
-        Expense(category: .sales, date: Date().addingTimeInterval(-86400 * 45), amount: 150.0, description: "fins"),
-        Expense(category: .sales, date: Date().addingTimeInterval(-86400 * 54),amount: 450.0, description: "computer"),
-        Expense(category: .course, date: Date().addingTimeInterval(-86400 * 10), amount: 250.0, description: "Rescue Diver"),
-        Expense(category: .misc, date: Date(timeIntervalSince1970: 1700000000), amount: 222.0, description: "Tank Rental"),
+        Expense( date: Date(), amount: 2300.0, expenseDescription: "Equipment Purchase"),
+        Expense(date: Date(), amount: 150.0, expenseDescription: "Facility Rent"),
+        Expense(date: Date().addingTimeInterval(-86400 * 10), amount: 50.0, expenseDescription: "Mask"),
+        Expense(date: Date().addingTimeInterval(-86400 * 45), amount: 50.0, expenseDescription: "try dive"),
+        Expense(date: Date().addingTimeInterval(-86400 * 20), amount: 150.0, expenseDescription: "sidemount course"),
+        Expense(date: Date().addingTimeInterval(-86400 * 38), amount: 50.0, expenseDescription: "Marketing"),
+        Expense(date: Date().addingTimeInterval(-86400 * 45), amount: 150.0, expenseDescription: "fins"),
+        Expense(date: Date().addingTimeInterval(-86400 * 54),amount: 450.0, expenseDescription: "computer"),
+        Expense(date: Date().addingTimeInterval(-86400 * 10), amount: 250.0, expenseDescription: "Rescue Diver"),
+        Expense(date: Date(timeIntervalSince1970: 1700000000), amount: 222.0, expenseDescription: "Tank Rental"),
         
         // More expenses...
     ]
     
     static let item: [InvoiceItem] = [
-        InvoiceItem(description: "Tech sidemount course", amount: 200, category: .course), // 0
-        InvoiceItem(description: "Openwater course", amount: 250, category: .course), // 1
-        InvoiceItem(description: "Advanced openwater course", amount: 200, category: .course), //2
-        InvoiceItem(description: "Mask", amount: 100, category: .sales), //3
-        InvoiceItem(description: "Apeks Regs", amount: 1200, category: .sales), //4
-        InvoiceItem(description: "Extra day of training", amount: 200, category: .misc), //5
-        InvoiceItem(description: "DM for 4 people", amount: 200, category: .dm) //5
+        InvoiceItem(itemDescription: "Tech sidemount course", amount: 200, category: .course), // 0
+        InvoiceItem(itemDescription: "Openwater course", amount: 250, category: .course), // 1
+        InvoiceItem(itemDescription: "Advanced openwater course", amount: 200, category: .course), //2
+        InvoiceItem(itemDescription: "Mask", amount: 100, category: .sales), //3
+        InvoiceItem(itemDescription: "Apeks Regs", amount: 1200, category: .sales), //4
+        InvoiceItem(itemDescription: "Extra day of training", amount: 200, category: .misc), //5
+        InvoiceItem(itemDescription: "DM for 4 people", amount: 200, category: .dm) //5
+    ]
+    
+    static let goals: [Goal] = [
+        Goal(amount: 1000, type: .monthly, category: .revenue, year: 2024, month: 6),
+        Goal(amount: 5000, type: .quarterly, category: .sales, year: 2024, quarter: 2),
+        Goal(amount: 20000, type: .yearly, category: .sales, year: 2024)
     ]
 }
 

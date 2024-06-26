@@ -1,71 +1,72 @@
 import SwiftUI
+import SwiftData
 import Charts
 
 struct AnalyticsView: View {
-    @EnvironmentObject var dataModel: DataModel
-    
+    @Environment(\.modelContext) private var context // SwiftData context
+    @Query private var invoices: [Invoice] // Query to fetch invoices from the data model
+    @Query private var expenses: [Expense] // Query to fetch expenses from the data model
+
+    // Calculate year-to-date revenue
     var yearToDateRevenue: Double {
         let calendar = Calendar.current
         let currentYear = calendar.component(.year, from: Date())
-        return dataModel.invoices
+        return invoices
             .filter { calendar.component(.year, from: $0.date) == currentYear }
             .reduce(0) { $0 + $1.amount }
     }
-    
+
+    // Calculate year-to-date expenses
     var yearToDateExpenses: Double {
         let calendar = Calendar.current
         let currentYear = calendar.component(.year, from: Date())
-        return dataModel.expenses
+        return expenses
             .filter { calendar.component(.year, from: $0.date) == currentYear }
             .reduce(0) { $0 + $1.amount }
     }
-    
+
+    // Calculate year-to-date profit
     var yearToDateProfit: Double {
         return yearToDateRevenue - yearToDateExpenses
     }
-    
+
+    // Fetching the currency symbol from UserDefaults
     var currentCurrencySymbol: String {
         return UserDefaults.standard.currency.symbol
     }
-    
+
     var body: some View {
         NavigationStack {
             ScrollView {
                 GroupBox {
                     VStack(alignment: .leading) {
-                        Text("YTD Profit")
+                        Text("YTD Revenue")
                             .font(.subheadline)
-                        Text("\(currentCurrencySymbol)\(yearToDateProfit, specifier: "%.2f")")
+                        Text("\(currentCurrencySymbol)\(yearToDateRevenue, specifier: "%.2f")")
                             .font(.title)
                             .bold()
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                
+
                 GroupBox {
-                    ProfitLineChartView(dataModel: DataModel())
+                    ProfitLineChartView()
                 }
-                
-//                Section(header: Text("YTD Revenue")) {
-//                    RevenueLineChartView()
-//                }
-                
+
                 GroupBox {
                     ExpensesLineChartView()
                 }
-                
-                
+
                 GroupBox {
                     MonthlyAvgIncomeBarChartView()
                 }
-                
+
                 GroupBox {
                     CourseBarChartView()
-                    
                 }
-                
+
                 GroupBox {
-                        CertificationPieChartView()
+                    CertificationPieChartView()
                 }
             }
             .padding()
@@ -74,25 +75,12 @@ struct AnalyticsView: View {
     }
 }
 
-#Preview {
-    AnalyticsView()
-        .environmentObject(DataModel())
+struct AnalyticsView_Previews: PreviewProvider {
+    static var previews: some View {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try! ModelContainer(for: Invoice.self, Expense.self, configurations: config)
+
+        return AnalyticsView()
+            .modelContainer(container)
+    }
 }
-
-
-
-
-
-//
-
-//
-
-//
-//Section(header: Text("Certification Tracking")) {
-//    VStack(alignment: .leading) {
-//        Text("Certifications Over Time")
-//            .font(.headline)
-//        CertificationLineChartView(certifications: dataModel.students.flatMap { $0.certifications })
-//            .frame(height: 300)
-//    }
-//}

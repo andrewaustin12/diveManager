@@ -1,13 +1,15 @@
 import SwiftUI
+import SwiftData
 
 struct AddCertificationView: View {
-    @Binding var student: Student
+    @Bindable var student: Student
+    @Environment(\.modelContext) private var context
     @Environment(\.presentationMode) var presentationMode
     @State private var name: String = ""
     @State private var dateIssued: Date = Date()
     @State private var selectedAgency: CertificationAgency = .padi
     @State private var selectedCourse: String = CertificationAgency.PADI.openWater.rawValue
-    
+
     var body: some View {
         NavigationView {
             Form {
@@ -41,16 +43,21 @@ struct AddCertificationView: View {
             }
         }
     }
-    
+
     func addCertification() {
         let newCertification = Certification(name: selectedCourse, dateIssued: dateIssued, agency: selectedAgency)
         student.certifications.append(newCertification)
+        do {
+            try context.save()
+        } catch {
+            print("Failed to save certification: \(error)")
+        }
         presentationMode.wrappedValue.dismiss()
     }
 }
 
 struct AddCertificationView_Previews: PreviewProvider {
-    @State static var student = Student(
+    static var student = Student(
         firstName: "John",
         lastName: "Doe",
         studentID: "123-456-7890",
@@ -59,6 +66,10 @@ struct AddCertificationView_Previews: PreviewProvider {
     )
 
     static var previews: some View {
-        AddCertificationView(student: $student)
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try! ModelContainer(for: Student.self, Certification.self, configurations: config)
+
+        return AddCertificationView(student: student)
+            .modelContainer(container)
     }
 }

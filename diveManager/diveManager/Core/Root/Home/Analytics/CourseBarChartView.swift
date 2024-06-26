@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 import Charts
 
 struct CourseGroup: Hashable {
@@ -7,11 +8,12 @@ struct CourseGroup: Hashable {
 }
 
 struct CourseBarChartView: View {
-    @EnvironmentObject var dataModel: DataModel
+    @Environment(\.modelContext) private var context // SwiftData context
+    @Query private var courses: [Course] // Query to fetch courses from the data model
 
     var body: some View {
         // Group courses by their name and agency using CourseGroup struct
-        let groupedCourses = Dictionary(grouping: dataModel.courses, by: { CourseGroup(course: $0.selectedCourse, agency: $0.certificationAgency.displayName) })
+        let groupedCourses = Dictionary(grouping: courses, by: { CourseGroup(course: $0.selectedCourse, agency: $0.certificationAgency.displayName) })
         
         var chartData = groupedCourses.map { (key, value) in
             (courseGroup: key, count: value.count)
@@ -61,10 +63,10 @@ struct CourseBarChartView: View {
     }
 }
 
-struct CourseBarChartView_Previews: PreviewProvider {
-    static var previews: some View {
-        CourseBarChartView()
-            .environmentObject(DataModel()) // Providing a sample DataModel for preview
-            .frame(height: 200)
-    }
+#Preview {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: Course.self, configurations: config)
+
+    return CourseBarChartView()
+        .modelContainer(container)
 }

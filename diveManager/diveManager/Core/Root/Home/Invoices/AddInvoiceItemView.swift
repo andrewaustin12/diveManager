@@ -37,7 +37,7 @@ struct AddInvoiceItemView: View {
 
     func addItem() {
             guard !newItemDescription.isEmpty, let amount = Double(newItemAmount) else { return }
-            let newItem = InvoiceItem(description: newItemDescription, amount: amount, category: selectedCategory)
+        let newItem = InvoiceItem(itemDescription: newItemDescription, amount: amount, category: selectedCategory)
             items.append(newItem)
             newItemDescription = ""
             newItemAmount = ""

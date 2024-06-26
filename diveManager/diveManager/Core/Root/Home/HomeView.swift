@@ -6,12 +6,12 @@ struct HomeView: View {
             ScrollView {
                 VStack(spacing: 20) {  // Add spacing between GroupBoxes
                     
-//                    HomeSectionView(
-//                        title: "Course Management",
-//                        systemImage: "book",
-//                        description: "Create, manage, and track courses.",
-//                        destination: CoursesView()
-//                    )
+                    HomeSectionView(
+                        title: "Goals",
+                        systemImage: "target",
+                        description: "Create, manage, and track goals.",
+                        destination: GoalsView()
+                    )
                     
                     HomeSectionView(
                         title: "Student Management",
@@ -74,7 +74,6 @@ struct HomeView: View {
                     }
                 }
             }
-
             .navigationTitle("Dashboard")
         }
     }

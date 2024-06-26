@@ -2,6 +2,7 @@ import SwiftUI
 import Charts
 import PDFKit
 import TipKit
+import SwiftData
 
 enum DateFilter: String, CaseIterable, Identifiable {
     case sevenDays = "7 Days"
@@ -21,8 +22,14 @@ enum PaymentFilter: String, CaseIterable, Identifiable {
     var id: String { self.rawValue }
 }
 
+enum ExportType {
+    case pdf
+}
+
 struct FinancialView: View {
-    @EnvironmentObject var dataModel: DataModel
+    @Environment(\.modelContext) private var context
+    @Query private var expenses: [Expense]
+    @Query private var invoices: [Invoice]
     @State private var showingAddExpenseView = false
     @State private var showingExpenseView = false
     @State private var showingRevenueView = false
@@ -30,17 +37,14 @@ struct FinancialView: View {
     @State private var selectedDateFilter: DateFilter = .yearToDate
     @State private var selectedPaymentFilter: PaymentFilter = .all
     @State private var showingExportSheet = false
+    @State private var showingPDFPreview = false
     @State private var exportURL: URL?
-    @State private var exportType: ExportType = .csv
+    @State private var exportType: ExportType = .pdf
     @State private var isSummaryExpanded = true
     @State private var isInvoicesExpanded = true
     @State private var isExpensesExpanded = true
     private var profitTip = EstProfitTip()
     private var taxTip = EstTaxTip()
-    
-    enum ExportType {
-        case csv, pdf
-    }
     
     var filteredInvoices: [Invoice] {
         let now = Date()
@@ -59,7 +63,7 @@ struct FinancialView: View {
             startDate = Calendar.current.date(from: Calendar.current.dateComponents([.year], from: now))!
         }
         
-        let dateFilteredInvoices = dataModel.invoices.filter { $0.date >= startDate }
+        let dateFilteredInvoices = invoices.filter { $0.date >= startDate }
         
         switch selectedPaymentFilter {
         case .all:
@@ -88,7 +92,7 @@ struct FinancialView: View {
             startDate = Calendar.current.date(from: Calendar.current.dateComponents([.year], from: now))!
         }
         
-        return dataModel.expenses.filter { $0.date >= startDate }
+        return expenses.filter { $0.date >= startDate }
     }
     
     private var dateRangeText: String {
@@ -135,7 +139,7 @@ struct FinancialView: View {
     }
     
     private var estimatedAnnualProfit: Double {
-        let totalNetIncome = dataModel.invoices.reduce(0) { $0 + $1.amount } - dataModel.expenses.reduce(0) { $0 + $1.amount }
+        let totalNetIncome = invoices.reduce(0) { $0 + $1.amount } - expenses.reduce(0) { $0 + $1.amount }
         let dailyProfit = totalNetIncome / Double(currentDayOfYear)
         return dailyProfit * 365
     }
@@ -146,6 +150,21 @@ struct FinancialView: View {
     
     var currentCurrencySymbol: String {
         return UserDefaults.standard.currency.symbol
+    }
+    
+    var totalRevenue: Double {
+        filteredInvoices.reduce(0) { $0 + $1.amount }
+    }
+    
+    var commission: Double {
+        calculateCommission(for: totalRevenue)
+    }
+    
+    private var estimatedAnnualCommission: Double {
+        let totalRevenue = invoices.reduce(0) { $0 + $1.amount }
+        let dailyRevenue = totalRevenue / Double(currentDayOfYear)
+        let estimatedAnnualRevenue = dailyRevenue * 365
+        return calculateCommission(for: estimatedAnnualRevenue)
     }
     
     var body: some View {
@@ -161,7 +180,6 @@ struct FinancialView: View {
                     .padding(.horizontal)
                     .padding(.vertical, 4)
                     
-                    
                     ScrollView {
                         
                         VStack(alignment: .leading) {
@@ -169,12 +187,57 @@ struct FinancialView: View {
                                 .font(.title)
                                 .bold()
                         }
-                        
-                        
+        
                         GroupBox{
                             SummarySectionView(totalIncome: totalIncome(), totalExpenses: totalExpenses(), netIncome: netIncome())
                         }
                         
+                        // If commission rate is set > 0 show the group box
+                        HStack {
+                            GroupBox {
+                                VStack(alignment: .leading) {
+                                    HStack {
+                                        Text("Current Commision")
+                                        
+                                        Spacer()
+                                        
+                                        Image(systemName: "info.circle")
+                                            .onTapGesture {
+                                                EstProfitTip.isProfitTaped.toggle()
+                                            }
+                                    }
+                                    .font(.subheadline)
+                                    .foregroundStyle(.secondary)
+                    
+                                    Text("\(currentCurrencySymbol)\(commission, specifier: "%.f")")
+                                        .font(.title)
+                                        .bold()
+                                }
+                                
+                            }
+                            
+                            GroupBox {
+                                VStack(alignment: .leading) {
+                                    HStack {
+                                        Text("Est. 2024 Commision")
+                                        
+                                        Spacer()
+                                        
+                                        Image(systemName: "info.circle")
+                                            .onTapGesture {
+                                                EstProfitTip.isProfitTaped.toggle()
+                                            }
+                                    }
+                                    .font(.subheadline)
+                                    .foregroundStyle(.secondary)
+                                    
+                                    
+                                    Text("\(currentCurrencySymbol)\(estimatedAnnualCommission, specifier: "%.f")")
+                                        .font(.title)
+                                        .bold()
+                                }
+                            }
+                        }
                         
                         HStack {
                             
@@ -199,9 +262,7 @@ struct FinancialView: View {
                                         .font(.title)
                                         .bold()
                                 }
-                                
                             }
-                            
                             
                             GroupBox {
                                 VStack(alignment: .leading) {
@@ -221,7 +282,6 @@ struct FinancialView: View {
                                         .bold()
                                 }
                             }
-                            
                         }
                         .overlay {
                             TipView(profitTip)
@@ -245,7 +305,7 @@ struct FinancialView: View {
                     .frame(maxWidth: min(geometry.size.width, 700))
                 }
             }
-            .navigationTitle("Financial Management")
+            //.navigationTitle("Financial Management")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Menu {
@@ -255,9 +315,7 @@ struct FinancialView: View {
                         Button(action: { showingAddInvoiceView = true }) {
                             Label("Add Invoice", systemImage: "doc.text")
                         }
-                        Button(action: { exportData(as: .csv) }) {
-                            Label("Export as CSV", systemImage: "square.and.arrow.up")
-                        }
+                        
                         Button(action: { exportData(as: .pdf) }) {
                             Label("Export as PDF", systemImage: "square.and.arrow.up")
                         }
@@ -266,56 +324,40 @@ struct FinancialView: View {
                     }
                 }
             }
-            .sheet(isPresented: $showingAddExpenseView) {
-                AddExpenseView()
-                    .environmentObject(dataModel)
-            }
+//            .sheet(isPresented: $showingAddExpenseView) {
+//                AddExpenseView()
+//                    .environmentObject(dataModel)
+//            }
             .sheet(isPresented: $showingAddInvoiceView) {
-                AddInvoiceView(invoices: $dataModel.invoices)
-                    .environmentObject(dataModel)
+                AddInvoiceView()
+                    .environment(\.modelContext, context)
             }
-            .sheet(isPresented: $showingExportSheet) {
+            .sheet(isPresented: $showingPDFPreview) {
                 if let url = exportURL {
-                    ActivityViewController(activityItems: [url])
+                    PDFPreviewView(url: url)
                 }
             }
             
         }
     }
-    
+
     private func exportData(as type: ExportType) {
         exportType = type
         let fileName: String
         let fileURL: URL
-        
+
         switch type {
-        case .csv:
-            let content = generateCSV()
-            fileName = "financial_data.csv"
-            
-            if let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-                fileURL = documentDirectory.appendingPathComponent(fileName)
-                
-                do {
-                    try content.write(to: fileURL, atomically: true, encoding: .utf8)
-                    exportURL = fileURL
-                    showingExportSheet = true
-                } catch {
-                    print("Error writing file: \(error.localizedDescription)")
-                }
-            }
-            
         case .pdf:
             if let pdfData = generatePDF() {
                 fileName = "financial_data.pdf"
-                
+
                 if let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
                     fileURL = documentDirectory.appendingPathComponent(fileName)
-                    
+
                     do {
                         try pdfData.write(to: fileURL, options: .atomic)
                         exportURL = fileURL
-                        showingExportSheet = true
+                        showingPDFPreview = true
                     } catch {
                         print("Error writing file: \(error.localizedDescription)")
                     }
@@ -325,22 +367,8 @@ struct FinancialView: View {
             }
         }
     }
-    
-    private func generateCSV() -> String {
-        var csvString = "Type,Description,Amount,Date,Due Date,Status\n"
-        
-        for invoice in dataModel.invoices {
-            let status = invoice.isPaid ? "Paid" : "Unpaid"
-            let dueDate = dateFormatter.string(from: invoice.dueDate)
-            csvString += "Invoice,\(invoice.student?.firstName ?? invoice.diveShop?.name ?? "Unknown"),\(invoice.amount),\(dateFormatter.string(from: invoice.date)),\(dueDate),\(status)\n"
-        }
-        
-        for expense in dataModel.expenses {
-            csvString += "Expense,\(expense.description),\(expense.amount),\(dateFormatter.string(from: expense.date)),,\n"
-        }
-        
-        return csvString
-    }
+
+
     
     private func generatePDF() -> Data? {
         let pdfMetaData = [
@@ -350,44 +378,129 @@ struct FinancialView: View {
         ]
         let format = UIGraphicsPDFRendererFormat()
         format.documentInfo = pdfMetaData as [String: Any]
-        
+
         let pageWidth = 8.5 * 72.0
         let pageHeight = 11.0 * 72.0
         let pageRect = CGRect(x: 0, y: 0, width: pageWidth, height: pageHeight)
         let renderer = UIGraphicsPDFRenderer(bounds: pageRect, format: format)
-        
-        let data = renderer.pdfData { (context) in
+
+        let data = renderer.pdfData { context in
             context.beginPage()
-            let title = "Financial Report\n"
-            let attributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18)]
-            let titleString = NSAttributedString(string: title, attributes: attributes)
-            titleString.draw(at: CGPoint(x: 36, y: 36))
             
-            var yPosition = 60.0
+            // Header
+            let headerFont = UIFont.boldSystemFont(ofSize: 18)
+            let dateFont = UIFont.systemFont(ofSize: 12)
+            
+            // Financial Report title
+            let reportTitle = "Financial Report"
+            let reportTitleAttributes: [NSAttributedString.Key: Any] = [.font: headerFont]
+            let reportTitleString = NSAttributedString(string: reportTitle, attributes: reportTitleAttributes)
+            let reportTitleSize = reportTitleString.size()
+            reportTitleString.draw(at: CGPoint(x: 36, y: 36))
+            
+            // Date range
+            let dateRange = dateRangeText
+            let dateRangeAttributes: [NSAttributedString.Key: Any] = [.font: dateFont]
+            let dateRangeString = NSAttributedString(string: dateRange, attributes: dateRangeAttributes)
+            let dateRangeSize = dateRangeString.size()
+            dateRangeString.draw(at: CGPoint(x: pageWidth - 36 - dateRangeSize.width, y: 42))
+            
+            // Draw line below header
+            let lineYPosition = 36 + reportTitleSize.height + 6
+            context.cgContext.move(to: CGPoint(x: 36, y: lineYPosition))
+            context.cgContext.addLine(to: CGPoint(x: pageWidth - 36, y: lineYPosition))
+            context.cgContext.strokePath()
+            
+            // Summary Section
+            var bodyYPosition = lineYPosition + 20.0
             let leftPadding = 36.0
+            let columnWidth = pageWidth - leftPadding * 2
+            let currencySymbol = currentCurrencySymbol
+
+            let summaryFont = UIFont.boldSystemFont(ofSize: 14)
+            let summaryAttributes: [NSAttributedString.Key: Any] = [.font: summaryFont]
             
-            for invoice in dataModel.invoices {
-                let invoiceString = "Invoice - \(invoice.student?.firstName ?? invoice.diveShop?.name ?? "Unknown"): \(invoice.amount) - Due: \(dateFormatter.string(from: invoice.dueDate)) - \(invoice.isPaid ? "Paid" : "Unpaid")"
-                let attributedString = NSAttributedString(string: invoiceString)
-                attributedString.draw(at: CGPoint(x: leftPadding, y: yPosition))
-                yPosition += 20.0
+            let totalIncome = filteredInvoices.reduce(0) { $0 + $1.amount }
+            let totalExpenses = filteredExpenses.reduce(0) { $0 + $1.amount }
+            let netIncome = totalIncome - totalExpenses
+            
+            let totalIncomeString = "Gross Income: \(currencySymbol)\(String(format: "%.2f", totalIncome))"
+            let totalExpensesString = "Total Expenses: \(currencySymbol)\(String(format: "%.2f", totalExpenses))"
+            let netIncomeString = "Net Income: \(currencySymbol)\(String(format: "%.2f", netIncome))"
+            
+            let totalIncomeAttributedString = NSAttributedString(string: totalIncomeString, attributes: summaryAttributes)
+            let totalExpensesAttributedString = NSAttributedString(string: totalExpensesString, attributes: summaryAttributes)
+            let netIncomeAttributedString = NSAttributedString(string: netIncomeString, attributes: summaryAttributes)
+            
+            totalIncomeAttributedString.draw(at: CGPoint(x: leftPadding, y: bodyYPosition))
+            bodyYPosition += 20.0
+            totalExpensesAttributedString.draw(at: CGPoint(x: leftPadding, y: bodyYPosition))
+            bodyYPosition += 20.0
+            netIncomeAttributedString.draw(at: CGPoint(x: leftPadding, y: bodyYPosition))
+            
+            bodyYPosition += 40.0
+            
+            // Draw Invoices header
+            let headerAttributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16)]
+            let invoiceHeader = NSAttributedString(string: "Invoices", attributes: headerAttributes)
+            invoiceHeader.draw(at: CGPoint(x: leftPadding, y: bodyYPosition))
+            
+            bodyYPosition += 24.0
+            
+            var totalInvoiceAmount: Double = 0.0
+            
+            // Draw invoices
+            for invoice in invoices {
+                let isPaidTextAttributes: [NSAttributedString.Key: Any] = [
+                    .font: UIFont.boldSystemFont(ofSize: 12),
+                    .foregroundColor: UIColor.red
+                ]
+                let statusString = invoice.isPaid ? "Paid" : "UNPAID"
+                let statusAttributedString = NSAttributedString(string: statusString, attributes: invoice.isPaid ? nil : isPaidTextAttributes)
+                
+                let invoiceText = "\(invoice.student?.firstName ?? invoice.diveShop?.name ?? "Unknown"): \(currencySymbol)\(String(format: "%.2f", invoice.amount)) - Due: \(dateFormatter.string(from: invoice.dueDate)) - "
+                let invoiceAttributedString = NSMutableAttributedString(string: invoiceText)
+                invoiceAttributedString.append(statusAttributedString)
+                
+                invoiceAttributedString.draw(in: CGRect(x: leftPadding, y: bodyYPosition, width: columnWidth, height: 20.0))
+                bodyYPosition += 20.0
+                totalInvoiceAmount += invoice.amount
             }
             
-            for expense in dataModel.expenses {
-                let expenseString = "Expense - \(expense.description): \(expense.amount) - Date: \(dateFormatter.string(from: expense.date))"
+            // Draw total for invoices
+            let totalInvoiceString = "Total: \(currencySymbol)\(String(format: "%.2f", totalInvoiceAmount))"
+            let totalInvoiceAttributedString = NSAttributedString(string: totalInvoiceString, attributes: headerAttributes)
+            totalInvoiceAttributedString.draw(at: CGPoint(x: leftPadding, y: bodyYPosition))
+            
+            bodyYPosition += 40.0
+            
+            // Draw Expenses header
+            let expenseHeader = NSAttributedString(string: "Expenses", attributes: headerAttributes)
+            expenseHeader.draw(at: CGPoint(x: leftPadding, y: bodyYPosition))
+            
+            bodyYPosition += 24.0
+            
+            var totalExpenseAmount: Double = 0.0
+            
+            // Draw expenses
+            for expense in expenses {
+                let expenseString = "\(expense.expenseDescription): \(currencySymbol)\(String(format: "%.2f", expense.amount)) - Date: \(dateFormatter.string(from: expense.date))"
                 let attributedString = NSAttributedString(string: expenseString)
-                attributedString.draw(at: CGPoint(x: leftPadding, y: yPosition))
-                yPosition += 20.0
+                attributedString.draw(in: CGRect(x: leftPadding, y: bodyYPosition, width: columnWidth, height: 20.0))
+                bodyYPosition += 20.0
+                totalExpenseAmount += expense.amount
             }
             
-            let summaryView = SummarySectionView(totalIncome: totalIncome(), totalExpenses: totalExpenses(), netIncome: netIncome())
-            let summaryImage = summaryView.snapshot()
-            summaryImage.draw(at: CGPoint(x: leftPadding, y: yPosition))
+            // Draw total for expenses
+            let totalExpenseString = "Total: \(currencySymbol)\(String(format: "%.2f", totalExpenseAmount))"
+            let totalExpenseAttributedString = NSAttributedString(string: totalExpenseString, attributes: headerAttributes)
+            totalExpenseAttributedString.draw(at: CGPoint(x: leftPadding, y: bodyYPosition))
         }
-        
+
         return data
     }
-    
+
+
     private func totalIncome() -> Double {
         return filteredInvoices.reduce(0) { $0 + $1.amount }
     }
@@ -400,22 +513,22 @@ struct FinancialView: View {
         return totalIncome() - totalExpenses()
     }
     
-    private func deleteExpense(at offsets: IndexSet) {
-        dataModel.expenses.remove(atOffsets: offsets)
-    }
+//    private func deleteExpense(at offsets: IndexSet) {
+//        expenses.remove(atOffsets: offsets)
+//    }
     
-    private func binding(for invoice: Invoice) -> Binding<Invoice> {
-        guard let index = dataModel.invoices.firstIndex(where: { $0.id == invoice.id }) else {
-            fatalError("Invoice not found")
-        }
-        return $dataModel.invoices[index]
-    }
     
     func calculateEstimatedTaxes(for estimatedAnnualProfit: Double) -> Double {
         let taxRate = UserDefaults.standard.double(forKey: "taxRate") / 100
         print("Selected tax rate: \(taxRate)")
         return estimatedAnnualProfit * taxRate
     }
+    
+    func calculateCommission(for totalRevenue: Double) -> Double {
+        let commissionRate = UserDefaults.standard.double(forKey: "commissionRate") / 100
+        return totalRevenue * commissionRate
+    }
+    
 }
 
 private let dateFormatter: DateFormatter = {
@@ -426,8 +539,11 @@ private let dateFormatter: DateFormatter = {
 
 struct FinancialView_Previews: PreviewProvider {
     static var previews: some View {
-        FinancialView()
-            .environmentObject(DataModel())
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try! ModelContainer(for: Expense.self, configurations: config)
+        
+        return FinancialView()
+            .modelContainer(container) // Use model container for preview
     }
 }
 

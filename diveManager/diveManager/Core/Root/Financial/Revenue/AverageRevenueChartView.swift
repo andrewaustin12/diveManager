@@ -1,13 +1,30 @@
 import SwiftUI
 import Charts
+import SwiftData
 
 struct AverageRevenueChartView: View {
-    @EnvironmentObject var dataModel: DataModel
-    @StateObject private var revenueVM = RevenueViewModel()
+    @Environment(\.modelContext) private var context // Use the SwiftData model context environment
+    @Query private var invoices: [Invoice]
     var selectedYear: Int
 
     var revenueForYear: [MonthlyRevenue] {
-        revenueVM.revenueForYear(selectedYear)
+        let calendar = Calendar.current
+        // Generate all months of the selected year
+        let months = (1...12).map { month -> Date in
+            calendar.date(from: DateComponents(year: selectedYear, month: month))!
+        }
+        // Group invoices by month
+        let groupedInvoices = Dictionary(grouping: invoices.filter {
+            calendar.component(.year, from: $0.date) == selectedYear
+        }, by: { invoice in
+            calendar.dateComponents([.year, .month], from: invoice.date)
+        })
+        // Map invoices to each month, filling in missing months with zero revenue
+        return months.map { month in
+            let dateComponents = calendar.dateComponents([.year, .month], from: month)
+            let totalRevenue = groupedInvoices[dateComponents]?.reduce(0) { $0 + $1.amount } ?? 0
+            return MonthlyRevenue(month: month, totalRevenue: totalRevenue)
+        }
     }
 
     var totalMonths: Int {
@@ -70,15 +87,15 @@ struct AverageRevenueChartView: View {
             }
             .chartYAxis(.automatic)
         }
-        .onAppear {
-            revenueVM.loadInvoices(from: dataModel)
-        }
     }
 }
 
 struct AverageRevenueChartView_Previews: PreviewProvider {
     static var previews: some View {
-        AverageRevenueChartView(selectedYear: 2024)
-            .environmentObject(DataModel())
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try! ModelContainer(for: Invoice.self, configurations: config)
+        
+        return AverageRevenueChartView(selectedYear: 2024)
+            .modelContainer(container) // Use model container for preview
     }
 }

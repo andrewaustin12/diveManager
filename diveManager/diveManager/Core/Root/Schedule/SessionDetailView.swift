@@ -5,12 +5,12 @@ struct SessionDetailView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
-            HStack {
-                Text("Description:")
-                Spacer()
-                Text(session.description)
-                    .foregroundColor(.secondary)
-            }
+//            HStack {
+//                Text("Description:")
+//                Spacer()
+//                Text(session.description)
+//                    .foregroundColor(.secondary)
+//            }
             HStack {
                 Text("Date:")
                 Spacer()

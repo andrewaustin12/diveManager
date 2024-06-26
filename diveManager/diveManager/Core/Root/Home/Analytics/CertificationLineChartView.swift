@@ -31,7 +31,7 @@ struct CertificationLineChartView: View {
     }
 }
 
-#Preview {
-    CertificationLineChartView(certifications: MockData.students.flatMap { $0.certifications })
-                .frame(height: 300)
-}
+//#Preview {
+//    CertificationLineChartView(certifications: MockData.students.flatMap { $0.certifications ?? "" })
+//                .frame(height: 300)
+//}

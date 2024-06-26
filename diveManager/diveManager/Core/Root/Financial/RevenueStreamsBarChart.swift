@@ -84,9 +84,9 @@ struct RevenueStreamsBarChart: View {
     }
 }
 
-struct RevenueStreamsBarChart_Previews: PreviewProvider {
-    static var previews: some View {
-        RevenueStreamsBarChart(filteredInvoices: MockData.invoices)
-            .environmentObject(DataModel())
-    }
-}
+//struct RevenueStreamsBarChart_Previews: PreviewProvider {
+//    static var previews: some View {
+//        RevenueStreamsBarChart(filteredInvoices: MockData.invoices)
+//            .environmentObject(DataModel())
+//    }
+//}

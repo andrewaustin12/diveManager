@@ -1,7 +1,9 @@
 import SwiftUI
+import SwiftData
 
 struct InvoiceManagementView: View {
-    @State private var invoices: [Invoice] = MockData.invoices
+    @Environment(\.modelContext) private var context // Use the SwiftData model context environment
+    @Query private var invoices: [Invoice] // Use SwiftData query to fetch invoices
     @State private var selectedInvoice: Invoice? = nil
     @State private var showingAddInvoice = false
     @State private var selectedDateRange: DateRange = .currentMonth
@@ -31,8 +33,6 @@ struct InvoiceManagementView: View {
             return invoices.filter { $0.date >= startOfThreeMonthsAgo }
         }
     }
-    
-    
 
     var body: some View {
         NavigationStack {
@@ -63,7 +63,8 @@ struct InvoiceManagementView: View {
                     }
                 }
                 .sheet(isPresented: $showingAddInvoice) {
-                    AddInvoiceView(invoices: $invoices)
+                    AddInvoiceView()
+                        .environment(\.modelContext, context)
                 }
                 .navigationTitle("Invoices")
             }
@@ -74,11 +75,19 @@ struct InvoiceManagementView: View {
         guard let index = invoices.firstIndex(where: { $0.id == invoice.id }) else {
             fatalError("Invoice not found")
         }
-        return $invoices[index]
+        return .constant(invoices[index])
     }
 
     func deleteInvoice(at offsets: IndexSet) {
-        invoices.remove(atOffsets: offsets)
+        for index in offsets {
+            let invoice = invoices[index]
+            context.delete(invoice)
+        }
+        do {
+            try context.save()
+        } catch {
+            print("Failed to delete invoice: \(error)")
+        }
     }
 
     private func formattedDate(_ date: Date) -> String {
@@ -88,14 +97,14 @@ struct InvoiceManagementView: View {
     }
 }
 
-
-
 struct InvoiceManagementView_Previews: PreviewProvider {
     static var previews: some View {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try! ModelContainer(for: Invoice.self, configurations: config)
+        
         NavigationStack {
             InvoiceManagementView()
-                .environmentObject(DataModel())
+                .modelContainer(container) // Use model container for preview
         }
-        
     }
 }

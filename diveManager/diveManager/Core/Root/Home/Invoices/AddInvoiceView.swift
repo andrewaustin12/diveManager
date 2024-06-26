@@ -1,12 +1,14 @@
 import SwiftUI
+import SwiftData
 
 struct AddInvoiceView: View {
-    @EnvironmentObject var dataModel: DataModel
-    @Binding var invoices: [Invoice]
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.modelContext) private var context // Use the SwiftData model context environment
+    @Environment(\.dismiss) private var dismiss // Use dismiss environment action
     @State private var billingType: BillingType = .student
-    @State private var selectedStudent: Student? = MockData.students.first
-    @State private var diveShopName: String = ""
+    @Query private var students: [Student]
+    @Query private var diveShops: [DiveShop] // Use SwiftData query to fetch dive shops
+    @State private var selectedStudent: Student?
+    @State private var selectedDiveShop: DiveShop?
     @State private var date: Date = Date()
     @State private var dueDate: Date = Calendar.current.date(byAdding: .day, value: 30, to: Date())!
     @State private var amount: String = ""
@@ -23,7 +25,7 @@ struct AddInvoiceView: View {
         if billingType == .student {
             return selectedStudent != nil && !amount.isEmpty && !items.isEmpty
         } else {
-            return !diveShopName.isEmpty && !amount.isEmpty && !items.isEmpty
+            return selectedDiveShop != nil && !amount.isEmpty && !items.isEmpty
         }
     }
 
@@ -37,15 +39,19 @@ struct AddInvoiceView: View {
                         }
                     }
                     .pickerStyle(SegmentedPickerStyle())
-                    
+
                     if billingType == .student {
                         Picker("Student", selection: $selectedStudent) {
-                            ForEach(MockData.students) { student in
+                            ForEach(students) { student in
                                 Text("\(student.firstName) \(student.lastName)").tag(student as Student?)
                             }
                         }
                     } else {
-                        TextField("Dive Shop", text: $diveShopName)
+                        Picker("Dive Shop", selection: $selectedDiveShop) {
+                            ForEach(diveShops) { diveShop in
+                                Text(diveShop.name).tag(diveShop as DiveShop?)
+                            }
+                        }
                     }
 
                     DatePicker("Date", selection: $date, displayedComponents: .date)
@@ -70,17 +76,15 @@ struct AddInvoiceView: View {
                     ForEach(items) { item in
                         VStack(alignment: .leading) {
                             HStack {
-                                Text(item.description)
+                                Text(item.itemDescription)
                                 Spacer()
                                 Text("$\(item.amount, specifier: "%.2f")")
                             }
                         }
                     }
                     .onDelete(perform: deleteItem)
-
-                    
                 }
-                
+
                 Section(header: Text("Reminder")) {
                     Button(action: {
                         showingReminderSheet = true
@@ -107,7 +111,7 @@ struct AddInvoiceView: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
-                        presentationMode.wrappedValue.dismiss()
+                        dismiss()
                     }
                 }
                 ToolbarItem(placement: .confirmationAction) {
@@ -122,13 +126,13 @@ struct AddInvoiceView: View {
             }
             .sheet(isPresented: $showingAddItemView) {
                 AddInvoiceItemView(items: $items)
-                    }
+            }
         }
     }
 
     func addItem() {
         guard !newItemDescription.isEmpty, let amount = Double(newItemAmount) else { return }
-        let newItem = InvoiceItem(description: newItemDescription, amount: amount, category: selectedCategory)
+        let newItem = InvoiceItem(itemDescription: newItemDescription, amount: amount, category: selectedCategory)
         items.append(newItem)
         newItemDescription = ""
         newItemAmount = ""
@@ -139,23 +143,27 @@ struct AddInvoiceView: View {
     }
 
     func addInvoice() {
-        guard let amount = Double(amount) else { return }
-        
+        guard let amountValue = Double(amount) else { return }
         let newInvoice: Invoice
-        
+
         if billingType == .student, let selectedStudent = selectedStudent {
-            newInvoice = Invoice(student: selectedStudent, diveShop: nil, date: date, dueDate: dueDate, amount: amount, isPaid: isPaid, billingType: .student, items: items, reminderDate: reminderDate)
-        } else if billingType == .diveShop {
-            let diveShop = DiveShop(name: diveShopName, address: "", phone: "")
-            newInvoice = Invoice(student: nil, diveShop: diveShop, date: date, dueDate: dueDate, amount: amount, isPaid: isPaid, billingType: .diveShop, items: items, reminderDate: reminderDate)
+            newInvoice = Invoice(student: selectedStudent, diveShop: nil, date: date, dueDate: dueDate, isPaid: isPaid, billingType: .student, amount: amountValue, items: items, reminderDate: reminderDate)
+        } else if billingType == .diveShop, let selectedDiveShop = selectedDiveShop {
+            newInvoice = Invoice(student: nil, diveShop: selectedDiveShop, date: date, dueDate: dueDate, isPaid: isPaid, billingType: .diveShop, amount: amountValue, items: items, reminderDate: reminderDate)
         } else {
             return
         }
-        
-        invoices.append(newInvoice)
-        presentationMode.wrappedValue.dismiss()
+
+        context.insert(newInvoice) // Insert the new invoice into the SwiftData context
+        do {
+            try context.save() // Save the context
+        } catch {
+            print("Failed to save new invoice: \(error)")
+        }
+
+        dismiss()
     }
-    
+
     private func formattedDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
@@ -165,6 +173,11 @@ struct AddInvoiceView: View {
 
 struct AddInvoiceView_Previews: PreviewProvider {
     static var previews: some View {
-        AddInvoiceView(invoices: .constant([]))
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try! ModelContainer(for: Invoice.self, DiveShop.self, configurations: config)
+
+        AddInvoiceView()
+            .modelContainer(container) // Use model container for preview
     }
 }
+ 

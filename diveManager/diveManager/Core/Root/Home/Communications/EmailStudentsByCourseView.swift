@@ -1,8 +1,10 @@
 import SwiftUI
 import MessageUI
+import SwiftData
 
 struct EmailStudentsByCourseView: View {
-    @EnvironmentObject var dataModel: DataModel
+    @Environment(\.modelContext) private var context // Use the SwiftData model context environment
+    @Query private var courses: [Course]
     @State private var selectedCourse: Course?
     @State private var showingMailCompose = false
     @State private var mailResult: Result<MFMailComposeResult, Error>? = nil
@@ -11,9 +13,9 @@ struct EmailStudentsByCourseView: View {
 
     var filteredCourses: [Course] {
         if searchText.isEmpty {
-            return dataModel.courses
+            return courses
         } else {
-            return dataModel.courses.filter { $0.selectedCourse.localizedCaseInsensitiveContains(searchText) }
+            return courses.filter { $0.selectedCourse.localizedCaseInsensitiveContains(searchText) }
         }
     }
 
@@ -113,7 +115,12 @@ struct EmailStudentsByCourseView: View {
 
 struct EmailStudentsByCourseView_Previews: PreviewProvider {
     static var previews: some View {
-        EmailStudentsByCourseView()
-            .environmentObject(DataModel())
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try! ModelContainer(for: Course.self, Student.self, configurations: config)
+        
+        NavigationStack {
+            EmailStudentsByCourseView()
+                .modelContainer(container) // Use model container for preview
+        }
     }
 }

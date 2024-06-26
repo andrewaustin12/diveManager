@@ -19,7 +19,7 @@ struct AddSessionView: View {
                     TextField("Location", text: $location)
                     Picker("Type", selection: $type) {
                         ForEach(SessionType.allCases) { sessionType in
-                            Text(sessionType.rawValue).tag(sessionType)
+                            Text(sessionType.displayName).tag(sessionType)
                         }
                     }
                     TextField("Duration (hours)", text: $duration)
@@ -44,7 +44,7 @@ struct AddSessionView: View {
     
     func addSession() {
         guard Int(duration) != nil else { return }
-        let newSession = Session(date: date, startTime: startTime, endTime: endTime, location: location, type: type, duration: 120, notes: notes, description: "now")
+        let newSession = Session(date: date, startTime: startTime, endTime: endTime, location: location, type: type, duration: 120, notes: notes)
         sessions.append(newSession)
         presentationMode.wrappedValue.dismiss()
     }

@@ -52,7 +52,7 @@ struct AddCourseToInvoiceView: View {
 
         let itemDescription = "\(course.selectedCourse) - \(course.students.count) students"
         let itemAmount = course.sessions.reduce(0) { $0 + Double($1.duration) * 50 } // Example calculation
-        let newItem = InvoiceItem(description: itemDescription, amount: itemAmount, category: .course)
+        let newItem = InvoiceItem(itemDescription: itemDescription, amount: itemAmount, category: .course)
 
         if let index = dataModel.invoices.firstIndex(where: { $0.id == selectedInvoice.id }) {
             dataModel.invoices[index].items.append(newItem)

@@ -72,7 +72,7 @@
 		3F0BD4AA2C0C71DB00ADA740 /* RevenueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4A92C0C71DB00ADA740 /* RevenueView.swift */; };
 		3F0BD4AC2C0C730A00ADA740 /* AverageRevenueChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4AB2C0C730A00ADA740 /* AverageRevenueChartView.swift */; };
 		3F0BD4AF2C0C736A00ADA740 /* RevenueViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4AE2C0C736A00ADA740 /* RevenueViewModel.swift */; };
-		3F0BD4B12C0C81E400ADA740 /* Revenue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4B02C0C81E400ADA740 /* Revenue.swift */; };
+		3F0BD4B12C0C81E400ADA740 /* MonthlyRevenue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4B02C0C81E400ADA740 /* MonthlyRevenue.swift */; };
 		3F0BD4B32C0CB9AC00ADA740 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4B22C0CB9AC00ADA740 /* UserDefaults.swift */; };
 		3F0BD4B52C0E3FF300ADA740 /* TipManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4B42C0E3FF200ADA740 /* TipManager.swift */; };
 		3F0BD4B92C0F4E3700ADA740 /* AddCourseToInvoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4B82C0F4E3700ADA740 /* AddCourseToInvoiceView.swift */; };
@@ -83,15 +83,22 @@
 		3F0BD4D52C12078600ADA740 /* OverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4D42C12078600ADA740 /* OverviewView.swift */; };
 		3F0BD4E32C1892BB00ADA740 /* StatusToggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4E22C1892BB00ADA740 /* StatusToggleView.swift */; };
 		3F0BD4E52C18946200ADA740 /* InvoiceDetailRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4E42C18946200ADA740 /* InvoiceDetailRow.swift */; };
-		3F0BD4E72C18950900ADA740 /* formattedDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4E62C18950900ADA740 /* formattedDate.swift */; };
+		3F0BD4E72C18950900ADA740 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4E62C18950900ADA740 /* Formatters.swift */; };
 		3F0BD4E92C1898EB00ADA740 /* AddInvoiceItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4E82C1898EB00ADA740 /* AddInvoiceItemView.swift */; };
 		3F0BD4EB2C18ADBC00ADA740 /* InvoiceRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4EA2C18ADBC00ADA740 /* InvoiceRowView.swift */; };
 		3F0BD4EE2C199E4E00ADA740 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4ED2C199E4E00ADA740 /* EventManager.swift */; };
 		3F0BD4F12C19A69200ADA740 /* EKEventEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4F02C19A69100ADA740 /* EKEventEditView.swift */; };
 		3F0BD4F32C1B520100ADA740 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4F22C1B520100ADA740 /* User.swift */; };
+		3F0BD4F82C20186F00ADA740 /* WishKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3F0BD4F72C20186F00ADA740 /* WishKit */; };
+		3F0BD4FA2C20218500ADA740 /* PDFPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD4F92C20218500ADA740 /* PDFPreviewView.swift */; };
+		3F0BD5012C21A0BE00ADA740 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD5002C21A0BE00ADA740 /* Goal.swift */; };
+		3F0BD5042C21ED0D00ADA740 /* GoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD5032C21ED0D00ADA740 /* GoalsView.swift */; };
+		3F0BD5062C21ED2600ADA740 /* AddGoalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD5052C21ED2600ADA740 /* AddGoalView.swift */; };
+		3F0BD5092C21EE8D00ADA740 /* GoalsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0BD5082C21EE8D00ADA740 /* GoalsViewModel.swift */; };
 		3FCFA47D2B8EA3CF00B0EB86 /* diveManagerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FCFA47C2B8EA3CF00B0EB86 /* diveManagerApp.swift */; };
 		3FCFA4812B8EA3D000B0EB86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FCFA4802B8EA3D000B0EB86 /* Assets.xcassets */; };
 		3FCFA4842B8EA3D000B0EB86 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FCFA4832B8EA3D000B0EB86 /* Preview Assets.xcassets */; };
+		3FF3E4DB2C2C0AE80020DB7E /* AddNewStudentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF3E4DA2C2C0AE80020DB7E /* AddNewStudentView.swift */; };
 		3FF4D7A72B8FDF31007C8F9A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF4D7A62B8FDF31007C8F9A /* SettingsView.swift */; };
 		3FF4D7A92B8FE35E007C8F9A /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF4D7A82B8FE35E007C8F9A /* Course.swift */; };
 /* End PBXBuildFile section */
@@ -162,7 +169,7 @@
 		3F0BD4A92C0C71DB00ADA740 /* RevenueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevenueView.swift; sourceTree = "<group>"; };
 		3F0BD4AB2C0C730A00ADA740 /* AverageRevenueChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AverageRevenueChartView.swift; sourceTree = "<group>"; };
 		3F0BD4AE2C0C736A00ADA740 /* RevenueViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevenueViewModel.swift; sourceTree = "<group>"; };
-		3F0BD4B02C0C81E400ADA740 /* Revenue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Revenue.swift; sourceTree = "<group>"; };
+		3F0BD4B02C0C81E400ADA740 /* MonthlyRevenue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyRevenue.swift; sourceTree = "<group>"; };
 		3F0BD4B22C0CB9AC00ADA740 /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		3F0BD4B42C0E3FF200ADA740 /* TipManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipManager.swift; sourceTree = "<group>"; };
 		3F0BD4B82C0F4E3700ADA740 /* AddCourseToInvoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCourseToInvoiceView.swift; sourceTree = "<group>"; };
@@ -173,17 +180,23 @@
 		3F0BD4D42C12078600ADA740 /* OverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewView.swift; sourceTree = "<group>"; };
 		3F0BD4E22C1892BB00ADA740 /* StatusToggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusToggleView.swift; sourceTree = "<group>"; };
 		3F0BD4E42C18946200ADA740 /* InvoiceDetailRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceDetailRow.swift; sourceTree = "<group>"; };
-		3F0BD4E62C18950900ADA740 /* formattedDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = formattedDate.swift; sourceTree = "<group>"; };
+		3F0BD4E62C18950900ADA740 /* Formatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		3F0BD4E82C1898EB00ADA740 /* AddInvoiceItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInvoiceItemView.swift; sourceTree = "<group>"; };
 		3F0BD4EA2C18ADBC00ADA740 /* InvoiceRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceRowView.swift; sourceTree = "<group>"; };
 		3F0BD4ED2C199E4E00ADA740 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		3F0BD4EF2C19A5BD00ADA740 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3F0BD4F02C19A69100ADA740 /* EKEventEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EKEventEditView.swift; sourceTree = "<group>"; };
 		3F0BD4F22C1B520100ADA740 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		3F0BD4F92C20218500ADA740 /* PDFPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFPreviewView.swift; sourceTree = "<group>"; };
+		3F0BD5002C21A0BE00ADA740 /* Goal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Goal.swift; sourceTree = "<group>"; };
+		3F0BD5032C21ED0D00ADA740 /* GoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsView.swift; sourceTree = "<group>"; };
+		3F0BD5052C21ED2600ADA740 /* AddGoalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalView.swift; sourceTree = "<group>"; };
+		3F0BD5082C21EE8D00ADA740 /* GoalsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsViewModel.swift; sourceTree = "<group>"; };
 		3FCFA4792B8EA3CF00B0EB86 /* diveManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = diveManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FCFA47C2B8EA3CF00B0EB86 /* diveManagerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = diveManagerApp.swift; sourceTree = "<group>"; };
 		3FCFA4802B8EA3D000B0EB86 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3FCFA4832B8EA3D000B0EB86 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		3FF3E4DA2C2C0AE80020DB7E /* AddNewStudentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewStudentView.swift; sourceTree = "<group>"; };
 		3FF4D7A62B8FDF31007C8F9A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		3FF4D7A82B8FE35E007C8F9A /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -193,6 +206,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F0BD4F82C20186F00ADA740 /* WishKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,6 +222,7 @@
 				3F0BD4452C05E0F600ADA740 /* MailComposeView.swift */,
 				3F0BD4E42C18946200ADA740 /* InvoiceDetailRow.swift */,
 				3F0BD4EA2C18ADBC00ADA740 /* InvoiceRowView.swift */,
+				3F0BD4F92C20218500ADA740 /* PDFPreviewView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -229,6 +244,7 @@
 			children = (
 				3F0BD41D2C050AFD00ADA740 /* StudentsView.swift */,
 				3F0BD4302C05114F00ADA740 /* AddStudentView.swift */,
+				3FF3E4DA2C2C0AE80020DB7E /* AddNewStudentView.swift */,
 				3F0BD4542C06017600ADA740 /* ExistingStudentPickerView.swift */,
 				3F0BD4372C052BCE00ADA740 /* StudentDetailView.swift */,
 			);
@@ -325,8 +341,8 @@
 		3F0BD4842C088A1100ADA740 /* DiveShop */ = {
 			isa = PBXGroup;
 			children = (
-				3F0BD4852C088A2000ADA740 /* AddDiveShopView.swift */,
 				3F0BD4872C088E2900ADA740 /* DiveShopsView.swift */,
+				3F0BD4852C088A2000ADA740 /* AddDiveShopView.swift */,
 				3F0BD4892C088F2700ADA740 /* DiveShopDetailView.swift */,
 			);
 			path = DiveShop;
@@ -335,7 +351,6 @@
 		3F0BD4942C0A355000ADA740 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				3F0BD4972C0A35A000ADA740 /* ExpensesViewModel.swift */,
 				3F0BD49D2C0B8D9200ADA740 /* ProfitsViewModel.swift */,
 			);
 			path = ViewModel;
@@ -344,6 +359,7 @@
 		3F0BD4A32C0BBA1C00ADA740 /* Expenses */ = {
 			isa = PBXGroup;
 			children = (
+				3F0BD4FB2C20873400ADA740 /* ViewModel */,
 				3F0BD4A12C0BA90200ADA740 /* ExpensesView.swift */,
 				3F0BD46D2C06544E00ADA740 /* AddExpenseView.swift */,
 				3F0BD4A42C0BBA4900ADA740 /* AverageExpensesChartView.swift */,
@@ -373,6 +389,7 @@
 			isa = PBXGroup;
 			children = (
 				3F0B47FF2B8EB04C00001B3A /* HomeView.swift */,
+				3F0BD5022C21ECFE00ADA740 /* Goals */,
 				3F0BD46F2C065CCF00ADA740 /* Analytics */,
 				3F0BD4582C062AC000ADA740 /* Communications */,
 				3F0BD43B2C05375500ADA740 /* Certifications */,
@@ -396,10 +413,36 @@
 		3F0BD4E02C18929100ADA740 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				3F0BD4E62C18950900ADA740 /* formattedDate.swift */,
+				3F0BD4E62C18950900ADA740 /* Formatters.swift */,
 				3F0BD4F02C19A69100ADA740 /* EKEventEditView.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		3F0BD4FB2C20873400ADA740 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3F0BD4972C0A35A000ADA740 /* ExpensesViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		3F0BD5022C21ECFE00ADA740 /* Goals */ = {
+			isa = PBXGroup;
+			children = (
+				3F0BD5072C21EE8000ADA740 /* ViewModel */,
+				3F0BD5032C21ED0D00ADA740 /* GoalsView.swift */,
+				3F0BD5052C21ED2600ADA740 /* AddGoalView.swift */,
+			);
+			path = Goals;
+			sourceTree = "<group>";
+		};
+		3F0BD5072C21EE8000ADA740 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3F0BD5082C21EE8D00ADA740 /* GoalsViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		3FCFA4702B8EA3CF00B0EB86 = {
@@ -461,14 +504,15 @@
 				3F0BD4152C05098600ADA740 /* DiveShop.swift */,
 				3F0BD4602C0636E500ADA740 /* EmailList.swift */,
 				3F0BD46A2C0653C100ADA740 /* Expense.swift */,
+				3F0BD5002C21A0BE00ADA740 /* Goal.swift */,
 				3F0BD4112C05090800ADA740 /* Invoice.swift */,
 				3F0BD4472C05E21900ADA740 /* InvoiceItem.swift */,
-				3F0BD4B02C0C81E400ADA740 /* Revenue.swift */,
+				3F0BD4B02C0C81E400ADA740 /* MonthlyRevenue.swift */,
 				3F0BD4192C0509CE00ADA740 /* Session.swift */,
 				3F0BD40F2C0508E400ADA740 /* Student.swift */,
+				3F0BD4F22C1B520100ADA740 /* User.swift */,
 				3F0BD4522C05F3C600ADA740 /* MockData.swift */,
 				3F0BD4562C06037C00ADA740 /* DataModel.swift */,
-				3F0BD4F22C1B520100ADA740 /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -511,6 +555,7 @@
 			);
 			name = diveManager;
 			packageProductDependencies = (
+				3F0BD4F72C20186F00ADA740 /* WishKit */,
 			);
 			productName = diveManager;
 			productReference = 3FCFA4792B8EA3CF00B0EB86 /* diveManager.app */;
@@ -541,6 +586,7 @@
 			);
 			mainGroup = 3FCFA4702B8EA3CF00B0EB86;
 			packageReferences = (
+				3F0BD4F62C20186F00ADA740 /* XCRemoteSwiftPackageReference "wishkit-ios" */,
 			);
 			productRefGroup = 3FCFA47A2B8EA3CF00B0EB86 /* Products */;
 			projectDirPath = "";
@@ -568,6 +614,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F0BD4FA2C20218500ADA740 /* PDFPreviewView.swift in Sources */,
 				3F0BD4AC2C0C730A00ADA740 /* AverageRevenueChartView.swift in Sources */,
 				3F0BD4982C0A35A000ADA740 /* ExpensesViewModel.swift in Sources */,
 				3F0BD4AA2C0C71DB00ADA740 /* RevenueView.swift in Sources */,
@@ -577,6 +624,8 @@
 				3F0BD41A2C0509CE00ADA740 /* Session.swift in Sources */,
 				3F0BD4382C052BCE00ADA740 /* StudentDetailView.swift in Sources */,
 				3F0BD4EE2C199E4E00ADA740 /* EventManager.swift in Sources */,
+				3F0BD5012C21A0BE00ADA740 /* Goal.swift in Sources */,
+				3F0BD5092C21EE8D00ADA740 /* GoalsViewModel.swift in Sources */,
 				3F0BD4792C0724BA00ADA740 /* MainTab.swift in Sources */,
 				3F0BD4A52C0BBA4900ADA740 /* AverageExpensesChartView.swift in Sources */,
 				3F0BD44D2C05EA2F00ADA740 /* SessionDetailView.swift in Sources */,
@@ -603,6 +652,7 @@
 				3F0BD4312C05114F00ADA740 /* AddStudentView.swift in Sources */,
 				3F0BD4202C050B0700ADA740 /* InvoiceManagementView.swift in Sources */,
 				3F0BD48D2C08B89A00ADA740 /* SummarySectionView.swift in Sources */,
+				3F0BD5062C21ED2600ADA740 /* AddGoalView.swift in Sources */,
 				3F0BD4352C0528D700ADA740 /* CourseFilter.swift in Sources */,
 				3F0BD4B32C0CB9AC00ADA740 /* UserDefaults.swift in Sources */,
 				3F0BD4E92C1898EB00ADA740 /* AddInvoiceItemView.swift in Sources */,
@@ -617,6 +667,7 @@
 				3F0BD4672C06435000ADA740 /* AddStudentsToEmailListView.swift in Sources */,
 				3F0BD4552C06017600ADA740 /* ExistingStudentPickerView.swift in Sources */,
 				3F0BD4752C065D3D00ADA740 /* CourseBarChartView.swift in Sources */,
+				3F0BD5042C21ED0D00ADA740 /* GoalsView.swift in Sources */,
 				3F0BD45B2C062BA100ADA740 /* NotificationManager.swift in Sources */,
 				3F0BD4E32C1892BB00ADA740 /* StatusToggleView.swift in Sources */,
 				3F0BD4442C05DDBF00ADA740 /* InvoiceDetailView.swift in Sources */,
@@ -632,11 +683,12 @@
 				3F0BD42D2C0510E800ADA740 /* CoursesDetailView.swift in Sources */,
 				3FCFA47D2B8EA3CF00B0EB86 /* diveManagerApp.swift in Sources */,
 				3F0BD42A2C050DAF00ADA740 /* CommunicationsView.swift in Sources */,
+				3FF3E4DB2C2C0AE80020DB7E /* AddNewStudentView.swift in Sources */,
 				3F0BD4332C05117000ADA740 /* AddSessionView.swift in Sources */,
-				3F0BD4B12C0C81E400ADA740 /* Revenue.swift in Sources */,
+				3F0BD4B12C0C81E400ADA740 /* MonthlyRevenue.swift in Sources */,
 				3F0BD4812C08781600ADA740 /* ActivityViewController.swift in Sources */,
 				3F0BD4572C06037C00ADA740 /* DataModel.swift in Sources */,
-				3F0BD4E72C18950900ADA740 /* formattedDate.swift in Sources */,
+				3F0BD4E72C18950900ADA740 /* Formatters.swift in Sources */,
 				3F0BD4EB2C18ADBC00ADA740 /* InvoiceRowView.swift in Sources */,
 				3F0BD4242C050BF100ADA740 /* CertificationsView.swift in Sources */,
 				3F0BD4712C065D0200ADA740 /* MonthlyAvgIncomeBarChartView.swift in Sources */,
@@ -866,6 +918,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3F0BD4F62C20186F00ADA740 /* XCRemoteSwiftPackageReference "wishkit-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/wishkit/wishkit-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3F0BD4F72C20186F00ADA740 /* WishKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3F0BD4F62C20186F00ADA740 /* XCRemoteSwiftPackageReference "wishkit-ios" */;
+			productName = WishKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3FCFA4712B8EA3CF00B0EB86 /* Project object */;
 }

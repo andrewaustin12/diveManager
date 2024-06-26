@@ -1,23 +1,17 @@
 import SwiftUI
+import SwiftData
 
 struct AddExpenseView: View {
-    @EnvironmentObject var dataModel: DataModel
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.modelContext) private var context // Use SwiftData model context
+    @Environment(\.dismiss) private var dismiss // Use dismiss environment action
     @State private var date = Date()
-    @State private var selectedCategory: RevenueStream = .course
     @State private var amount: Double = 0.00
-    @State private var description: String = ""
-    
+    @State private var expenseDescription: String = ""
+
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text("Expense Information")) {
-                    Picker("Category", selection: $selectedCategory) {
-                        ForEach(RevenueStream.allCases, id: \.self) { category in
-                            Text(category.rawValue).tag(category)
-                        }
-                    }
-                    .pickerStyle(MenuPickerStyle())
                     DatePicker("Date", selection: $date, displayedComponents: .date)
                     HStack {
                         Text("Amount")
@@ -25,19 +19,14 @@ struct AddExpenseView: View {
                         TextField("Enter an amount", value: $amount, format: .number)
                             .keyboardType(.decimalPad)
                     }
-                    TextField("Description", text: $description)
+                    TextField("Description", text: $expenseDescription)
                 }
-                
-                //                Button(action: addExpense) {
-                //                    Text("Add Expense")
-                //                }
             }
-            
             .navigationTitle("Add Expense")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") {
-                        presentationMode.wrappedValue.dismiss()
+                        dismiss()
                     }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
@@ -48,18 +37,25 @@ struct AddExpenseView: View {
             }
         }
     }
-    
+
     private func addExpense() {
-        
-        let newExpense = Expense(category: selectedCategory, date: date, amount: amount, description: description)
-        dataModel.expenses.append(newExpense)
-        presentationMode.wrappedValue.dismiss()
+        let newExpense = Expense(date: date, amount: amount, expenseDescription: expenseDescription)
+        context.insert(newExpense) // Insert the new expense into the SwiftData context
+        do {
+            try context.save() // Save the context
+            dismiss()
+        } catch {
+            print("Failed to save new expense: \(error)")
+        }
     }
 }
 
 struct AddExpenseView_Previews: PreviewProvider {
     static var previews: some View {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try! ModelContainer(for: Expense.self, configurations: config)
+        
         AddExpenseView()
-            .environmentObject(DataModel())
+            .modelContainer(container) // Use model container for preview
     }
 }
